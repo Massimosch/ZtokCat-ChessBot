@@ -12,6 +12,7 @@ using namespace std;
 
 int main()
 {
+	_setmode(_fileno(stdout), _O_U16TEXT);
 	wcout << "HeippariShakki\n";
 	wcout << "Tervetuloa pelaamaan!\n";
 	int lopetus = 100;

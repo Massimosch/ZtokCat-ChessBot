@@ -22,6 +22,34 @@ Kayttoliittyma* Kayttoliittyma::getInstance()
 
 void Kayttoliittyma::piirraLauta()
 {
+	bool drawDark = true;
+
+	for (int x = 0; x < 7; x++) {
+		for (int y = 0; y < 7; y++) {
+			if (drawDark) {
+				SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), DARKTILE_INTENSITY | DARKTILE_RED |
+					DARKTILE_GREEN | DARKTILE_BLUE);
+			}
+			else {
+				SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), LIGHTTILE_RED |
+					LIGHTTILE_GREEN | LIGHTTILE_BLUE);
+			}
+			
+			wcout << "   ";
+			drawDark != drawDark;
+			
+		}
+
+		wcout << "\n";
+	}
+
+	for (int x = 0; x < 7; x++) {
+		for (int y = 0; y < 7; y++) {
+			if (_asema->_lauta[x][y] == NULL) continue;
+
+			wcout << _asema->_lauta[x][y]->getUnicode();
+		}
+	}
 }
 
 

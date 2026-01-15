@@ -22,9 +22,18 @@ Nappula* Asema::ms = new Sotilas(L"\u265F", 1, MS);
 Asema::Asema()
 {
 	// Ensin alustetaan kaikki laudan ruudut nappulla "NULL", koska muuten ruuduissa satunnaista tauhkaa
-
+	for (int x = 0; x < 7; x++) {
+		for (int y = 0; y < 7; y++) {
+			_lauta[x][y] = NULL;
+		}
+	}
 	// Asetetaan alkuaseman mukaisesti nappulat ruuduille
-	
+	for (int x = 0; x < 7; x++) {
+		for (int y = 0; y < 7; y++) {
+			// Valkean tiimin nappulat
+			if (x == 0 && y == 0) _lauta[x][y] = Asema::vt;
+		}
+	}
 }
 
 
