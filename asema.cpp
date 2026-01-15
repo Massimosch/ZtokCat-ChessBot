@@ -40,14 +40,14 @@ Asema::Asema()
 void Asema::paivitaAsema(Siirto *siirto)
 {
 
-	// Kaksoisaskel-lippu on oletusarvoisesti pois päältä.
-	// Asetetaan myöhemmin, jos tarvii.
+	// Kaksoisaskel-lippu on oletusarvoisesti pois pï¿½ï¿½ltï¿½.
+	// Asetetaan myï¿½hemmin, jos tarvii.
 
 
 	//Tarkastetaan on siirto lyhyt linna
 
 
-	// onko pitkä linna
+	// onko pitkï¿½ linna
 
 
 
@@ -63,19 +63,19 @@ void Asema::paivitaAsema(Siirto *siirto)
 		// Tarkistetaan oliko sotilaan kaksoisaskel
 		// (asetetaan kaksoisaskel-lippu)
 
-		// Ohestalyönti on tyhjään ruutuun. Vieressä oleva (sotilas) poistetaan.
+		// Ohestalyï¿½nti on tyhjï¿½ï¿½n ruutuun. Vieressï¿½ oleva (sotilas) poistetaan.
 
-		//// Katsotaan jos nappula on sotilas ja rivi on päätyrivi niin ei vaihdeta nappulaa 
-		////eli alkuruutuun laitetaan null ja loppuruudussa on jo kliittymän laittama nappula MIIKKA, ei taida minmaxin kanssa hehkua?
+		//// Katsotaan jos nappula on sotilas ja rivi on pï¿½ï¿½tyrivi niin ei vaihdeta nappulaa 
+		////eli alkuruutuun laitetaan null ja loppuruudussa on jo kliittymï¿½n laittama nappula MIIKKA, ei taida minmaxin kanssa hehkua?
 
 		//
-		////muissa tapauksissa alkuruutuun null ja loppuruutuun sama alkuruudusta lähtenyt nappula
+		////muissa tapauksissa alkuruutuun null ja loppuruutuun sama alkuruudusta lï¿½htenyt nappula
 
-		// katsotaan jos liikkunut nappula on kuningas niin muutetaan onkoKuningasLiikkunut arvo (molemmille väreille)
+		// katsotaan jos liikkunut nappula on kuningas niin muutetaan onkoKuningasLiikkunut arvo (molemmille vï¿½reille)
 
-		// katsotaan jos liikkunut nappula on torni niin muutetaan onkoTorniLiikkunut arvo (molemmille väreille ja molemmille torneille)
+		// katsotaan jos liikkunut nappula on torni niin muutetaan onkoTorniLiikkunut arvo (molemmille vï¿½reille ja molemmille torneille)
 
-	//päivitetään _siirtovuoro
+	//pï¿½ivitetï¿½ï¿½n _siirtovuoro
 
 }
 
@@ -132,22 +132,22 @@ bool Asema::getOnkoMustaKTliikkunut()
 /* 1. Laske nappuloiden arvo
 Daami = 9
 Torni = 5
-Lähetti = 3,25
+Lï¿½hetti = 3,25
 Ratsu = 3
 Sotilas = 1
 
 2. Kuninkaan hyvyys
-Jos avaus tai keskipeli, niin hyvä että kunigas g1 tai b1/c1
-Loppupelissä vaikea sanoa halutaanko olla auttamassa omaa sotilasta korottumaan
-vai olla estämässä vastustajan korotusta siksi ei oteta kantaa
+Jos avaus tai keskipeli, niin hyvï¿½ ettï¿½ kunigas g1 tai b1/c1
+Loppupelissï¿½ vaikea sanoa halutaanko olla auttamassa omaa sotilasta korottumaan
+vai olla estï¿½mï¿½ssï¿½ vastustajan korotusta siksi ei oteta kantaa
 3. Arvosta keskustaa sotilailla ja ratsuilla
-4. Arvosta pitkiä linjoja daami, torni ja lähetti
+4. Arvosta pitkiï¿½ linjoja daami, torni ja lï¿½hetti
 */
 double Asema::evaluoi() 
 {
 	return 0;
 
-	//kertoimet asetettu sen takia että niiden avulla asioiden painoarvoa voidaan säätää helposti yhdestä paikasta
+	//kertoimet asetettu sen takia ettï¿½ niiden avulla asioiden painoarvoa voidaan sï¿½ï¿½tï¿½ï¿½ helposti yhdestï¿½ paikasta
 	
 	//1. Nappuloiden arvo
 	
@@ -170,8 +170,8 @@ double Asema::laskeNappuloidenArvo(int vari)
 bool Asema::onkoAvausTaiKeskipeli(int vari) 
 {
 	return 0;
-	// Jos upseereita 3 tai vähemmän on loppupeli
-	// mutta jos daami laudalla on loppueli vasta kun kuin vain daami jäljellä
+	// Jos upseereita 3 tai vï¿½hemmï¿½n on loppupeli
+	// mutta jos daami laudalla on loppueli vasta kun kuin vain daami jï¿½ljellï¿½
 	
 	//Jos vari on 0 eli valkoiset
 	//niin on keskipeli jos mustalla upseereita yli 2 tai jos daami+1
@@ -215,7 +215,7 @@ double Asema::linjat(int vari)
 }
 
 
-// https://chessprogramming.wikispaces.com/Minimax MinMax-algoritmin pseudokoodi (lisäsin parametrina aseman)
+// https://chessprogramming.wikispaces.com/Minimax MinMax-algoritmin pseudokoodi (lisï¿½sin parametrina aseman)
 //int maxi(int depth, asema a) 
 //	if (depth == 0) return evaluate();
 //	int max = -oo;
@@ -245,7 +245,7 @@ MinMaxPaluu Asema::minimax(int syvyys)
 	
 	// Rekursion kantatapaus 1: peli on loppu
 	
-	// Rekursion kantatapaus 2: katkaisusyvyydessä
+	// Rekursion kantatapaus 2: katkaisusyvyydessï¿½
 	
 	// Rekursioaskel: kokeillaan jokaista laillista siirtoa s
 	// (alustetaan paluuarvo huonoimmaksi mahdolliseksi).

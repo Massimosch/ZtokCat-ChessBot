@@ -18,17 +18,17 @@ void LaillisetSiirrot::annaTorninLaillisetSiirrot(std::list<Siirto>& lista, Ruut
 	int lahtoruudunNappulanVari;
 	int tuloruudunNappulanVari;
 
-	lahtoruudunNappulanVari = asema->lauta[lahtoruutuX][lahtoruutuY]->getVari();
+	lahtoruudunNappulanVari = asema->_lauta[lahtoruutuX][lahtoruutuY]->getVari();
 	// vaakarivi ruudusta eteenp�in
 	for (int i = lahtoruutuX + 1; i < 8; i++) {
 		// Jos tyhj� ruutu niin lis�t��n listaan
-		if (asema->lauta[i][lahtoruutuY] == NULL) {
+		if (asema->_lauta[i][lahtoruutuY] == NULL) {
 			lista.push_back(Siirto(*ruutu, Ruutu(i, lahtoruutuY)));
 		}
-		else if (asema->lauta[i][lahtoruutuY] != NULL) {
+		else if (asema->_lauta[i][lahtoruutuY] != NULL) {
 			// Jos oma nappula niin poistutaan for silmukasta. Ei lis�t� listaan
 			// Tarkistetaan ett� jos l�ht�ruudussa olevan nappulan v�ri on sama kuin tarkastelun alaisessa ruudussa, niin silloin on oma nappula
-			tuloruudunNappulanVari = asema->lauta[i][lahtoruutuY]->getVari();
+			tuloruudunNappulanVari = asema->_lauta[i][lahtoruutuY]->getVari();
 			if (lahtoruudunNappulanVari == tuloruudunNappulanVari) {
 				break;
 			}
@@ -42,13 +42,13 @@ void LaillisetSiirrot::annaTorninLaillisetSiirrot(std::list<Siirto>& lista, Ruut
 	// vaakarivi ruudusta taaksep�in
 	for (int i = lahtoruutuX - 1; i >= 0; i--) {
 		// Jos tyhj� ruutu niin lis�t��n listaan
-		if (asema->lauta[i][lahtoruutuY] == NULL) {
+		if (asema->_lauta[i][lahtoruutuY] == NULL) {
 			lista.push_back(Siirto(*ruutu, Ruutu(i, lahtoruutuY)));
 		}
-		else if (asema->lauta[i][lahtoruutuY] != NULL) {
+		else if (asema->_lauta[i][lahtoruutuY] != NULL) {
 			// Jos oma nappula niin poistutaan for silmukasta. Ei lis�t� listaan
 			// Tarkistetaan ett� jos l�ht�ruudussa olevan nappulan v�ri on sama kuin tarkastelun alaisessa ruudussa, niin silloin on oma nappula
-			tuloruudunNappulanVari = asema->lauta[i][lahtoruutuY]->getVari();
+			tuloruudunNappulanVari = asema->_lauta[i][lahtoruutuY]->getVari();
 			if (lahtoruudunNappulanVari == tuloruudunNappulanVari) {
 				break;
 			}
@@ -62,13 +62,13 @@ void LaillisetSiirrot::annaTorninLaillisetSiirrot(std::list<Siirto>& lista, Ruut
 	// pystyrivi ruudusta eteenp�in
 	for (int i = lahtoruutuY + 1; i < 8; i++) {
 		// Jos tyhj� ruutu niin lis�t��n listaan
-		if (asema->lauta[lahtoruutuX][i] == NULL) {
+		if (asema->_lauta[lahtoruutuX][i] == NULL) {
 			lista.push_back(Siirto(*ruutu, Ruutu(lahtoruutuX, i)));
 		}
-		else if (asema->lauta[lahtoruutuX][i] != NULL) {
+		else if (asema->_lauta[lahtoruutuX][i] != NULL) {
 			// Jos oma nappula niin poistutaan for silmukasta. Ei lis�t� listaan
 			// Tarkistetaan ett� jos l�ht�ruudussa olevan nappulan v�ri on sama kuin tarkastelun alaisessa ruudussa, niin silloin on oma nappula
-			tuloruudunNappulanVari = asema->lauta[lahtoruutuX][i]->getVari();
+			tuloruudunNappulanVari = asema->_lauta[lahtoruutuX][i]->getVari();
 			if (lahtoruudunNappulanVari == tuloruudunNappulanVari) {
 				break;
 			}
@@ -82,13 +82,13 @@ void LaillisetSiirrot::annaTorninLaillisetSiirrot(std::list<Siirto>& lista, Ruut
 	// pystyrivi ruudusta taaksep�in
 	for (int i = lahtoruutuY - 1; i >= 0; i--) {
 		// Jos tyhj� ruutu niin lis�t��n listaan
-		if (asema->lauta[lahtoruutuX][i] == NULL) {
+		if (asema->_lauta[lahtoruutuX][i] == NULL) {
 			lista.push_back(Siirto(*ruutu, Ruutu(lahtoruutuX, i)));
 		}
-		else if (asema->lauta[lahtoruutuX][i] != NULL) {
+		else if (asema->_lauta[lahtoruutuX][i] != NULL) {
 			// Jos oma nappula niin poistutaan for silmukasta. Ei lis�t� listaan
 			// Tarkistetaan ett� jos l�ht�ruudussa olevan nappulan v�ri on sama kuin tarkastelun alaisessa ruudussa, niin silloin on oma nappula
-			tuloruudunNappulanVari = asema->lauta[lahtoruutuX][i]->getVari();
+			tuloruudunNappulanVari = asema->_lauta[lahtoruutuX][i]->getVari();
 			if (lahtoruudunNappulanVari == tuloruudunNappulanVari) {
 				break;
 			}
@@ -122,7 +122,7 @@ void LaillisetSiirrot::annaLahetinLaillisetSiirrot(std::list<Siirto>& lista, Ruu
 
 	int j;
 
-	lahtoruudunNappulanVari = asema->lauta[lahtoruutuX][lahtoruutuY]->getVari();
+	lahtoruudunNappulanVari = asema->_lauta[lahtoruutuX][lahtoruutuY]->getVari();
 
 	// viistorivi ruudusta oikealle yl�s
 	for (int i = lahtoruutuX + 1; i < 8; i++) {
@@ -134,13 +134,13 @@ void LaillisetSiirrot::annaLahetinLaillisetSiirrot(std::list<Siirto>& lista, Ruu
 			break;
 		}
 		// Jos tyhj� ruutu niin lis�t��n listaan
-		if (asema->lauta[i][j] == NULL) {
+		if (asema->_lauta[i][j] == NULL) {
 			lista.push_back(Siirto(*ruutu, Ruutu(i, j)));
 		}
-		else if (asema->lauta[i][j] != NULL) {
+		else if (asema->_lauta[i][j] != NULL) {
 			// Jos oma nappula niin poistutaan for silmukasta. Ei lis�t� listaan
 			// Tarkistetaan ett� jos l�ht�ruudussa olevan nappulan v�ri on sama kuin tarkastelun alaisessa ruudussa, niin silloin on oma nappula
-			tuloruudunNappulanVari = asema->lauta[i][j]->getVari();
+			tuloruudunNappulanVari = asema->_lauta[i][j]->getVari();
 			if (lahtoruudunNappulanVari == tuloruudunNappulanVari) {
 				break;
 			}
@@ -164,13 +164,13 @@ void LaillisetSiirrot::annaLahetinLaillisetSiirrot(std::list<Siirto>& lista, Ruu
 			break;
 		}
 		// Jos tyhj� ruutu niin lis�t��n listaan
-		if (asema->lauta[i][j] == NULL) {
+		if (asema->_lauta[i][j] == NULL) {
 			lista.push_back(Siirto(*ruutu, Ruutu(i, j)));
 		}
-		else if (asema->lauta[i][j] != NULL) {
+		else if (asema->_lauta[i][j] != NULL) {
 			// Jos oma nappula niin poistutaan for silmukasta. Ei lis�t� listaan
 			// Tarkistetaan ett� jos l�ht�ruudussa olevan nappulan v�ri on sama kuin tarkastelun alaisessa ruudussa, niin silloin on oma nappula
-			tuloruudunNappulanVari = asema->lauta[i][j]->getVari();
+			tuloruudunNappulanVari = asema->_lauta[i][j]->getVari();
 			if (lahtoruudunNappulanVari == tuloruudunNappulanVari) {
 				break;
 			}
@@ -194,13 +194,13 @@ void LaillisetSiirrot::annaLahetinLaillisetSiirrot(std::list<Siirto>& lista, Ruu
 			break;
 		}
 		// Jos tyhj� ruutu niin lis�t��n listaan
-		if (asema->lauta[i][j] == NULL) {
+		if (asema->_lauta[i][j] == NULL) {
 			lista.push_back(Siirto(*ruutu, Ruutu(i, j)));
 		}
-		else if (asema->lauta[i][j] != NULL) {
+		else if (asema->_lauta[i][j] != NULL) {
 			// Jos oma nappula niin poistutaan for silmukasta. Ei lis�t� listaan
 			// Tarkistetaan ett� jos l�ht�ruudussa olevan nappulan v�ri on sama kuin tarkastelun alaisessa ruudussa, niin silloin on oma nappula
-			tuloruudunNappulanVari = asema->lauta[i][j]->getVari();
+			tuloruudunNappulanVari = asema->_lauta[i][j]->getVari();
 			if (lahtoruudunNappulanVari == tuloruudunNappulanVari) {
 				break;
 			}
@@ -223,13 +223,13 @@ void LaillisetSiirrot::annaLahetinLaillisetSiirrot(std::list<Siirto>& lista, Ruu
 			break;
 		}
 		// Jos tyhj� ruutu niin lis�t��n listaan
-		if (asema->lauta[i][j] == NULL) {
+		if (asema->_lauta[i][j] == NULL) {
 			lista.push_back(Siirto(*ruutu, Ruutu(i, j)));
 		}
-		else if (asema->lauta[i][j] != NULL) {
+		else if (asema->_lauta[i][j] != NULL) {
 			// Jos oma nappula niin poistutaan for silmukasta. Ei lis�t� listaan
 			// Tarkistetaan ett� jos l�ht�ruudussa olevan nappulan v�ri on sama kuin tarkastelun alaisessa ruudussa, niin silloin on oma nappula
-			tuloruudunNappulanVari = asema->lauta[i][j]->getVari();
+			tuloruudunNappulanVari = asema->_lauta[i][j]->getVari();
 			if (lahtoruudunNappulanVari == tuloruudunNappulanVari) {
 				break;
 			}
@@ -274,15 +274,15 @@ void LaillisetSiirrot::annaRatsunLaillisetSiirrot(std::list<Siirto>& lista, Ruut
 	int lahtoruudunNappulanVari;
 	int tuloruudunNappulanVari;
 
-	lahtoruudunNappulanVari = asema->lauta[lahtoruutuX][lahtoruutuY]->getVari();
+	lahtoruudunNappulanVari = asema->_lauta[lahtoruutuX][lahtoruutuY]->getVari();
 
 	// Pit�� huomioida ett� kokeiltavat ruudut ovat viel� laudalla
 	if (lahtoruutuX + 1 < 8 && lahtoruutuY + 2 < 8) {
-		if (asema->lauta[lahtoruutuX + 1][lahtoruutuY + 2] == NULL) {
+		if (asema->_lauta[lahtoruutuX + 1][lahtoruutuY + 2] == NULL) {
 			lista.push_back(Siirto(*ruutu, Ruutu(lahtoruutuX + 1, lahtoruutuY + 2)));
 		}
-		else if (asema->lauta[lahtoruutuX + 1][lahtoruutuY + 2] != NULL) {
-			tuloruudunNappulanVari = asema->lauta[lahtoruutuX + 1][lahtoruutuY + 2]->getVari();
+		else if (asema->_lauta[lahtoruutuX + 1][lahtoruutuY + 2] != NULL) {
+			tuloruudunNappulanVari = asema->_lauta[lahtoruutuX + 1][lahtoruutuY + 2]->getVari();
 			// jos oman v�rinen niin lis�t��n t�rmayslistaan
 			if (lahtoruudunNappulanVari == tuloruudunNappulanVari) {
 			}
@@ -293,11 +293,11 @@ void LaillisetSiirrot::annaRatsunLaillisetSiirrot(std::list<Siirto>& lista, Ruut
 		}
 	}
 	if (lahtoruutuX + 1 < 8 && lahtoruutuY - 2 >= 0) {
-		if (asema->lauta[lahtoruutuX + 1][lahtoruutuY - 2] == NULL) {
+		if (asema->_lauta[lahtoruutuX + 1][lahtoruutuY - 2] == NULL) {
 			lista.push_back(Siirto(*ruutu, Ruutu(lahtoruutuX + 1, lahtoruutuY - 2)));
 		}
-		else if (asema->lauta[lahtoruutuX + 1][lahtoruutuY - 2] != NULL) {
-			tuloruudunNappulanVari = asema->lauta[lahtoruutuX + 1][lahtoruutuY - 2]->getVari();
+		else if (asema->_lauta[lahtoruutuX + 1][lahtoruutuY - 2] != NULL) {
+			tuloruudunNappulanVari = asema->_lauta[lahtoruutuX + 1][lahtoruutuY - 2]->getVari();
 			// jos oman v�rinen niin lis�t��n t�rmayslistaan
 			if (lahtoruudunNappulanVari == tuloruudunNappulanVari) {
 			}
@@ -308,11 +308,11 @@ void LaillisetSiirrot::annaRatsunLaillisetSiirrot(std::list<Siirto>& lista, Ruut
 		}
 	}
 	if (lahtoruutuX - 1 >= 0 && lahtoruutuY + 2 < 8) {
-		if (asema->lauta[lahtoruutuX - 1][lahtoruutuY + 2] == NULL) {
+		if (asema->_lauta[lahtoruutuX - 1][lahtoruutuY + 2] == NULL) {
 			lista.push_back(Siirto(*ruutu, Ruutu(lahtoruutuX - 1, lahtoruutuY + 2)));
 		}
-		else if (asema->lauta[lahtoruutuX - 1][lahtoruutuY + 2] != NULL) {
-			tuloruudunNappulanVari = asema->lauta[lahtoruutuX - 1][lahtoruutuY + 2]->getVari();
+		else if (asema->_lauta[lahtoruutuX - 1][lahtoruutuY + 2] != NULL) {
+			tuloruudunNappulanVari = asema->_lauta[lahtoruutuX - 1][lahtoruutuY + 2]->getVari();
 			// jos oman v�rinen niin lis�t��n t�rmayslistaan
 			if (lahtoruudunNappulanVari == tuloruudunNappulanVari) {
 			}
@@ -323,11 +323,11 @@ void LaillisetSiirrot::annaRatsunLaillisetSiirrot(std::list<Siirto>& lista, Ruut
 		}
 	}
 	if (lahtoruutuX - 1 >= 0 && lahtoruutuY - 2 >= 0) {
-		if (asema->lauta[lahtoruutuX - 1][lahtoruutuY - 2] == NULL) {
+		if (asema->_lauta[lahtoruutuX - 1][lahtoruutuY - 2] == NULL) {
 			lista.push_back(Siirto(*ruutu, Ruutu(lahtoruutuX - 1, lahtoruutuY - 2)));
 		}
-		else if (asema->lauta[lahtoruutuX - 1][lahtoruutuY - 2] != NULL) {
-			tuloruudunNappulanVari = asema->lauta[lahtoruutuX - 1][lahtoruutuY - 2]->getVari();
+		else if (asema->_lauta[lahtoruutuX - 1][lahtoruutuY - 2] != NULL) {
+			tuloruudunNappulanVari = asema->_lauta[lahtoruutuX - 1][lahtoruutuY - 2]->getVari();
 			// jos oman v�rinen niin lis�t��n t�rmayslistaan
 			if (lahtoruudunNappulanVari == tuloruudunNappulanVari) {
 			}
@@ -338,11 +338,11 @@ void LaillisetSiirrot::annaRatsunLaillisetSiirrot(std::list<Siirto>& lista, Ruut
 		}
 	}
 	if (lahtoruutuX + 2 < 8 && lahtoruutuY + 1 < 8) {
-		if (asema->lauta[lahtoruutuX + 2][lahtoruutuY + 1] == NULL) {
+		if (asema->_lauta[lahtoruutuX + 2][lahtoruutuY + 1] == NULL) {
 			lista.push_back(Siirto(*ruutu, Ruutu(lahtoruutuX + 2, lahtoruutuY + 1)));
 		}
-		else if (asema->lauta[lahtoruutuX + 2][lahtoruutuY + 1] != NULL) {
-			tuloruudunNappulanVari = asema->lauta[lahtoruutuX + 2][lahtoruutuY + 1]->getVari();
+		else if (asema->_lauta[lahtoruutuX + 2][lahtoruutuY + 1] != NULL) {
+			tuloruudunNappulanVari = asema->_lauta[lahtoruutuX + 2][lahtoruutuY + 1]->getVari();
 			// jos oman v�rinen niin lis�t��n t�rmayslistaan
 			if (lahtoruudunNappulanVari == tuloruudunNappulanVari) {
 			}
@@ -353,11 +353,11 @@ void LaillisetSiirrot::annaRatsunLaillisetSiirrot(std::list<Siirto>& lista, Ruut
 		}
 	}
 	if (lahtoruutuX + 2 < 8 && lahtoruutuY - 1 >= 0) {
-		if (asema->lauta[lahtoruutuX + 2][lahtoruutuY - 1] == NULL) {
+		if (asema->_lauta[lahtoruutuX + 2][lahtoruutuY - 1] == NULL) {
 			lista.push_back(Siirto(*ruutu, Ruutu(lahtoruutuX + 2, lahtoruutuY - 1)));
 		}
-		else if (asema->lauta[lahtoruutuX + 2][lahtoruutuY - 1] != NULL) {
-			tuloruudunNappulanVari = asema->lauta[lahtoruutuX + 2][lahtoruutuY - 1]->getVari();
+		else if (asema->_lauta[lahtoruutuX + 2][lahtoruutuY - 1] != NULL) {
+			tuloruudunNappulanVari = asema->_lauta[lahtoruutuX + 2][lahtoruutuY - 1]->getVari();
 			// jos oman v�rinen niin lis�t��n t�rmayslistaan
 			if (lahtoruudunNappulanVari == tuloruudunNappulanVari) {
 			}
@@ -368,11 +368,11 @@ void LaillisetSiirrot::annaRatsunLaillisetSiirrot(std::list<Siirto>& lista, Ruut
 		}
 	}
 	if (lahtoruutuX - 2 >= 0 && lahtoruutuY + 1 < 8) {
-		if (asema->lauta[lahtoruutuX - 2][lahtoruutuY + 1] == NULL) {
+		if (asema->_lauta[lahtoruutuX - 2][lahtoruutuY + 1] == NULL) {
 			lista.push_back(Siirto(*ruutu, Ruutu(lahtoruutuX - 2, lahtoruutuY + 1)));
 		}
-		else if (asema->lauta[lahtoruutuX - 2][lahtoruutuY + 1] != NULL) {
-			tuloruudunNappulanVari = asema->lauta[lahtoruutuX - 2][lahtoruutuY + 1]->getVari();
+		else if (asema->_lauta[lahtoruutuX - 2][lahtoruutuY + 1] != NULL) {
+			tuloruudunNappulanVari = asema->_lauta[lahtoruutuX - 2][lahtoruutuY + 1]->getVari();
 			// jos oman v�rinen niin lis�t��n t�rmayslistaan
 			if (lahtoruudunNappulanVari == tuloruudunNappulanVari) {
 			}
@@ -383,11 +383,11 @@ void LaillisetSiirrot::annaRatsunLaillisetSiirrot(std::list<Siirto>& lista, Ruut
 		}
 	}
 	if (lahtoruutuX - 2 >= 0 && lahtoruutuY - 1 >= 0) {
-		if (asema->lauta[lahtoruutuX - 2][lahtoruutuY - 1] == NULL) {
+		if (asema->_lauta[lahtoruutuX - 2][lahtoruutuY - 1] == NULL) {
 			lista.push_back(Siirto(*ruutu, Ruutu(lahtoruutuX - 2, lahtoruutuY - 1)));
 		}
-		else if (asema->lauta[lahtoruutuX - 2][lahtoruutuY - 1] != NULL) {
-			tuloruudunNappulanVari = asema->lauta[lahtoruutuX - 2][lahtoruutuY - 1]->getVari();
+		else if (asema->_lauta[lahtoruutuX - 2][lahtoruutuY - 1] != NULL) {
+			tuloruudunNappulanVari = asema->_lauta[lahtoruutuX - 2][lahtoruutuY - 1]->getVari();
 			// jos oman v�rinen niin lis�t��n t�rmayslistaan
 			if (lahtoruudunNappulanVari == tuloruudunNappulanVari) {
 			}
@@ -420,20 +420,20 @@ void LaillisetSiirrot::annaKuninkaanLaillisetSiirrot(std::list<Siirto>& lista, R
 	int lahtoruudunNappulanVari;
 	int tuloruudunNappulanVari;
 
-	lahtoruudunNappulanVari = asema->lauta[lahtoruutuX][lahtoruutuY]->getVari();
+	lahtoruudunNappulanVari = asema->_lauta[lahtoruutuX][lahtoruutuY]->getVari();
 
 
 	// K�yd��n perussiirtojen tyhj�t ruudut l�pi 
 	// Pit�� tarkistaa ett� ehdokas ruutu viel� laudalla
 	if (lahtoruutuX + 1 < 8) {
-		if (asema->lauta[lahtoruutuX + 1][lahtoruutuY] == NULL) {
+		if (asema->_lauta[lahtoruutuX + 1][lahtoruutuY] == NULL) {
 
 			lista.push_back(Siirto(*ruutu, Ruutu(lahtoruutuX + 1, lahtoruutuY)));
 
 
 		}
-		else if (asema->lauta[lahtoruutuX + 1][lahtoruutuY] != NULL) {
-			tuloruudunNappulanVari = asema->lauta[lahtoruutuX + 1][lahtoruutuY]->getVari();
+		else if (asema->_lauta[lahtoruutuX + 1][lahtoruutuY] != NULL) {
+			tuloruudunNappulanVari = asema->_lauta[lahtoruutuX + 1][lahtoruutuY]->getVari();
 			if (lahtoruudunNappulanVari != tuloruudunNappulanVari) {
 				lista.push_back(Siirto(*ruutu, Ruutu(lahtoruutuX + 1, lahtoruutuY)));
 			}
@@ -443,13 +443,13 @@ void LaillisetSiirrot::annaKuninkaanLaillisetSiirrot(std::list<Siirto>& lista, R
 	}
 
 	if (lahtoruutuX + 1 < 8 && lahtoruutuY + 1 < 8) {
-		if (asema->lauta[lahtoruutuX + 1][lahtoruutuY + 1] == NULL) {
+		if (asema->_lauta[lahtoruutuX + 1][lahtoruutuY + 1] == NULL) {
 
 			lista.push_back(Siirto(*ruutu, Ruutu(lahtoruutuX + 1, lahtoruutuY + 1)));
 
 		}
-		else if (asema->lauta[lahtoruutuX + 1][lahtoruutuY + 1] != NULL) {
-			tuloruudunNappulanVari = asema->lauta[lahtoruutuX + 1][lahtoruutuY + 1]->getVari();
+		else if (asema->_lauta[lahtoruutuX + 1][lahtoruutuY + 1] != NULL) {
+			tuloruudunNappulanVari = asema->_lauta[lahtoruutuX + 1][lahtoruutuY + 1]->getVari();
 			if (lahtoruudunNappulanVari != tuloruudunNappulanVari) {
 
 				lista.push_back(Siirto(*ruutu, Ruutu(lahtoruutuX + 1, lahtoruutuY + 1)));
@@ -459,13 +459,13 @@ void LaillisetSiirrot::annaKuninkaanLaillisetSiirrot(std::list<Siirto>& lista, R
 	}
 
 	if (lahtoruutuX + 1 < 8 && lahtoruutuY - 1 >= 0) {
-		if (asema->lauta[lahtoruutuX + 1][lahtoruutuY - 1] == NULL) {
+		if (asema->_lauta[lahtoruutuX + 1][lahtoruutuY - 1] == NULL) {
 
 			lista.push_back(Siirto(*ruutu, Ruutu(lahtoruutuX + 1, lahtoruutuY - 1)));
 
 		}
-		else if (asema->lauta[lahtoruutuX + 1][lahtoruutuY - 1] != NULL) {
-			tuloruudunNappulanVari = asema->lauta[lahtoruutuX + 1][lahtoruutuY - 1]->getVari();
+		else if (asema->_lauta[lahtoruutuX + 1][lahtoruutuY - 1] != NULL) {
+			tuloruudunNappulanVari = asema->_lauta[lahtoruutuX + 1][lahtoruutuY - 1]->getVari();
 			if (lahtoruudunNappulanVari != tuloruudunNappulanVari) {
 
 				lista.push_back(Siirto(*ruutu, Ruutu(lahtoruutuX + 1, lahtoruutuY - 1)));
@@ -475,13 +475,13 @@ void LaillisetSiirrot::annaKuninkaanLaillisetSiirrot(std::list<Siirto>& lista, R
 	}
 
 	if (lahtoruutuX - 1 >= 0) {
-		if (asema->lauta[lahtoruutuX - 1][lahtoruutuY] == NULL) {
+		if (asema->_lauta[lahtoruutuX - 1][lahtoruutuY] == NULL) {
 
 			lista.push_back(Siirto(*ruutu, Ruutu(lahtoruutuX - 1, lahtoruutuY)));
 
 		}
-		else if (asema->lauta[lahtoruutuX - 1][lahtoruutuY] != NULL) {
-			tuloruudunNappulanVari = asema->lauta[lahtoruutuX - 1][lahtoruutuY]->getVari();
+		else if (asema->_lauta[lahtoruutuX - 1][lahtoruutuY] != NULL) {
+			tuloruudunNappulanVari = asema->_lauta[lahtoruutuX - 1][lahtoruutuY]->getVari();
 			if (lahtoruudunNappulanVari != tuloruudunNappulanVari) {
 
 				lista.push_back(Siirto(*ruutu, Ruutu(lahtoruutuX - 1, lahtoruutuY)));
@@ -491,13 +491,13 @@ void LaillisetSiirrot::annaKuninkaanLaillisetSiirrot(std::list<Siirto>& lista, R
 	}
 
 	if (lahtoruutuX - 1 >= 0 && lahtoruutuY + 1 < 8) {
-		if (asema->lauta[lahtoruutuX - 1][lahtoruutuY + 1] == NULL) {
+		if (asema->_lauta[lahtoruutuX - 1][lahtoruutuY + 1] == NULL) {
 
 			lista.push_back(Siirto(*ruutu, Ruutu(lahtoruutuX - 1, lahtoruutuY + 1)));
 
 		}
-		else if (asema->lauta[lahtoruutuX - 1][lahtoruutuY + 1] != NULL) {
-			tuloruudunNappulanVari = asema->lauta[lahtoruutuX - 1][lahtoruutuY + 1]->getVari();
+		else if (asema->_lauta[lahtoruutuX - 1][lahtoruutuY + 1] != NULL) {
+			tuloruudunNappulanVari = asema->_lauta[lahtoruutuX - 1][lahtoruutuY + 1]->getVari();
 			if (lahtoruudunNappulanVari != tuloruudunNappulanVari) {
 
 				lista.push_back(Siirto(*ruutu, Ruutu(lahtoruutuX - 1, lahtoruutuY + 1)));
@@ -507,13 +507,13 @@ void LaillisetSiirrot::annaKuninkaanLaillisetSiirrot(std::list<Siirto>& lista, R
 	}
 
 	if (lahtoruutuX - 1 >= 0 && lahtoruutuY - 1 >= 0) {
-		if (asema->lauta[lahtoruutuX - 1][lahtoruutuY - 1] == NULL) {
+		if (asema->_lauta[lahtoruutuX - 1][lahtoruutuY - 1] == NULL) {
 
 			lista.push_back(Siirto(*ruutu, Ruutu(lahtoruutuX - 1, lahtoruutuY - 1)));
 
 		}
-		else if (asema->lauta[lahtoruutuX - 1][lahtoruutuY - 1] != NULL) {
-			tuloruudunNappulanVari = asema->lauta[lahtoruutuX - 1][lahtoruutuY - 1]->getVari();
+		else if (asema->_lauta[lahtoruutuX - 1][lahtoruutuY - 1] != NULL) {
+			tuloruudunNappulanVari = asema->_lauta[lahtoruutuX - 1][lahtoruutuY - 1]->getVari();
 			if (lahtoruudunNappulanVari != tuloruudunNappulanVari) {
 
 				lista.push_back(Siirto(*ruutu, Ruutu(lahtoruutuX - 1, lahtoruutuY - 1)));
@@ -523,13 +523,13 @@ void LaillisetSiirrot::annaKuninkaanLaillisetSiirrot(std::list<Siirto>& lista, R
 	}
 
 	if (lahtoruutuY + 1 < 8) {
-		if (asema->lauta[lahtoruutuX][lahtoruutuY + 1] == NULL) {
+		if (asema->_lauta[lahtoruutuX][lahtoruutuY + 1] == NULL) {
 
 			lista.push_back(Siirto(*ruutu, Ruutu(lahtoruutuX, lahtoruutuY + 1)));
 
 		}
-		else if (asema->lauta[lahtoruutuX][lahtoruutuY + 1] != NULL) {
-			tuloruudunNappulanVari = asema->lauta[lahtoruutuX][lahtoruutuY + 1]->getVari();
+		else if (asema->_lauta[lahtoruutuX][lahtoruutuY + 1] != NULL) {
+			tuloruudunNappulanVari = asema->_lauta[lahtoruutuX][lahtoruutuY + 1]->getVari();
 			if (lahtoruudunNappulanVari != tuloruudunNappulanVari) {
 
 				lista.push_back(Siirto(*ruutu, Ruutu(lahtoruutuX, lahtoruutuY + 1)));
@@ -539,13 +539,13 @@ void LaillisetSiirrot::annaKuninkaanLaillisetSiirrot(std::list<Siirto>& lista, R
 	}
 
 	if (lahtoruutuY - 1 >= 0) {
-		if (asema->lauta[lahtoruutuX][lahtoruutuY - 1] == NULL) {
+		if (asema->_lauta[lahtoruutuX][lahtoruutuY - 1] == NULL) {
 
 			lista.push_back(Siirto(*ruutu, Ruutu(lahtoruutuX, lahtoruutuY - 1)));
 
 		}
-		else if (asema->lauta[lahtoruutuX][lahtoruutuY - 1] != NULL) {
-			tuloruudunNappulanVari = asema->lauta[lahtoruutuX][lahtoruutuY - 1]->getVari();
+		else if (asema->_lauta[lahtoruutuX][lahtoruutuY - 1] != NULL) {
+			tuloruudunNappulanVari = asema->_lauta[lahtoruutuX][lahtoruutuY - 1]->getVari();
 			if (lahtoruudunNappulanVari != tuloruudunNappulanVari) {
 
 				lista.push_back(Siirto(*ruutu, Ruutu(lahtoruutuX, lahtoruutuY - 1)));
@@ -568,7 +568,7 @@ void LaillisetSiirrot::annaLinnoitusSiirrot(std::list<Siirto>& lista, Asema* ase
 		if (!asema->getOnkoValkeaKuningasLiikkunut() && !asema->getOnkoValkeaKTliikkunut()
 			&& onkoRuutuUhattu(&Ruutu(4, 0), asema, !vari)
 			&& onkoRuutuUhattu(&Ruutu(5, 0), asema, !vari) && onkoRuutuUhattu(&Ruutu(6, 0), asema, !vari)
-			&& asema->lauta[5][0] == NULL && asema->lauta[6][0] == NULL){
+			&& asema->_lauta[5][0] == NULL && asema->_lauta[6][0] == NULL){
 				//p�ivitet��n listaan lyhytlinna
 			lista.push_back(Siirto(true, false)); // lis�t��n listaan lyhyt linna
 		}
@@ -576,7 +576,7 @@ void LaillisetSiirrot::annaLinnoitusSiirrot(std::list<Siirto>& lista, Asema* ase
 		if (!asema->getOnkoValkeaKuningasLiikkunut() && !asema->getOnkoValkeaDTliikkunut()
 			&& onkoRuutuUhattu(&Ruutu(4, 0), asema, !vari)
 			&& onkoRuutuUhattu(&Ruutu(3, 0), asema, !vari) && onkoRuutuUhattu(&Ruutu(3, 0), asema, !vari)
-			&& asema->lauta[3][0] == NULL && asema->lauta[2][0] == NULL) {
+			&& asema->_lauta[3][0] == NULL && asema->_lauta[2][0] == NULL) {
 			//p�ivitet��n listaan lyhytlinna
 			lista.push_back(Siirto(false, true)); // lis�t��n listaan lyhyt linna
 		}
@@ -586,7 +586,7 @@ void LaillisetSiirrot::annaLinnoitusSiirrot(std::list<Siirto>& lista, Asema* ase
 		if (!asema->getOnkoMustaKuningasLiikkunut() && !asema->getOnkoMustaKTliikkunut()
 			&& onkoRuutuUhattu(&Ruutu(4, 7), asema, !vari)
 			&& onkoRuutuUhattu(&Ruutu(5, 7), asema, !vari) && onkoRuutuUhattu(&Ruutu(6, 7), asema, !vari)
-			&& asema->lauta[5][7] == NULL && asema->lauta[6][7] == NULL) {
+			&& asema->_lauta[5][7] == NULL && asema->_lauta[6][7] == NULL) {
 			//p�ivitet��n listaan lyhytlinna
 			lista.push_back(Siirto(true, false)); // lis�t��n listaan lyhyt linna
 		}
@@ -594,7 +594,7 @@ void LaillisetSiirrot::annaLinnoitusSiirrot(std::list<Siirto>& lista, Asema* ase
 		if (!asema->getOnkoMustaKuningasLiikkunut() && !asema->getOnkoMustaDTliikkunut()
 			&& onkoRuutuUhattu(&Ruutu(4, 7), asema, !vari)
 			&& onkoRuutuUhattu(&Ruutu(3, 7), asema, !vari) && onkoRuutuUhattu(&Ruutu(3, 7), asema, !vari)
-			&& asema->lauta[3][7] == NULL && asema->lauta[2][7] == NULL) {
+			&& asema->_lauta[3][7] == NULL && asema->_lauta[2][7] == NULL) {
 			//p�ivitet��n listaan lyhytlinna
 			lista.push_back(Siirto(false, true)); // lis�t��n listaan lyhyt linna
 		}
@@ -606,7 +606,7 @@ void LaillisetSiirrot::annaSotilaanLaillisetSiirrot(std::list<Siirto>& lista, Ru
 	int lahtoruutuX = ruutu->getSarake();
 	int lahtoruudunNappulanVari;
 	int tuloruudunNappulanVari;
-	lahtoruudunNappulanVari = asema->lauta[lahtoruutuX][lahtoruutuY]->getVari();
+	lahtoruudunNappulanVari = asema->_lauta[lahtoruutuX][lahtoruutuY]->getVari();
 
 // jos sotilas rivill� 2 ja sotilas valkea tai sotilas rivill� 7 ja sotilas musta sill� on kaksois askel mahdollisuus
 // muilla riveill� sotilaalla yks�is aske
@@ -617,7 +617,7 @@ void LaillisetSiirrot::annaSotilaanLaillisetSiirrot(std::list<Siirto>& lista, Ru
 	if (lahtoruutuY == 1 && lahtoruudunNappulanVari == 0) {
 		for (int i = lahtoruutuY + 1; i < lahtoruutuY + 3; i++) {
 			// Jos tyhj� ruutu niin lis�t��n listaan
-			if (asema->lauta[lahtoruutuX][i] == NULL) {
+			if (asema->_lauta[lahtoruutuX][i] == NULL) {
 				lista.push_back(Siirto(*ruutu, Ruutu(lahtoruutuX, i)));
 			}
 			else
@@ -629,7 +629,7 @@ void LaillisetSiirrot::annaSotilaanLaillisetSiirrot(std::list<Siirto>& lista, Ru
 	if (lahtoruutuY == 6 && lahtoruudunNappulanVari == 1) {
 		for (int i = lahtoruutuY - 1; i > lahtoruutuY - 3; i--) {
 			// Jos tyhj� ruutu niin lis�t��n listaan
-			if (asema->lauta[lahtoruutuX][i] == NULL) {
+			if (asema->_lauta[lahtoruutuX][i] == NULL) {
 				lista.push_back(Siirto(*ruutu, Ruutu(lahtoruutuX, i)));
 			}
 			else
@@ -639,7 +639,7 @@ void LaillisetSiirrot::annaSotilaanLaillisetSiirrot(std::list<Siirto>& lista, Ru
 	// perusruudut valkeille 
 	if ((lahtoruutuY == 2 || lahtoruutuY == 3 || lahtoruutuY == 4 || lahtoruutuY == 5 || lahtoruutuY == 6) && lahtoruudunNappulanVari == 0) {
 		//siirtym�t eteenp�in
-		if (asema->lauta[lahtoruutuX][lahtoruutuY + 1] == NULL) {
+		if (asema->_lauta[lahtoruutuX][lahtoruutuY + 1] == NULL) {
 			if (lahtoruutuY < 6)
 				lista.push_back(Siirto(*ruutu, Ruutu(lahtoruutuX, lahtoruutuY + 1)));
 			else
@@ -647,9 +647,9 @@ void LaillisetSiirrot::annaSotilaanLaillisetSiirrot(std::list<Siirto>& lista, Ru
 		}
 		//sy�nnit viistoon
 		if (lahtoruutuX + 1 < 8) { // tarkastetaan ett� pysyt��n laudalla
-			if (asema->lauta[lahtoruutuX + 1][lahtoruutuY + 1] != NULL) {
+			if (asema->_lauta[lahtoruutuX + 1][lahtoruutuY + 1] != NULL) {
 				// Tarkistetaan ett� jos l�ht�ruudussa olevan nappulan v�ri on sama kuin tarkastelun alaisessa ruudussa, niin silloin on oma nappula
-				tuloruudunNappulanVari = asema->lauta[lahtoruutuX +1][lahtoruutuY + 1]->getVari();
+				tuloruudunNappulanVari = asema->_lauta[lahtoruutuX +1][lahtoruutuY + 1]->getVari();
 				if (lahtoruudunNappulanVari == tuloruudunNappulanVari) {
 				}
 				// jos vastujan nappula niin poistutaan for silmukasta. Lis�t��n listaan
@@ -662,9 +662,9 @@ void LaillisetSiirrot::annaSotilaanLaillisetSiirrot(std::list<Siirto>& lista, Ru
 			}
 		}
 		if (lahtoruutuX - 1 >= 0) {
-			if (asema->lauta[lahtoruutuX - 1][lahtoruutuY + 1] != NULL) {
+			if (asema->_lauta[lahtoruutuX - 1][lahtoruutuY + 1] != NULL) {
 				// Tarkistetaan ett� jos l�ht�ruudussa olevan nappulan v�ri on sama kuin tarkastelun alaisessa ruudussa, niin silloin on oma nappula
-				tuloruudunNappulanVari = asema->lauta[lahtoruutuX - 1][lahtoruutuY + 1]->getVari();
+				tuloruudunNappulanVari = asema->_lauta[lahtoruutuX - 1][lahtoruutuY + 1]->getVari();
 				if (lahtoruudunNappulanVari == tuloruudunNappulanVari) {
 				}
 				// jos vastustajan nappula niin lis�t��n listaan
@@ -680,7 +680,7 @@ void LaillisetSiirrot::annaSotilaanLaillisetSiirrot(std::list<Siirto>& lista, Ru
 	// perusruudut mustille 
 	if ((lahtoruutuY == 5 || lahtoruutuY == 4 || lahtoruutuY == 3 || lahtoruutuY == 2 || lahtoruutuY == 1) && lahtoruudunNappulanVari == 1) {
 		//siirtym�t eteenp�in
-		if (asema->lauta[lahtoruutuX][lahtoruutuY - 1] == NULL) {
+		if (asema->_lauta[lahtoruutuX][lahtoruutuY - 1] == NULL) {
 			if (lahtoruutuY > 1)
 				lista.push_back(Siirto(*ruutu, Ruutu(lahtoruutuX, lahtoruutuY - 1)));
 			else
@@ -688,9 +688,9 @@ void LaillisetSiirrot::annaSotilaanLaillisetSiirrot(std::list<Siirto>& lista, Ru
 		}
 		//sy�nnit viistoon
 		if (lahtoruutuX + 1 < 8) { // tarkastetaan ett� pysyt��n laudalla
-			if (asema->lauta[lahtoruutuX + 1][lahtoruutuY - 1] != NULL) {
+			if (asema->_lauta[lahtoruutuX + 1][lahtoruutuY - 1] != NULL) {
 				// Tarkistetaan ett� jos l�ht�ruudussa olevan nappulan v�ri on sama kuin tarkastelun alaisessa ruudussa, niin silloin on oma nappula
-				tuloruudunNappulanVari = asema->lauta[lahtoruutuX + 1][lahtoruutuY -1]->getVari();
+				tuloruudunNappulanVari = asema->_lauta[lahtoruutuX + 1][lahtoruutuY -1]->getVari();
 				if (lahtoruudunNappulanVari == tuloruudunNappulanVari) {
 				}
 				// jos vastujan nappula niin poistutaan for silmukasta. Lis�t��n listaan
@@ -703,9 +703,9 @@ void LaillisetSiirrot::annaSotilaanLaillisetSiirrot(std::list<Siirto>& lista, Ru
 			}
 		}
 		if (lahtoruutuX - 1 >= 0) {
-			if (asema->lauta[lahtoruutuX - 1][lahtoruutuY - 1] != NULL) {
+			if (asema->_lauta[lahtoruutuX - 1][lahtoruutuY - 1] != NULL) {
 				// Tarkistetaan ett� jos l�ht�ruudussa olevan nappulan v�ri on sama kuin tarkastelun alaisessa ruudussa, niin silloin on oma nappula
-				tuloruudunNappulanVari = asema->lauta[lahtoruutuX - 1][lahtoruutuY - 1]->getVari();
+				tuloruudunNappulanVari = asema->_lauta[lahtoruutuX - 1][lahtoruutuY - 1]->getVari();
 				if (lahtoruudunNappulanVari == tuloruudunNappulanVari) {
 				}
 				// jos vastujan nappula niin poistutaan for silmukasta. Lis�t��n listaan
@@ -725,12 +725,12 @@ void LaillisetSiirrot::annaSotilaanLaillisetSiirrot(std::list<Siirto>& lista, Ru
 	{
 		if (vari == 0 && lahtoruutuY == 4)
 		{
-			if (asema->lauta[asema->kaksoisaskelSarakkeella][4] && asema->lauta[asema->kaksoisaskelSarakkeella][4]->getKoodi() == MS)
+			if (asema->_lauta[asema->kaksoisaskelSarakkeella][4] && asema->_lauta[asema->kaksoisaskelSarakkeella][4]->getKoodi() == MS)
 				lista.push_back(Siirto(*ruutu, Ruutu(asema->kaksoisaskelSarakkeella, 5)));
 		}
 		if (vari == 1 && lahtoruutuY == 3)
 		{
-			if (asema->lauta[asema->kaksoisaskelSarakkeella][3] && asema->lauta[asema->kaksoisaskelSarakkeella][3]->getKoodi() == VS)
+			if (asema->_lauta[asema->kaksoisaskelSarakkeella][3] && asema->_lauta[asema->kaksoisaskelSarakkeella][3]->getKoodi() == VS)
 				lista.push_back(Siirto(*ruutu, Ruutu(asema->kaksoisaskelSarakkeella, 2)));
 		}
 	}
@@ -743,25 +743,25 @@ bool LaillisetSiirrot::onkoRuutuUhattu(Ruutu* ruutu, Asema* asema, int vastustaj
 	if (vastustajanVari == 0) {
 		for (int i = 0; i < 8; i++) {
 			for (int j = 0; j < 8; j++) {
-				if (asema->lauta[i][j] == NULL) {
+				if (asema->_lauta[i][j] == NULL) {
 					continue;
 				}
-				if (asema->lauta[i][j]->getKoodi() == VK) {
+				if (asema->_lauta[i][j]->getKoodi() == VK) {
 					this->annaKuninkaanLaillisetSiirrot(vastustajaSiirrotLista, &Ruutu(i, j), asema, vastustajanVari);
 				}
-				if (asema->lauta[i][j]->getKoodi() == VD) {
+				if (asema->_lauta[i][j]->getKoodi() == VD) {
 					this->annaDaaminLaillisetSiirrot(vastustajaSiirrotLista, &Ruutu(i, j), asema, vastustajanVari);
 				}
-				if (asema->lauta[i][j]->getKoodi() == VT) {
+				if (asema->_lauta[i][j]->getKoodi() == VT) {
 					this->annaTorninLaillisetSiirrot(vastustajaSiirrotLista, &Ruutu(i, j), asema, vastustajanVari);
 				}
-				if (asema->lauta[i][j]->getKoodi() == VL) {
+				if (asema->_lauta[i][j]->getKoodi() == VL) {
 					this->annaLahetinLaillisetSiirrot(vastustajaSiirrotLista, &Ruutu(i, j), asema, vastustajanVari);
 				}
-				if (asema->lauta[i][j]->getKoodi() == VR) {
+				if (asema->_lauta[i][j]->getKoodi() == VR) {
 					this->annaRatsunLaillisetSiirrot(vastustajaSiirrotLista, &Ruutu(i, j), asema, vastustajanVari);
 				}
-				if (asema->lauta[i][j]->getKoodi() == VS) {
+				if (asema->_lauta[i][j]->getKoodi() == VS) {
 					this->annaSotilaanLaillisetSiirrot(vastustajaSiirrotLista, &Ruutu(i, j), asema, vastustajanVari);
 				}
 			}
@@ -770,25 +770,25 @@ bool LaillisetSiirrot::onkoRuutuUhattu(Ruutu* ruutu, Asema* asema, int vastustaj
 	if (vastustajanVari == 1) {
 		for (int i = 0; i < 8; i++) {
 			for (int j = 0; j < 8; j++) {
-				if (asema->lauta[i][j] == NULL) {
+				if (asema->_lauta[i][j] == NULL) {
 					continue;
 				}
-				if (asema->lauta[i][j]->getKoodi() == MK) {
+				if (asema->_lauta[i][j]->getKoodi() == MK) {
 					this->annaKuninkaanLaillisetSiirrot(vastustajaSiirrotLista, &Ruutu(i, j), asema, vastustajanVari);
 				}
-				if (asema->lauta[i][j]->getKoodi() == MD) {
+				if (asema->_lauta[i][j]->getKoodi() == MD) {
 					this->annaDaaminLaillisetSiirrot(vastustajaSiirrotLista, &Ruutu(i, j), asema, vastustajanVari);
 				}
-				if (asema->lauta[i][j]->getKoodi() == MT) {
+				if (asema->_lauta[i][j]->getKoodi() == MT) {
 					this->annaTorninLaillisetSiirrot(vastustajaSiirrotLista, &Ruutu(i, j), asema, vastustajanVari);
 				}
-				if (asema->lauta[i][j]->getKoodi() == ML) {
+				if (asema->_lauta[i][j]->getKoodi() == ML) {
 					this->annaLahetinLaillisetSiirrot(vastustajaSiirrotLista, &Ruutu(i, j), asema, vastustajanVari);
 				}
-				if (asema->lauta[i][j]->getKoodi() == MR) {
+				if (asema->_lauta[i][j]->getKoodi() == MR) {
 					this->annaRatsunLaillisetSiirrot(vastustajaSiirrotLista, &Ruutu(i, j), asema, vastustajanVari);
 				}
-				if (asema->lauta[i][j]->getKoodi() == MS) {
+				if (asema->_lauta[i][j]->getKoodi() == MS) {
 					this->annaSotilaanLaillisetSiirrot(vastustajaSiirrotLista, &Ruutu(i, j), asema, vastustajanVari);
 				}
 			}
@@ -813,9 +813,9 @@ void LaillisetSiirrot::huolehdiKuninkaanShakeista(std::list<Siirto>& lista, Asem
 	if (vari == 0) {
 		for (int i = 0; i < 8; i++) {
 			for (int j = 0; j < 8; j++) {
-				if (asema->lauta[i][j] == NULL)
+				if (asema->_lauta[i][j] == NULL)
 					continue;
-				if (asema->lauta[i][j]->getKoodi() == VK) {
+				if (asema->_lauta[i][j]->getKoodi() == VK) {
 					kuninkaanX = i;
 					kuninkaanY = j;
 					break;
@@ -826,9 +826,9 @@ void LaillisetSiirrot::huolehdiKuninkaanShakeista(std::list<Siirto>& lista, Asem
 	if (vari == 1) {
 		for (int i = 0; i < 8; i++) {
 			for (int j = 0; j < 8; j++) {
-				if (asema->lauta[i][j] == NULL)
+				if (asema->_lauta[i][j] == NULL)
 					continue;
-				if (asema->lauta[i][j]->getKoodi() == MK) {
+				if (asema->_lauta[i][j]->getKoodi() == MK) {
 					kuninkaanX = i;
 					kuninkaanY = j;
 					break;
@@ -863,7 +863,7 @@ void LaillisetSiirrot::huolehdiKuninkaanShakeista(std::list<Siirto>& lista, Asem
 		}
 		else
 		{
-			Nappula* siirtyva = asema->lauta[s.getAlkuruutu().getSarake()][s.getAlkuruutu().getRivi()];
+			Nappula* siirtyva = asema->_lauta[s.getAlkuruutu().getSarake()][s.getAlkuruutu().getRivi()];
 			if (siirtyva->getKoodi() == VK || siirtyva->getKoodi() == MK)
 			{
 				x = s.getLoppuruutu().getSarake();
@@ -890,52 +890,52 @@ void LaillisetSiirrot::annaLaillisetSiirrot(Asema* asema, std::list<Siirto>& lis
 	for (int i = 0; i < 8; i++) {
 		for (int j = 0; j < 8; j++) {
 			//Ei kysele tyhjilt� ruuduilta nappulan nime�
-			if (asema->lauta[i][j] == NULL) {
+			if (asema->_lauta[i][j] == NULL) {
 				continue;
 			}
 			if (vari == 0) {
-				if (asema->lauta[i][j]->getKoodi() == VK) {
+				if (asema->_lauta[i][j]->getKoodi() == VK) {
 					this->annaKuninkaanLaillisetSiirrot(lista, &Ruutu(i, j), asema, vari);
 				}
 
-				if (asema->lauta[i][j]->getKoodi() == VD) {
+				if (asema->_lauta[i][j]->getKoodi() == VD) {
 					this->annaDaaminLaillisetSiirrot(lista, &Ruutu(i, j), asema, vari);
 				}
 
-				if (asema->lauta[i][j]->getKoodi() == VT) {
+				if (asema->_lauta[i][j]->getKoodi() == VT) {
 					this->annaTorninLaillisetSiirrot(lista, &Ruutu(i, j), asema, vari);
 				}
 
-				if (asema->lauta[i][j]->getKoodi() == VL) {
+				if (asema->_lauta[i][j]->getKoodi() == VL) {
 					this->annaLahetinLaillisetSiirrot(lista, &Ruutu(i, j), asema, vari);
 				}
 
-				if (asema->lauta[i][j]->getKoodi() == VR) {
+				if (asema->_lauta[i][j]->getKoodi() == VR) {
 					this->annaRatsunLaillisetSiirrot(lista, &Ruutu(i, j), asema, vari);
 				}
-				if (asema->lauta[i][j]->getKoodi() == VS) {
+				if (asema->_lauta[i][j]->getKoodi() == VS) {
 					this->annaSotilaanLaillisetSiirrot(lista, &Ruutu(i, j), asema, vari);
 				}
 			}
 		
 			if (vari == 1) {
 
-				if (asema->lauta[i][j]->getKoodi() == MK) {
+				if (asema->_lauta[i][j]->getKoodi() == MK) {
 					this->annaKuninkaanLaillisetSiirrot(lista, &Ruutu(i, j), asema, vari);
 				}
-				if (asema->lauta[i][j]->getKoodi() == MD) {
+				if (asema->_lauta[i][j]->getKoodi() == MD) {
 					this->annaDaaminLaillisetSiirrot(lista, &Ruutu(i, j), asema, vari);
 				}
-				if (asema->lauta[i][j]->getKoodi() == MT) {
+				if (asema->_lauta[i][j]->getKoodi() == MT) {
 					this->annaTorninLaillisetSiirrot(lista, &Ruutu(i, j), asema, vari);
 				}
-				if (asema->lauta[i][j]->getKoodi() == ML) {
+				if (asema->_lauta[i][j]->getKoodi() == ML) {
 					this->annaLahetinLaillisetSiirrot(lista, &Ruutu(i, j), asema, vari);
 				}
-				if (asema->lauta[i][j]->getKoodi() == MR) {
+				if (asema->_lauta[i][j]->getKoodi() == MR) {
 					this->annaRatsunLaillisetSiirrot(lista, &Ruutu(i, j), asema, vari);
 				}
-				if (asema->lauta[i][j]->getKoodi() == MS) {
+				if (asema->_lauta[i][j]->getKoodi() == MS) {
 					this->annaSotilaanLaillisetSiirrot(lista, &Ruutu(i, j), asema, vari);
 				}
 			}
@@ -948,36 +948,36 @@ void LaillisetSiirrot::annaLaillisetSiirrot(Asema* asema, std::list<Siirto>& lis
 void LaillisetSiirrot::lisaaSotilaanKorotukset(Siirto* siirto, std::list<Siirto>& lista, Asema* asema) {
 	if (siirto->getLoppuruutu().getRivi() == 7) {
 		// valkea korottaa
-		siirto->miksikorotetaan = asema->vd;
+		siirto->_miksikorotetaan = asema->vd;
 		lista.push_back(*siirto);
 
 		Siirto torniksi = *siirto;
-		torniksi.miksikorotetaan = asema->vt;
+		torniksi._miksikorotetaan = asema->vt;
 		lista.push_back(torniksi);
 
 		Siirto lahetiksi = *siirto;
-		lahetiksi.miksikorotetaan = asema->vl;
+		lahetiksi._miksikorotetaan = asema->vl;
 		lista.push_back(lahetiksi);
 
 		Siirto ratsuksi = *siirto;
-		ratsuksi.miksikorotetaan = asema->vr;
+		ratsuksi._miksikorotetaan = asema->vr;
 		lista.push_back(ratsuksi);
 	}
 	else if (siirto->getLoppuruutu().getRivi() == 0) {
 		// musta korottaa
-		siirto->miksikorotetaan = asema->md;
+		siirto->_miksikorotetaan = asema->md;
 		lista.push_back(*siirto);
 
 		Siirto torniksi = *siirto;
-		torniksi.miksikorotetaan = asema->mt;
+		torniksi._miksikorotetaan = asema->mt;
 		lista.push_back(torniksi);
 
 		Siirto lahetiksi = *siirto;
-		lahetiksi.miksikorotetaan = asema->ml;
+		lahetiksi._miksikorotetaan = asema->ml;
 		lista.push_back(lahetiksi);
 
 		Siirto ratsuksi = *siirto;
-		ratsuksi.miksikorotetaan = asema->mr;
+		ratsuksi._miksikorotetaan = asema->mr;
 		lista.push_back(ratsuksi);
 	}
 }
