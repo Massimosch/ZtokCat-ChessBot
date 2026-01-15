@@ -38,7 +38,7 @@ public:
 	std::wstring getUnicode()				{ return _unicode;				}
 	int getVari()							{ return _vari;					}
 	int getKoodi()							{ return _koodi;				}
-	std::wstring getNimi()						{ return _nimi;					}
+	std::wstring getNimi()					{ return _nimi;					}
 };
 
 // Torni-aliluokka. Virtuaalinen perint� tarkoittaa, ett� kantaluokka perit��n moniperinn�ss� vain kerran

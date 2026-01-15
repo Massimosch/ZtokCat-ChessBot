@@ -1,6 +1,6 @@
 #include <iostream>
 #include "asema.h"
-#include "minMaxPaluu.h"
+#include "minmaxpaluu.h"
 #include "nappula.h"
 #include "ruutu.h"
 

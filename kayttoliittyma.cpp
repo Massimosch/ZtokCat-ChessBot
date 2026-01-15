@@ -1,10 +1,14 @@
-#include <Windows.h>
 #include <iostream>
 #include <string>
-#include <fcntl.h>
-#include <io.h>
 #include <iostream>
 #include "kayttoliittyma.h"
+
+#ifdef _WIN32
+    #include <Windows.h>
+    #include <io.h>
+    #include <fcntl.h>
+#endif
+
 
 using namespace std;
 
@@ -19,46 +23,47 @@ Kayttoliittyma* Kayttoliittyma::getInstance()
 	return instance;
 }
 
+#ifdef _WIN32
+	void Kayttoliittyma::piirraLauta()
+	{
+		bool drawDark = true;
 
-void Kayttoliittyma::piirraLauta()
-{
-	bool drawDark = true;
-
-	for (int x = 0; x < 7; x++) {
-		for (int y = 0; y < 7; y++) {
-			if (drawDark) {
-				SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), DARKTILE_INTENSITY | DARKTILE_RED |
-					DARKTILE_GREEN | DARKTILE_BLUE);
+		for (int x = 0; x < 7; x++) {
+			for (int y = 0; y < 7; y++) {
+				if (drawDark) {
+					SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), DARKTILE_INTENSITY | DARKTILE_RED |
+						DARKTILE_GREEN | DARKTILE_BLUE);
+				}
+				else {
+					SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), LIGHTTILE_INTENSITY | LIGHTTILE_RED |
+						LIGHTTILE_GREEN | LIGHTTILE_BLUE);
+				}
+				
+				wcout << "   ";
+				drawDark = !drawDark;
+				
 			}
-			else {
-				SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), LIGHTTILE_INTENSITY | LIGHTTILE_RED |
-					LIGHTTILE_GREEN | LIGHTTILE_BLUE);
+
+			wcout << "\n";
+		}
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), BACKGROUND_INTENSITY | BACKGROUND_RED |
+			BACKGROUND_GREEN | BACKGROUND_BLUE);
+
+		for (int x = 0; x < 7; x++) {
+			for (int y = 0; y < 7; y++) {
+				if (_asema->_lauta[x][y] == NULL) continue;
+
+				wcout << _asema->_lauta[x][y]->getUnicode();
 			}
-			
-			wcout << "   ";
-			drawDark = !drawDark;
-			
-		}
-
-		wcout << "\n";
-	}
-	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), BACKGROUND_INTENSITY | BACKGROUND_RED |
-		BACKGROUND_GREEN | BACKGROUND_BLUE);
-
-	for (int x = 0; x < 7; x++) {
-		for (int y = 0; y < 7; y++) {
-			if (_asema->_lauta[x][y] == NULL) continue;
-
-			wcout << _asema->_lauta[x][y]->getUnicode();
 		}
 	}
-}
+#endif
 
 
 /*
-	Aliohjelma tarkistaa että käyttäjän antama syöte siirroksi on 
+	Aliohjelma tarkistaa ettï¿½ kï¿½yttï¿½jï¿½n antama syï¿½te siirroksi on 
 	muodollisesti korrekti (ei tarkista aseman laillisuutta)
-	Ottaa irti myös nappulan kirjaimen (K/D/L/R/T), tarkistaa että kirjain korrekti
+	Ottaa irti myï¿½s nappulan kirjaimen (K/D/L/R/T), tarkistaa ettï¿½ kirjain korrekti
 */
 Siirto Kayttoliittyma::annaVastustajanSiirto()
 {
