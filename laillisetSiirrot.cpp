@@ -1,11 +1,11 @@
 #include "laillisetSiirrot.h"
 #include <iostream>
-/*Käy asema olion kaksiulotteisen taulukon x ja y suuntaiset ruudut läpi sekä isompaan että pienempään päin ja tarkista seuraavat asiat
-1) Ruutu tyhjä, voi mennä
-2) Ruudussa oma nappula, ei voi mennä
-3) Ruudussa vastustajan nappula, voi mennä mutta pidemmälle ei voi mennä
+/*Kï¿½y asema olion kaksiulotteisen taulukon x ja y suuntaiset ruudut lï¿½pi sekï¿½ isompaan ettï¿½ pienempï¿½ï¿½n pï¿½in ja tarkista seuraavat asiat
+1) Ruutu tyhjï¿½, voi mennï¿½
+2) Ruudussa oma nappula, ei voi mennï¿½
+3) Ruudussa vastustajan nappula, voi mennï¿½ mutta pidemmï¿½lle ei voi mennï¿½
 
-Saa parametrinaan listan johon lisäys tehdään
+Saa parametrinaan listan johon lisï¿½ys tehdï¿½ï¿½n
 */
 
 
@@ -19,80 +19,80 @@ void LaillisetSiirrot::annaTorninLaillisetSiirrot(std::list<Siirto>& lista, Ruut
 	int tuloruudunNappulanVari;
 
 	lahtoruudunNappulanVari = asema->lauta[lahtoruutuX][lahtoruutuY]->getVari();
-	// vaakarivi ruudusta eteenpäin
+	// vaakarivi ruudusta eteenpï¿½in
 	for (int i = lahtoruutuX + 1; i < 8; i++) {
-		// Jos tyhjä ruutu niin lisätään listaan
+		// Jos tyhjï¿½ ruutu niin lisï¿½tï¿½ï¿½n listaan
 		if (asema->lauta[i][lahtoruutuY] == NULL) {
 			lista.push_back(Siirto(*ruutu, Ruutu(i, lahtoruutuY)));
 		}
 		else if (asema->lauta[i][lahtoruutuY] != NULL) {
-			// Jos oma nappula niin poistutaan for silmukasta. Ei lisätä listaan
-			// Tarkistetaan että jos lähtöruudussa olevan nappulan väri on sama kuin tarkastelun alaisessa ruudussa, niin silloin on oma nappula
+			// Jos oma nappula niin poistutaan for silmukasta. Ei lisï¿½tï¿½ listaan
+			// Tarkistetaan ettï¿½ jos lï¿½htï¿½ruudussa olevan nappulan vï¿½ri on sama kuin tarkastelun alaisessa ruudussa, niin silloin on oma nappula
 			tuloruudunNappulanVari = asema->lauta[i][lahtoruutuY]->getVari();
 			if (lahtoruudunNappulanVari == tuloruudunNappulanVari) {
 				break;
 			}
-			// jos vastujan nappula niin poistutaan for silmukasta. Lisätään listaan
+			// jos vastujan nappula niin poistutaan for silmukasta. Lisï¿½tï¿½ï¿½n listaan
 			if (lahtoruudunNappulanVari != tuloruudunNappulanVari) {
 				lista.push_back(Siirto(*ruutu, Ruutu(i, lahtoruutuY)));
 				break;
 			}
 		}
 	}
-	// vaakarivi ruudusta taaksepäin
+	// vaakarivi ruudusta taaksepï¿½in
 	for (int i = lahtoruutuX - 1; i >= 0; i--) {
-		// Jos tyhjä ruutu niin lisätään listaan
+		// Jos tyhjï¿½ ruutu niin lisï¿½tï¿½ï¿½n listaan
 		if (asema->lauta[i][lahtoruutuY] == NULL) {
 			lista.push_back(Siirto(*ruutu, Ruutu(i, lahtoruutuY)));
 		}
 		else if (asema->lauta[i][lahtoruutuY] != NULL) {
-			// Jos oma nappula niin poistutaan for silmukasta. Ei lisätä listaan
-			// Tarkistetaan että jos lähtöruudussa olevan nappulan väri on sama kuin tarkastelun alaisessa ruudussa, niin silloin on oma nappula
+			// Jos oma nappula niin poistutaan for silmukasta. Ei lisï¿½tï¿½ listaan
+			// Tarkistetaan ettï¿½ jos lï¿½htï¿½ruudussa olevan nappulan vï¿½ri on sama kuin tarkastelun alaisessa ruudussa, niin silloin on oma nappula
 			tuloruudunNappulanVari = asema->lauta[i][lahtoruutuY]->getVari();
 			if (lahtoruudunNappulanVari == tuloruudunNappulanVari) {
 				break;
 			}
-			// jos vastujan nappula niin poistutaan for silmukasta. Lisätään listaan
+			// jos vastujan nappula niin poistutaan for silmukasta. Lisï¿½tï¿½ï¿½n listaan
 			if (lahtoruudunNappulanVari != tuloruudunNappulanVari) {
 				lista.push_back(Siirto(*ruutu, Ruutu(i, lahtoruutuY)));
 				break;
 			}
 		}
 	}
-	// pystyrivi ruudusta eteenpäin
+	// pystyrivi ruudusta eteenpï¿½in
 	for (int i = lahtoruutuY + 1; i < 8; i++) {
-		// Jos tyhjä ruutu niin lisätään listaan
+		// Jos tyhjï¿½ ruutu niin lisï¿½tï¿½ï¿½n listaan
 		if (asema->lauta[lahtoruutuX][i] == NULL) {
 			lista.push_back(Siirto(*ruutu, Ruutu(lahtoruutuX, i)));
 		}
 		else if (asema->lauta[lahtoruutuX][i] != NULL) {
-			// Jos oma nappula niin poistutaan for silmukasta. Ei lisätä listaan
-			// Tarkistetaan että jos lähtöruudussa olevan nappulan väri on sama kuin tarkastelun alaisessa ruudussa, niin silloin on oma nappula
+			// Jos oma nappula niin poistutaan for silmukasta. Ei lisï¿½tï¿½ listaan
+			// Tarkistetaan ettï¿½ jos lï¿½htï¿½ruudussa olevan nappulan vï¿½ri on sama kuin tarkastelun alaisessa ruudussa, niin silloin on oma nappula
 			tuloruudunNappulanVari = asema->lauta[lahtoruutuX][i]->getVari();
 			if (lahtoruudunNappulanVari == tuloruudunNappulanVari) {
 				break;
 			}
-			// jos vastujan nappula niin poistutaan for silmukasta. Lisätään listaan
+			// jos vastujan nappula niin poistutaan for silmukasta. Lisï¿½tï¿½ï¿½n listaan
 			if (lahtoruudunNappulanVari != tuloruudunNappulanVari) {
 				lista.push_back(Siirto(*ruutu, Ruutu(lahtoruutuX, i)));
 				break;
 			}
 		}
 	}
-	// pystyrivi ruudusta taaksepäin
+	// pystyrivi ruudusta taaksepï¿½in
 	for (int i = lahtoruutuY - 1; i >= 0; i--) {
-		// Jos tyhjä ruutu niin lisätään listaan
+		// Jos tyhjï¿½ ruutu niin lisï¿½tï¿½ï¿½n listaan
 		if (asema->lauta[lahtoruutuX][i] == NULL) {
 			lista.push_back(Siirto(*ruutu, Ruutu(lahtoruutuX, i)));
 		}
 		else if (asema->lauta[lahtoruutuX][i] != NULL) {
-			// Jos oma nappula niin poistutaan for silmukasta. Ei lisätä listaan
-			// Tarkistetaan että jos lähtöruudussa olevan nappulan väri on sama kuin tarkastelun alaisessa ruudussa, niin silloin on oma nappula
+			// Jos oma nappula niin poistutaan for silmukasta. Ei lisï¿½tï¿½ listaan
+			// Tarkistetaan ettï¿½ jos lï¿½htï¿½ruudussa olevan nappulan vï¿½ri on sama kuin tarkastelun alaisessa ruudussa, niin silloin on oma nappula
 			tuloruudunNappulanVari = asema->lauta[lahtoruutuX][i]->getVari();
 			if (lahtoruudunNappulanVari == tuloruudunNappulanVari) {
 				break;
 			}
-			// jos vastujan nappula niin poistutaan for silmukasta. Lisätään listaan
+			// jos vastujan nappula niin poistutaan for silmukasta. Lisï¿½tï¿½ï¿½n listaan
 			if (lahtoruudunNappulanVari != tuloruudunNappulanVari) {
 				lista.push_back(Siirto(*ruutu, Ruutu(lahtoruutuX, i)));
 				break;
@@ -100,7 +100,7 @@ void LaillisetSiirrot::annaTorninLaillisetSiirrot(std::list<Siirto>& lista, Ruut
 		}
 	}
 	// testausta varten
-	// Huom. uuden standardin mukaista c++ koodia, auto-määre antaa kääntäjän päätellä luokan, käyttää iteraattoreita
+	// Huom. uuden standardin mukaista c++ koodia, auto-mï¿½ï¿½re antaa kï¿½ï¿½ntï¿½jï¿½n pï¿½ï¿½tellï¿½ luokan, kï¿½yttï¿½ï¿½ iteraattoreita
 	/*for (auto s : lista)
 	{
 		std::wcout << L"Torni";
@@ -124,27 +124,27 @@ void LaillisetSiirrot::annaLahetinLaillisetSiirrot(std::list<Siirto>& lista, Ruu
 
 	lahtoruudunNappulanVari = asema->lauta[lahtoruutuX][lahtoruutuY]->getVari();
 
-	// viistorivi ruudusta oikealle ylös
+	// viistorivi ruudusta oikealle ylï¿½s
 	for (int i = lahtoruutuX + 1; i < 8; i++) {
-		// j arvo asetetaan vain silmukan ensimmäisellä kierroksella alkuarvoon
+		// j arvo asetetaan vain silmukan ensimmï¿½isellï¿½ kierroksella alkuarvoon
 		if (i == lahtoruutuX + 1) {
 			j = lahtoruutuY + 1;
 		}
 		if (j < 0 || j > 7 || i < 0 || i > 7) {
 			break;
 		}
-		// Jos tyhjä ruutu niin lisätään listaan
+		// Jos tyhjï¿½ ruutu niin lisï¿½tï¿½ï¿½n listaan
 		if (asema->lauta[i][j] == NULL) {
 			lista.push_back(Siirto(*ruutu, Ruutu(i, j)));
 		}
 		else if (asema->lauta[i][j] != NULL) {
-			// Jos oma nappula niin poistutaan for silmukasta. Ei lisätä listaan
-			// Tarkistetaan että jos lähtöruudussa olevan nappulan väri on sama kuin tarkastelun alaisessa ruudussa, niin silloin on oma nappula
+			// Jos oma nappula niin poistutaan for silmukasta. Ei lisï¿½tï¿½ listaan
+			// Tarkistetaan ettï¿½ jos lï¿½htï¿½ruudussa olevan nappulan vï¿½ri on sama kuin tarkastelun alaisessa ruudussa, niin silloin on oma nappula
 			tuloruudunNappulanVari = asema->lauta[i][j]->getVari();
 			if (lahtoruudunNappulanVari == tuloruudunNappulanVari) {
 				break;
 			}
-			// jos vastujan nappula niin poistutaan for silmukasta. Lisätään listaan
+			// jos vastujan nappula niin poistutaan for silmukasta. Lisï¿½tï¿½ï¿½n listaan
 			if (lahtoruudunNappulanVari != tuloruudunNappulanVari) {
 				lista.push_back(Siirto(*ruutu, Ruutu(i, j)));
 				break;
@@ -156,25 +156,25 @@ void LaillisetSiirrot::annaLahetinLaillisetSiirrot(std::list<Siirto>& lista, Ruu
 
 	// viistorivi ruudusta oikealle alas
 	for (int i = lahtoruutuX + 1; i < 8; i++) {
-		// j arvo asetetaan vain silmukan ensimmäisellä kierroksella alkuarvoon
+		// j arvo asetetaan vain silmukan ensimmï¿½isellï¿½ kierroksella alkuarvoon
 		if (i == lahtoruutuX + 1) {
 			j = lahtoruutuY - 1;
 		}
 		if (j < 0 || j > 7 || i < 0 || i > 7) {
 			break;
 		}
-		// Jos tyhjä ruutu niin lisätään listaan
+		// Jos tyhjï¿½ ruutu niin lisï¿½tï¿½ï¿½n listaan
 		if (asema->lauta[i][j] == NULL) {
 			lista.push_back(Siirto(*ruutu, Ruutu(i, j)));
 		}
 		else if (asema->lauta[i][j] != NULL) {
-			// Jos oma nappula niin poistutaan for silmukasta. Ei lisätä listaan
-			// Tarkistetaan että jos lähtöruudussa olevan nappulan väri on sama kuin tarkastelun alaisessa ruudussa, niin silloin on oma nappula
+			// Jos oma nappula niin poistutaan for silmukasta. Ei lisï¿½tï¿½ listaan
+			// Tarkistetaan ettï¿½ jos lï¿½htï¿½ruudussa olevan nappulan vï¿½ri on sama kuin tarkastelun alaisessa ruudussa, niin silloin on oma nappula
 			tuloruudunNappulanVari = asema->lauta[i][j]->getVari();
 			if (lahtoruudunNappulanVari == tuloruudunNappulanVari) {
 				break;
 			}
-			// jos vastujan nappula niin poistutaan for silmukasta. Lisätään listaan
+			// jos vastujan nappula niin poistutaan for silmukasta. Lisï¿½tï¿½ï¿½n listaan
 			if (lahtoruudunNappulanVari != tuloruudunNappulanVari) {
 				lista.push_back(Siirto(*ruutu, Ruutu(i, j)));
 				break;
@@ -184,27 +184,27 @@ void LaillisetSiirrot::annaLahetinLaillisetSiirrot(std::list<Siirto>& lista, Ruu
 		j--;
 	}
 
-	// viistorivi ruudusta vasemmalle ylös
+	// viistorivi ruudusta vasemmalle ylï¿½s
 	for (int i = lahtoruutuX - 1; i >= 0; i--) {
-		// j arvo asetetaan vain silmukan ensimmäisellä kierroksella alkuarvoon
+		// j arvo asetetaan vain silmukan ensimmï¿½isellï¿½ kierroksella alkuarvoon
 		if (i == lahtoruutuX - 1) {
 			j = lahtoruutuY + 1;
 		}
 		if (j < 0 || j > 7 || i < 0 || i > 7) {
 			break;
 		}
-		// Jos tyhjä ruutu niin lisätään listaan
+		// Jos tyhjï¿½ ruutu niin lisï¿½tï¿½ï¿½n listaan
 		if (asema->lauta[i][j] == NULL) {
 			lista.push_back(Siirto(*ruutu, Ruutu(i, j)));
 		}
 		else if (asema->lauta[i][j] != NULL) {
-			// Jos oma nappula niin poistutaan for silmukasta. Ei lisätä listaan
-			// Tarkistetaan että jos lähtöruudussa olevan nappulan väri on sama kuin tarkastelun alaisessa ruudussa, niin silloin on oma nappula
+			// Jos oma nappula niin poistutaan for silmukasta. Ei lisï¿½tï¿½ listaan
+			// Tarkistetaan ettï¿½ jos lï¿½htï¿½ruudussa olevan nappulan vï¿½ri on sama kuin tarkastelun alaisessa ruudussa, niin silloin on oma nappula
 			tuloruudunNappulanVari = asema->lauta[i][j]->getVari();
 			if (lahtoruudunNappulanVari == tuloruudunNappulanVari) {
 				break;
 			}
-			// jos vastujan nappula niin poistutaan for silmukasta. Lisätään listaan
+			// jos vastujan nappula niin poistutaan for silmukasta. Lisï¿½tï¿½ï¿½n listaan
 			if (lahtoruudunNappulanVari != tuloruudunNappulanVari) {
 				lista.push_back(Siirto(*ruutu, Ruutu(i, j)));
 				break;
@@ -215,25 +215,25 @@ void LaillisetSiirrot::annaLahetinLaillisetSiirrot(std::list<Siirto>& lista, Ruu
 	}
 	// viistorivi ruudusta vasemmalle alas
 	for (int i = lahtoruutuX - 1; i >= 0; i--) {
-		// j arvo asetetaan vain silmukan ensimmäisellä kierroksella alkuarvoon
+		// j arvo asetetaan vain silmukan ensimmï¿½isellï¿½ kierroksella alkuarvoon
 		if (i == lahtoruutuX - 1) {
 			j = lahtoruutuY - 1;
 		}
 		if (j < 0 || j > 7 || i < 0 || i > 7) {
 			break;
 		}
-		// Jos tyhjä ruutu niin lisätään listaan
+		// Jos tyhjï¿½ ruutu niin lisï¿½tï¿½ï¿½n listaan
 		if (asema->lauta[i][j] == NULL) {
 			lista.push_back(Siirto(*ruutu, Ruutu(i, j)));
 		}
 		else if (asema->lauta[i][j] != NULL) {
-			// Jos oma nappula niin poistutaan for silmukasta. Ei lisätä listaan
-			// Tarkistetaan että jos lähtöruudussa olevan nappulan väri on sama kuin tarkastelun alaisessa ruudussa, niin silloin on oma nappula
+			// Jos oma nappula niin poistutaan for silmukasta. Ei lisï¿½tï¿½ listaan
+			// Tarkistetaan ettï¿½ jos lï¿½htï¿½ruudussa olevan nappulan vï¿½ri on sama kuin tarkastelun alaisessa ruudussa, niin silloin on oma nappula
 			tuloruudunNappulanVari = asema->lauta[i][j]->getVari();
 			if (lahtoruudunNappulanVari == tuloruudunNappulanVari) {
 				break;
 			}
-			// jos vastujan nappula niin poistutaan for silmukasta. Lisätään listaan
+			// jos vastujan nappula niin poistutaan for silmukasta. Lisï¿½tï¿½ï¿½n listaan
 			if (lahtoruudunNappulanVari != tuloruudunNappulanVari) {
 				lista.push_back(Siirto(*ruutu, Ruutu(i, j)));
 				break;
@@ -243,10 +243,10 @@ void LaillisetSiirrot::annaLahetinLaillisetSiirrot(std::list<Siirto>& lista, Ruu
 		j--;
 	}
 	// testausta varten
-	// Huom. uuden standardin mukaista c++ koodia, auto-määre antaa kääntäjän päätellä luokan, käyttää iteraattoreita
+	// Huom. uuden standardin mukaista c++ koodia, auto-mï¿½ï¿½re antaa kï¿½ï¿½ntï¿½jï¿½n pï¿½ï¿½tellï¿½ luokan, kï¿½yttï¿½ï¿½ iteraattoreita
 	/*for (auto s : lista)
 	{
-		std::wcout << L"Lähetti";
+		std::wcout << L"Lï¿½hetti";
 		std::wcout << s.getAlkuruutu().getSarake();
 		std::wcout << s.getAlkuruutu().getRivi() << "-";
 
@@ -276,17 +276,17 @@ void LaillisetSiirrot::annaRatsunLaillisetSiirrot(std::list<Siirto>& lista, Ruut
 
 	lahtoruudunNappulanVari = asema->lauta[lahtoruutuX][lahtoruutuY]->getVari();
 
-	// Pitää huomioida että kokeiltavat ruudut ovat vielä laudalla
+	// Pitï¿½ï¿½ huomioida ettï¿½ kokeiltavat ruudut ovat vielï¿½ laudalla
 	if (lahtoruutuX + 1 < 8 && lahtoruutuY + 2 < 8) {
 		if (asema->lauta[lahtoruutuX + 1][lahtoruutuY + 2] == NULL) {
 			lista.push_back(Siirto(*ruutu, Ruutu(lahtoruutuX + 1, lahtoruutuY + 2)));
 		}
 		else if (asema->lauta[lahtoruutuX + 1][lahtoruutuY + 2] != NULL) {
 			tuloruudunNappulanVari = asema->lauta[lahtoruutuX + 1][lahtoruutuY + 2]->getVari();
-			// jos oman värinen niin lisätään törmayslistaan
+			// jos oman vï¿½rinen niin lisï¿½tï¿½ï¿½n tï¿½rmayslistaan
 			if (lahtoruudunNappulanVari == tuloruudunNappulanVari) {
 			}
-			// jos vastujan nappula niin lisätään listaan
+			// jos vastujan nappula niin lisï¿½tï¿½ï¿½n listaan
 			if (lahtoruudunNappulanVari != tuloruudunNappulanVari) {
 				lista.push_back(Siirto(*ruutu, Ruutu(lahtoruutuX + 1, lahtoruutuY + 2)));
 			}
@@ -298,10 +298,10 @@ void LaillisetSiirrot::annaRatsunLaillisetSiirrot(std::list<Siirto>& lista, Ruut
 		}
 		else if (asema->lauta[lahtoruutuX + 1][lahtoruutuY - 2] != NULL) {
 			tuloruudunNappulanVari = asema->lauta[lahtoruutuX + 1][lahtoruutuY - 2]->getVari();
-			// jos oman värinen niin lisätään törmayslistaan
+			// jos oman vï¿½rinen niin lisï¿½tï¿½ï¿½n tï¿½rmayslistaan
 			if (lahtoruudunNappulanVari == tuloruudunNappulanVari) {
 			}
-			// jos vastujan nappula niin lisätään listaan
+			// jos vastujan nappula niin lisï¿½tï¿½ï¿½n listaan
 			if (lahtoruudunNappulanVari != tuloruudunNappulanVari) {
 				lista.push_back(Siirto(*ruutu, Ruutu(lahtoruutuX + 1, lahtoruutuY - 2)));
 			}
@@ -313,10 +313,10 @@ void LaillisetSiirrot::annaRatsunLaillisetSiirrot(std::list<Siirto>& lista, Ruut
 		}
 		else if (asema->lauta[lahtoruutuX - 1][lahtoruutuY + 2] != NULL) {
 			tuloruudunNappulanVari = asema->lauta[lahtoruutuX - 1][lahtoruutuY + 2]->getVari();
-			// jos oman värinen niin lisätään törmayslistaan
+			// jos oman vï¿½rinen niin lisï¿½tï¿½ï¿½n tï¿½rmayslistaan
 			if (lahtoruudunNappulanVari == tuloruudunNappulanVari) {
 			}
-			// jos vastujan nappula niin lisätään listaan
+			// jos vastujan nappula niin lisï¿½tï¿½ï¿½n listaan
 			if (lahtoruudunNappulanVari != tuloruudunNappulanVari) {
 				lista.push_back(Siirto(*ruutu, Ruutu(lahtoruutuX - 1, lahtoruutuY + 2)));
 			}
@@ -328,10 +328,10 @@ void LaillisetSiirrot::annaRatsunLaillisetSiirrot(std::list<Siirto>& lista, Ruut
 		}
 		else if (asema->lauta[lahtoruutuX - 1][lahtoruutuY - 2] != NULL) {
 			tuloruudunNappulanVari = asema->lauta[lahtoruutuX - 1][lahtoruutuY - 2]->getVari();
-			// jos oman värinen niin lisätään törmayslistaan
+			// jos oman vï¿½rinen niin lisï¿½tï¿½ï¿½n tï¿½rmayslistaan
 			if (lahtoruudunNappulanVari == tuloruudunNappulanVari) {
 			}
-			// jos vastujan nappula niin lisätään listaan
+			// jos vastujan nappula niin lisï¿½tï¿½ï¿½n listaan
 			if (lahtoruudunNappulanVari != tuloruudunNappulanVari) {
 				lista.push_back(Siirto(*ruutu, Ruutu(lahtoruutuX - 1, lahtoruutuY - 2)));
 			}
@@ -343,10 +343,10 @@ void LaillisetSiirrot::annaRatsunLaillisetSiirrot(std::list<Siirto>& lista, Ruut
 		}
 		else if (asema->lauta[lahtoruutuX + 2][lahtoruutuY + 1] != NULL) {
 			tuloruudunNappulanVari = asema->lauta[lahtoruutuX + 2][lahtoruutuY + 1]->getVari();
-			// jos oman värinen niin lisätään törmayslistaan
+			// jos oman vï¿½rinen niin lisï¿½tï¿½ï¿½n tï¿½rmayslistaan
 			if (lahtoruudunNappulanVari == tuloruudunNappulanVari) {
 			}
-			// jos vastujan nappula niin lisätään listaan
+			// jos vastujan nappula niin lisï¿½tï¿½ï¿½n listaan
 			if (lahtoruudunNappulanVari != tuloruudunNappulanVari) {
 				lista.push_back(Siirto(*ruutu, Ruutu(lahtoruutuX + 2, lahtoruutuY + 1)));
 			}
@@ -358,10 +358,10 @@ void LaillisetSiirrot::annaRatsunLaillisetSiirrot(std::list<Siirto>& lista, Ruut
 		}
 		else if (asema->lauta[lahtoruutuX + 2][lahtoruutuY - 1] != NULL) {
 			tuloruudunNappulanVari = asema->lauta[lahtoruutuX + 2][lahtoruutuY - 1]->getVari();
-			// jos oman värinen niin lisätään törmayslistaan
+			// jos oman vï¿½rinen niin lisï¿½tï¿½ï¿½n tï¿½rmayslistaan
 			if (lahtoruudunNappulanVari == tuloruudunNappulanVari) {
 			}
-			// jos vastujan nappula niin lisätään listaan
+			// jos vastujan nappula niin lisï¿½tï¿½ï¿½n listaan
 			if (lahtoruudunNappulanVari != tuloruudunNappulanVari) {
 				lista.push_back(Siirto(*ruutu, Ruutu(lahtoruutuX + 2, lahtoruutuY - 1)));
 			}
@@ -373,10 +373,10 @@ void LaillisetSiirrot::annaRatsunLaillisetSiirrot(std::list<Siirto>& lista, Ruut
 		}
 		else if (asema->lauta[lahtoruutuX - 2][lahtoruutuY + 1] != NULL) {
 			tuloruudunNappulanVari = asema->lauta[lahtoruutuX - 2][lahtoruutuY + 1]->getVari();
-			// jos oman värinen niin lisätään törmayslistaan
+			// jos oman vï¿½rinen niin lisï¿½tï¿½ï¿½n tï¿½rmayslistaan
 			if (lahtoruudunNappulanVari == tuloruudunNappulanVari) {
 			}
-			// jos vastujan nappula niin lisätään listaan
+			// jos vastujan nappula niin lisï¿½tï¿½ï¿½n listaan
 			if (lahtoruudunNappulanVari != tuloruudunNappulanVari) {
 				lista.push_back(Siirto(*ruutu, Ruutu(lahtoruutuX - 2, lahtoruutuY + 1)));
 			}
@@ -388,10 +388,10 @@ void LaillisetSiirrot::annaRatsunLaillisetSiirrot(std::list<Siirto>& lista, Ruut
 		}
 		else if (asema->lauta[lahtoruutuX - 2][lahtoruutuY - 1] != NULL) {
 			tuloruudunNappulanVari = asema->lauta[lahtoruutuX - 2][lahtoruutuY - 1]->getVari();
-			// jos oman värinen niin lisätään törmayslistaan
+			// jos oman vï¿½rinen niin lisï¿½tï¿½ï¿½n tï¿½rmayslistaan
 			if (lahtoruudunNappulanVari == tuloruudunNappulanVari) {
 			}
-			// jos vastujan nappula niin lisätään listaan
+			// jos vastujan nappula niin lisï¿½tï¿½ï¿½n listaan
 			if (lahtoruudunNappulanVari != tuloruudunNappulanVari) {
 				lista.push_back(Siirto(*ruutu, Ruutu(lahtoruutuX - 2, lahtoruutuY - 1)));
 			}
@@ -408,10 +408,10 @@ void LaillisetSiirrot::annaRatsunLaillisetSiirrot(std::list<Siirto>& lista, Ruut
 	}*/
 }
 void LaillisetSiirrot::annaKuninkaanLaillisetSiirrot(std::list<Siirto>& lista, Ruutu* ruutu, Asema* asema, int vari) {
-	/*perusidea on että kaikki viereiset ruudut ovat sallittuja. kuten tornilla ja lähetillä,
-	oman nappulan päälle ei voi mennä ja vastustajan nappulan voi syödä.
+	/*perusidea on ettï¿½ kaikki viereiset ruudut ovat sallittuja. kuten tornilla ja lï¿½hetillï¿½,
+	oman nappulan pï¿½ï¿½lle ei voi mennï¿½ ja vastustajan nappulan voi syï¿½dï¿½.
 
-	Kaikki muu kuninkaaseen liittyvä tarkistus tehdään eripaikassa*/
+	Kaikki muu kuninkaaseen liittyvï¿½ tarkistus tehdï¿½ï¿½n eripaikassa*/
 
 
 	int lahtoruutuY = ruutu->getRivi();
@@ -423,8 +423,8 @@ void LaillisetSiirrot::annaKuninkaanLaillisetSiirrot(std::list<Siirto>& lista, R
 	lahtoruudunNappulanVari = asema->lauta[lahtoruutuX][lahtoruutuY]->getVari();
 
 
-	// Käydään perussiirtojen tyhjät ruudut läpi 
-	// Pitää tarkistaa että ehdokas ruutu vielä laudalla
+	// Kï¿½ydï¿½ï¿½n perussiirtojen tyhjï¿½t ruudut lï¿½pi 
+	// Pitï¿½ï¿½ tarkistaa ettï¿½ ehdokas ruutu vielï¿½ laudalla
 	if (lahtoruutuX + 1 < 8) {
 		if (asema->lauta[lahtoruutuX + 1][lahtoruutuY] == NULL) {
 
@@ -561,24 +561,24 @@ void LaillisetSiirrot::annaLinnoitusSiirrot(std::list<Siirto>& lista, Asema* ase
 	//// 1. Kuningas ei saa olla liikkunut
 	//// 2. Torni ei saa olla liikkunut
 	//// 3. Kuningas ei saa olla shakattuna
-	//// 4. Ruutujen pitää olla tyhjät
-	//// 5. Ruudut eivät saa olla uhattuja
+	//// 4. Ruutujen pitï¿½ï¿½ olla tyhjï¿½t
+	//// 5. Ruudut eivï¿½t saa olla uhattuja
 	if (vari == 0) {
 		//valkean lyhyt linna
 		if (!asema->getOnkoValkeaKuningasLiikkunut() && !asema->getOnkoValkeaKTliikkunut()
 			&& onkoRuutuUhattu(&Ruutu(4, 0), asema, !vari)
 			&& onkoRuutuUhattu(&Ruutu(5, 0), asema, !vari) && onkoRuutuUhattu(&Ruutu(6, 0), asema, !vari)
 			&& asema->lauta[5][0] == NULL && asema->lauta[6][0] == NULL){
-				//päivitetään listaan lyhytlinna
-			lista.push_back(Siirto(true, false)); // lisätään listaan lyhyt linna
+				//pï¿½ivitetï¿½ï¿½n listaan lyhytlinna
+			lista.push_back(Siirto(true, false)); // lisï¿½tï¿½ï¿½n listaan lyhyt linna
 		}
-		//valkean pitkä linna
+		//valkean pitkï¿½ linna
 		if (!asema->getOnkoValkeaKuningasLiikkunut() && !asema->getOnkoValkeaDTliikkunut()
 			&& onkoRuutuUhattu(&Ruutu(4, 0), asema, !vari)
 			&& onkoRuutuUhattu(&Ruutu(3, 0), asema, !vari) && onkoRuutuUhattu(&Ruutu(3, 0), asema, !vari)
 			&& asema->lauta[3][0] == NULL && asema->lauta[2][0] == NULL) {
-			//päivitetään listaan lyhytlinna
-			lista.push_back(Siirto(false, true)); // lisätään listaan lyhyt linna
+			//pï¿½ivitetï¿½ï¿½n listaan lyhytlinna
+			lista.push_back(Siirto(false, true)); // lisï¿½tï¿½ï¿½n listaan lyhyt linna
 		}
 	}
 	if (vari == 1) {
@@ -587,16 +587,16 @@ void LaillisetSiirrot::annaLinnoitusSiirrot(std::list<Siirto>& lista, Asema* ase
 			&& onkoRuutuUhattu(&Ruutu(4, 7), asema, !vari)
 			&& onkoRuutuUhattu(&Ruutu(5, 7), asema, !vari) && onkoRuutuUhattu(&Ruutu(6, 7), asema, !vari)
 			&& asema->lauta[5][7] == NULL && asema->lauta[6][7] == NULL) {
-			//päivitetään listaan lyhytlinna
-			lista.push_back(Siirto(true, false)); // lisätään listaan lyhyt linna
+			//pï¿½ivitetï¿½ï¿½n listaan lyhytlinna
+			lista.push_back(Siirto(true, false)); // lisï¿½tï¿½ï¿½n listaan lyhyt linna
 		}
-		//mustan pitkä linna
+		//mustan pitkï¿½ linna
 		if (!asema->getOnkoMustaKuningasLiikkunut() && !asema->getOnkoMustaDTliikkunut()
 			&& onkoRuutuUhattu(&Ruutu(4, 7), asema, !vari)
 			&& onkoRuutuUhattu(&Ruutu(3, 7), asema, !vari) && onkoRuutuUhattu(&Ruutu(3, 7), asema, !vari)
 			&& asema->lauta[3][7] == NULL && asema->lauta[2][7] == NULL) {
-			//päivitetään listaan lyhytlinna
-			lista.push_back(Siirto(false, true)); // lisätään listaan lyhyt linna
+			//pï¿½ivitetï¿½ï¿½n listaan lyhytlinna
+			lista.push_back(Siirto(false, true)); // lisï¿½tï¿½ï¿½n listaan lyhyt linna
 		}
 	}
 }
@@ -608,15 +608,15 @@ void LaillisetSiirrot::annaSotilaanLaillisetSiirrot(std::list<Siirto>& lista, Ru
 	int tuloruudunNappulanVari;
 	lahtoruudunNappulanVari = asema->lauta[lahtoruutuX][lahtoruutuY]->getVari();
 
-// jos sotilas rivillä 2 ja sotilas valkea tai sotilas rivillä 7 ja sotilas musta sillä on kaksois askel mahdollisuus
-// muilla riveillä sotilaalla yksöis aske
-// sotilas voi myös syödä etuviistoon ruudustaan
+// jos sotilas rivillï¿½ 2 ja sotilas valkea tai sotilas rivillï¿½ 7 ja sotilas musta sillï¿½ on kaksois askel mahdollisuus
+// muilla riveillï¿½ sotilaalla yksï¿½is aske
+// sotilas voi myï¿½s syï¿½dï¿½ etuviistoon ruudustaan
 // sotilas voi korottua jos se saavuttaa rivin 8 valkeilla ja vastaavasti rivin 1 mustilla
 
-	// valkea rivillä 2
+	// valkea rivillï¿½ 2
 	if (lahtoruutuY == 1 && lahtoruudunNappulanVari == 0) {
 		for (int i = lahtoruutuY + 1; i < lahtoruutuY + 3; i++) {
-			// Jos tyhjä ruutu niin lisätään listaan
+			// Jos tyhjï¿½ ruutu niin lisï¿½tï¿½ï¿½n listaan
 			if (asema->lauta[lahtoruutuX][i] == NULL) {
 				lista.push_back(Siirto(*ruutu, Ruutu(lahtoruutuX, i)));
 			}
@@ -625,10 +625,10 @@ void LaillisetSiirrot::annaSotilaanLaillisetSiirrot(std::list<Siirto>& lista, Ru
 		}
 	}
 
-	// musta rivillä 7
+	// musta rivillï¿½ 7
 	if (lahtoruutuY == 6 && lahtoruudunNappulanVari == 1) {
 		for (int i = lahtoruutuY - 1; i > lahtoruutuY - 3; i--) {
-			// Jos tyhjä ruutu niin lisätään listaan
+			// Jos tyhjï¿½ ruutu niin lisï¿½tï¿½ï¿½n listaan
 			if (asema->lauta[lahtoruutuX][i] == NULL) {
 				lista.push_back(Siirto(*ruutu, Ruutu(lahtoruutuX, i)));
 			}
@@ -638,21 +638,21 @@ void LaillisetSiirrot::annaSotilaanLaillisetSiirrot(std::list<Siirto>& lista, Ru
 	}
 	// perusruudut valkeille 
 	if ((lahtoruutuY == 2 || lahtoruutuY == 3 || lahtoruutuY == 4 || lahtoruutuY == 5 || lahtoruutuY == 6) && lahtoruudunNappulanVari == 0) {
-		//siirtymät eteenpäin
+		//siirtymï¿½t eteenpï¿½in
 		if (asema->lauta[lahtoruutuX][lahtoruutuY + 1] == NULL) {
 			if (lahtoruutuY < 6)
 				lista.push_back(Siirto(*ruutu, Ruutu(lahtoruutuX, lahtoruutuY + 1)));
 			else
 				lisaaSotilaanKorotukset(&Siirto(*ruutu, Ruutu(lahtoruutuX, lahtoruutuY + 1)), lista, asema);
 		}
-		//syönnit viistoon
-		if (lahtoruutuX + 1 < 8) { // tarkastetaan että pysytään laudalla
+		//syï¿½nnit viistoon
+		if (lahtoruutuX + 1 < 8) { // tarkastetaan ettï¿½ pysytï¿½ï¿½n laudalla
 			if (asema->lauta[lahtoruutuX + 1][lahtoruutuY + 1] != NULL) {
-				// Tarkistetaan että jos lähtöruudussa olevan nappulan väri on sama kuin tarkastelun alaisessa ruudussa, niin silloin on oma nappula
+				// Tarkistetaan ettï¿½ jos lï¿½htï¿½ruudussa olevan nappulan vï¿½ri on sama kuin tarkastelun alaisessa ruudussa, niin silloin on oma nappula
 				tuloruudunNappulanVari = asema->lauta[lahtoruutuX +1][lahtoruutuY + 1]->getVari();
 				if (lahtoruudunNappulanVari == tuloruudunNappulanVari) {
 				}
-				// jos vastujan nappula niin poistutaan for silmukasta. Lisätään listaan
+				// jos vastujan nappula niin poistutaan for silmukasta. Lisï¿½tï¿½ï¿½n listaan
 				if (lahtoruudunNappulanVari != tuloruudunNappulanVari) {
 					if (lahtoruutuY < 6)
 						lista.push_back(Siirto(*ruutu, Ruutu(lahtoruutuX + 1, lahtoruutuY + 1)));
@@ -663,11 +663,11 @@ void LaillisetSiirrot::annaSotilaanLaillisetSiirrot(std::list<Siirto>& lista, Ru
 		}
 		if (lahtoruutuX - 1 >= 0) {
 			if (asema->lauta[lahtoruutuX - 1][lahtoruutuY + 1] != NULL) {
-				// Tarkistetaan että jos lähtöruudussa olevan nappulan väri on sama kuin tarkastelun alaisessa ruudussa, niin silloin on oma nappula
+				// Tarkistetaan ettï¿½ jos lï¿½htï¿½ruudussa olevan nappulan vï¿½ri on sama kuin tarkastelun alaisessa ruudussa, niin silloin on oma nappula
 				tuloruudunNappulanVari = asema->lauta[lahtoruutuX - 1][lahtoruutuY + 1]->getVari();
 				if (lahtoruudunNappulanVari == tuloruudunNappulanVari) {
 				}
-				// jos vastustajan nappula niin lisätään listaan
+				// jos vastustajan nappula niin lisï¿½tï¿½ï¿½n listaan
 				if (lahtoruudunNappulanVari != tuloruudunNappulanVari) {
 					if (lahtoruutuY < 6)
 						lista.push_back(Siirto(*ruutu, Ruutu(lahtoruutuX -1 , lahtoruutuY + 1)));
@@ -679,21 +679,21 @@ void LaillisetSiirrot::annaSotilaanLaillisetSiirrot(std::list<Siirto>& lista, Ru
 	}
 	// perusruudut mustille 
 	if ((lahtoruutuY == 5 || lahtoruutuY == 4 || lahtoruutuY == 3 || lahtoruutuY == 2 || lahtoruutuY == 1) && lahtoruudunNappulanVari == 1) {
-		//siirtymät eteenpäin
+		//siirtymï¿½t eteenpï¿½in
 		if (asema->lauta[lahtoruutuX][lahtoruutuY - 1] == NULL) {
 			if (lahtoruutuY > 1)
 				lista.push_back(Siirto(*ruutu, Ruutu(lahtoruutuX, lahtoruutuY - 1)));
 			else
 				lisaaSotilaanKorotukset(&Siirto(*ruutu, Ruutu(lahtoruutuX, lahtoruutuY - 1)), lista, asema);
 		}
-		//syönnit viistoon
-		if (lahtoruutuX + 1 < 8) { // tarkastetaan että pysytään laudalla
+		//syï¿½nnit viistoon
+		if (lahtoruutuX + 1 < 8) { // tarkastetaan ettï¿½ pysytï¿½ï¿½n laudalla
 			if (asema->lauta[lahtoruutuX + 1][lahtoruutuY - 1] != NULL) {
-				// Tarkistetaan että jos lähtöruudussa olevan nappulan väri on sama kuin tarkastelun alaisessa ruudussa, niin silloin on oma nappula
+				// Tarkistetaan ettï¿½ jos lï¿½htï¿½ruudussa olevan nappulan vï¿½ri on sama kuin tarkastelun alaisessa ruudussa, niin silloin on oma nappula
 				tuloruudunNappulanVari = asema->lauta[lahtoruutuX + 1][lahtoruutuY -1]->getVari();
 				if (lahtoruudunNappulanVari == tuloruudunNappulanVari) {
 				}
-				// jos vastujan nappula niin poistutaan for silmukasta. Lisätään listaan
+				// jos vastujan nappula niin poistutaan for silmukasta. Lisï¿½tï¿½ï¿½n listaan
 				if (lahtoruudunNappulanVari != tuloruudunNappulanVari) {
 					if (lahtoruutuY > 1)
 						lista.push_back(Siirto(*ruutu, Ruutu(lahtoruutuX + 1, lahtoruutuY - 1)));
@@ -704,11 +704,11 @@ void LaillisetSiirrot::annaSotilaanLaillisetSiirrot(std::list<Siirto>& lista, Ru
 		}
 		if (lahtoruutuX - 1 >= 0) {
 			if (asema->lauta[lahtoruutuX - 1][lahtoruutuY - 1] != NULL) {
-				// Tarkistetaan että jos lähtöruudussa olevan nappulan väri on sama kuin tarkastelun alaisessa ruudussa, niin silloin on oma nappula
+				// Tarkistetaan ettï¿½ jos lï¿½htï¿½ruudussa olevan nappulan vï¿½ri on sama kuin tarkastelun alaisessa ruudussa, niin silloin on oma nappula
 				tuloruudunNappulanVari = asema->lauta[lahtoruutuX - 1][lahtoruutuY - 1]->getVari();
 				if (lahtoruudunNappulanVari == tuloruudunNappulanVari) {
 				}
-				// jos vastujan nappula niin poistutaan for silmukasta. Lisätään listaan
+				// jos vastujan nappula niin poistutaan for silmukasta. Lisï¿½tï¿½ï¿½n listaan
 				if (lahtoruudunNappulanVari != tuloruudunNappulanVari) {
 					if (lahtoruutuY > 1)
 						lista.push_back(Siirto(*ruutu, Ruutu(lahtoruutuX - 1, lahtoruutuY - 1)));
@@ -719,7 +719,7 @@ void LaillisetSiirrot::annaSotilaanLaillisetSiirrot(std::list<Siirto>& lista, Ru
 		}
 	}
 
-	// Ohestalyönti on mahdollinen, jos jollain sarakkeella on viimeksi
+	// Ohestalyï¿½nti on mahdollinen, jos jollain sarakkeella on viimeksi
 	// tapahtunut sotilaan kaksoisaskel.
 	if (asema->kaksoisaskelSarakkeella != -1)
 	{
@@ -739,7 +739,7 @@ void LaillisetSiirrot::annaSotilaanLaillisetSiirrot(std::list<Siirto>& lista, Ru
 //Palauttaa True jos ruutu on Ok eli ei uhattu
 bool LaillisetSiirrot::onkoRuutuUhattu(Ruutu* ruutu, Asema* asema, int vastustajanVari) {
 	std::list<Siirto> vastustajaSiirrotLista;
-	//Väreittäin käydään läpi kaikki ruudut ja niissä olevan nappulan siirrot kerätään vastustajan siirtolistaan
+	//Vï¿½reittï¿½in kï¿½ydï¿½ï¿½n lï¿½pi kaikki ruudut ja niissï¿½ olevan nappulan siirrot kerï¿½tï¿½ï¿½n vastustajan siirtolistaan
 	if (vastustajanVari == 0) {
 		for (int i = 0; i < 8; i++) {
 			for (int j = 0; j < 8; j++) {
@@ -794,7 +794,7 @@ bool LaillisetSiirrot::onkoRuutuUhattu(Ruutu* ruutu, Asema* asema, int vastustaj
 			}
 		}
 	}
-	// Käydään vastustajaSiirtoLista läpi ja jos sieltä löytyy tarkasteltava ruutu niin tiedetään sen olevan uhattu
+	// Kï¿½ydï¿½ï¿½n vastustajaSiirtoLista lï¿½pi ja jos sieltï¿½ lï¿½ytyy tarkasteltava ruutu niin tiedetï¿½ï¿½n sen olevan uhattu
 	bool ruutuOk = true;
 	for (auto s : vastustajaSiirrotLista)
 	{
@@ -807,7 +807,7 @@ bool LaillisetSiirrot::onkoRuutuUhattu(Ruutu* ruutu, Asema* asema, int vastustaj
 }
 
 void LaillisetSiirrot::huolehdiKuninkaanShakeista(std::list<Siirto>& lista, Asema* asema, int vari) {
-	// käydään saatua siirtolistaa läpi ja jos siellä oleva siirto asettaa kuninkaan shakkiin, niin siirto poistetaan listasta
+	// kï¿½ydï¿½ï¿½n saatua siirtolistaa lï¿½pi ja jos siellï¿½ oleva siirto asettaa kuninkaan shakkiin, niin siirto poistetaan listasta
 	int kuninkaanX;
 	int kuninkaanY;
 	if (vari == 0) {
@@ -836,7 +836,7 @@ void LaillisetSiirrot::huolehdiKuninkaanShakeista(std::list<Siirto>& lista, Asem
 			}
 		}
 	}
-	// Jotta ei jouduta perumaan oikeaan asemaan tehtyä siirtoa
+	// Jotta ei jouduta perumaan oikeaan asemaan tehtyï¿½ siirtoa
 	Asema testiAsema;
 	std::list<Siirto> siivottuSiirrotLista;
 	for (auto s : lista) {
@@ -853,7 +853,7 @@ void LaillisetSiirrot::huolehdiKuninkaanShakeista(std::list<Siirto>& lista, Asem
 			else
 				y = 7;
 		}
-		else if (s.onkoPitkälinna())
+		else if (s.onkoPitkï¿½linna())
 		{
 			x = 2;
 			if (asema->getSiirtovuoro() == 0)
@@ -889,7 +889,7 @@ void LaillisetSiirrot::annaLaillisetSiirrot(Asema* asema, std::list<Siirto>& lis
 
 	for (int i = 0; i < 8; i++) {
 		for (int j = 0; j < 8; j++) {
-			//Ei kysele tyhjiltä ruuduilta nappulan nimeä
+			//Ei kysele tyhjiltï¿½ ruuduilta nappulan nimeï¿½
 			if (asema->lauta[i][j] == NULL) {
 				continue;
 			}
