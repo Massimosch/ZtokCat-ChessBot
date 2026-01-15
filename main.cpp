@@ -1,6 +1,4 @@
 #include <iostream>
-#include <fcntl.h>
-#include <iostream>
 #include <string>
 #include "kayttoliittyma.h"
 #include "asema.h"
