@@ -5,14 +5,12 @@
 #include "asema.h"
 #include "siirto.h"
 
-
 // Vakioarvot nappulatyypeille.
 enum
 {
 	VT,VR,VL,VD,VK,VS,
 	MT,MR,ML,MD,MK,MS
 };
-
 
 // Yliluokka shakkinappuloille.
 class Nappula

@@ -5,11 +5,9 @@
 #include "minmaxpaluu.h"
 #include "siirto.h"
 
-
 // Ns. "forward declaration". Nyt Asema-luokassa voidaa esitell� Nappula-osoittimia ilman,
 // ett� nappula.h -tiedostoa t�ytyy includoida.
 class Nappula;
-
 
 // Asema sis�lt�� kaiken tarvittavan informaation pelitilanteen kuvaamiseksi
 // (nappuloiden sijainti, siirtovuoro, linnoitusoikeudet.).

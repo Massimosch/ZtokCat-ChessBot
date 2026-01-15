@@ -1,6 +1,5 @@
 #include <iostream>
 #include <string>
-#include <iostream>
 #include "kayttoliittyma.h"
 
 #ifdef _WIN32
@@ -9,12 +8,9 @@
     #include <fcntl.h>
 #endif
 
-
 using namespace std;
 
-
 Kayttoliittyma* Kayttoliittyma::instance = 0;
-
 
 Kayttoliittyma* Kayttoliittyma::getInstance()
 {

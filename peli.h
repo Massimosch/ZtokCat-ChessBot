@@ -1,6 +1,5 @@
 #pragma once
 
-
 // Peli tietokonetta vastaan joko mustilla tai valkeilla.
 class Peli
 {
