@@ -853,7 +853,7 @@ void LaillisetSiirrot::huolehdiKuninkaanShakeista(std::list<Siirto>& lista, Asem
 			else
 				y = 7;
 		}
-		else if (s.onkoPitk�linna())
+		else if (s.onkoPitkalinna())
 		{
 			x = 2;
 			if (asema->getSiirtovuoro() == 0)
