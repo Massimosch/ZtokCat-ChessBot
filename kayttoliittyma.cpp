@@ -31,17 +31,19 @@ void Kayttoliittyma::piirraLauta()
 					DARKTILE_GREEN | DARKTILE_BLUE);
 			}
 			else {
-				SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), LIGHTTILE_RED |
+				SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), LIGHTTILE_INTENSITY | LIGHTTILE_RED |
 					LIGHTTILE_GREEN | LIGHTTILE_BLUE);
 			}
 			
 			wcout << "   ";
-			drawDark != drawDark;
+			drawDark = !drawDark;
 			
 		}
 
 		wcout << "\n";
 	}
+	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), BACKGROUND_INTENSITY | BACKGROUND_RED |
+		BACKGROUND_GREEN | BACKGROUND_BLUE);
 
 	for (int x = 0; x < 7; x++) {
 		for (int y = 0; y < 7; y++) {

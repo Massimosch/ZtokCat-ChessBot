@@ -5,16 +5,16 @@
 #include "siirto.h"
 
 // LIGHTTILE colors
-#define LIGHTTILE_BLUE       0x0001
-#define LIGHTTILE_GREEN       0x0002
-#define LIGHTTILE_RED         0x0004
-#define LIGHTTILE_INTENSITY   0x0008  // makes it brighter
+#define LIGHTTILE_BLUE        0x0001
+#define LIGHTTILE_GREEN       0x0001
+#define LIGHTTILE_RED         0x0000
+#define LIGHTTILE_INTENSITY   0x0080
 
 // DARKTILE colors
-#define DARKTILE_BLUE        0x0010
-#define DARKTILE_GREEN       0x0020
-#define DARKTILE_RED         0x0040
-#define DARKTILE_INTENSITY   0x0080  // brighter background
+#define DARKTILE_BLUE         0x0020
+#define DARKTILE_GREEN        0x0020
+#define DARKTILE_RED          0x0000
+#define DARKTILE_INTENSITY    0x0010
 
 // Shakkiohjelman käyttöliittymä, joka osaa visualisoida nykyisen aseman
 // ja lukea käyttäjän syöttämät siirrot. Singleton.
