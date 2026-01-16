@@ -28,12 +28,16 @@ Asema::Asema()
 		}
 	}
 	// Asetetaan alkuaseman mukaisesti nappulat ruuduille
-	for (int x = 0; x < 7; x++) {
-		for (int y = 0; y < 7; y++) {
-			// Valkean tiimin nappulat
-			if (x == 0 && y == 0) _lauta[x][y] = Asema::vt;
-		}
-	}
+	Nappula* _aloituslauta[8][8] = {
+		{mt, mr, ml, md, mk, ml, mr, mt},
+		{ms, ms, ms, ms, ms, ms, ms, ms},
+		{NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL},
+		{NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL},
+		{NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL},
+		{NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL},
+		{vs, vs, vs, vs, vs, vs, vs, vs},
+		{vt, vr, vl, vd, vk, vl, vr, vt},
+	};
 }
 
 

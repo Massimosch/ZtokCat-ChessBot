@@ -35,9 +35,14 @@ void Kayttoliittyma::piirraLauta()
 					LIGHTTILE_GREEN | LIGHTTILE_BLUE);
 			}
 			
-			wcout << "   ";
+			if (_asema->_lauta[x][y] == NULL) wcout << "   ";
+			else {
+				wcout << " ";
+				wcout << _asema->_lauta[x][y]->getUnicode();
+				wcout << " ";
+			}
+
 			drawDark = !drawDark;
-			
 		}
 
 		wcout << "\n";
