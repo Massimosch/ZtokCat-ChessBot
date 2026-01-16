@@ -30,14 +30,13 @@ void Kayttoliittyma::piirraLauta()
 		for (int y = 0; y <= 7; y++) {
 			
 			if (drawDark) {
-				SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), DARKTILE_INTENSITY | DARKTILE_RED |
-					DARKTILE_GREEN | DARKTILE_BLUE);
+				SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), DARKTILE_COLOR);
 			}
 			else {
-				SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), LIGHTTILE_INTENSITY | LIGHTTILE_RED |
-					LIGHTTILE_GREEN | LIGHTTILE_BLUE);
+				SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), LIGHTTILE_COLOR);
 			}
 
+			
 			if (_asema->_lauta[x][y] == NULL) wcout << "   ";
 			else {
 				wcout << " ";
@@ -49,10 +48,20 @@ void Kayttoliittyma::piirraLauta()
 			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), csbi.wAttributes);
 		}
 
+		wcout << " " << 8 - x ;
 		wcout << "\n";
 		drawDark = !drawDark;
 		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), csbi.wAttributes);
 	}
+
+	wcout << " A ";
+	wcout << " B ";
+	wcout << " C ";
+	wcout << " D ";
+	wcout << " E ";
+	wcout << " F ";
+	wcout << " G ";
+	wcout << " H ";
 }
 #endif
 

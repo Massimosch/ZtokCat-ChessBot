@@ -4,17 +4,8 @@
 #include "peli.h"
 #include "siirto.h"
 
-// LIGHTTILE colors
-#define LIGHTTILE_BLUE        0x0001
-#define LIGHTTILE_GREEN       0x0001
-#define LIGHTTILE_RED         0x0000
-#define LIGHTTILE_INTENSITY   0x0080
-
-// DARKTILE colors
-#define DARKTILE_BLUE         0x0050
-#define DARKTILE_GREEN        0x0020
-#define DARKTILE_RED          0x0060
-#define DARKTILE_INTENSITY    0x0000
+#define LIGHTTILE_COLOR   0x01E0
+#define DARKTILE_COLOR    0x0fA0
 
 // Shakkiohjelman käyttöliittymä, joka osaa visualisoida nykyisen aseman
 // ja lukea käyttäjän syöttämät siirrot. Singleton.
