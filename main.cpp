@@ -1,20 +1,30 @@
 #include <iostream>
-#include <Windows.h>
-#include <io.h>
-#include <fcntl.h>
-#include <iostream>
 #include <string>
 #include "kayttoliittyma.h"
-#include "Siirto.h"
 #include "asema.h"
+
+#ifdef _WIN32
+    #include <Windows.h>
+    #include <io.h>
+    #include <fcntl.h>
+#else
+    #include <unistd.h>
+#endif
 
 using namespace std; 
 
 int main()
 {
-	_setmode(_fileno(stdout), _O_U16TEXT);
+	#ifdef _WIN32
+    	_setmode(_fileno(stdout), _O_U16TEXT);
+	#else
+    	setlocale(LC_ALL, "");
+	#endif
+
+
 	wcout << "HeippariShakki\n";
 	wcout << "Tervetuloa pelaamaan!\n";
+
 	int lopetus = 100;
 	Asema asema; 
 	Kayttoliittyma::getInstance()->aseta_asema(&asema);
@@ -22,7 +32,13 @@ int main()
 	Peli peli(Kayttoliittyma::getInstance()->
 		kysyVastustajanVari());
 	std::list<Siirto> lista;
-	system("cls");
+
+	#ifdef _WIN32
+    	system("cls");
+	#else
+    	system("clear");
+	#endif
+
 	int koneenVari = peli.getKoneenVari();
 
 	while (lopetus != 0) {

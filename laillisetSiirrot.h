@@ -3,7 +3,7 @@
 #include <list>
 #include "nappula.h"
 #include "ruutu.h"
-#include "Siirto.h"
+#include "siirto.h"
 #include "asema.h"
 
 class Asema;
@@ -19,7 +19,7 @@ public:
 	void annaRatsunLaillisetSiirrot(std::list<Siirto>& lista, Ruutu*, Asema*, int vari);
 	void annaSotilaanLaillisetSiirrot(std::list<Siirto>& lista, Ruutu*, Asema*, int vari);
 	void annaLinnoitusSiirrot(std::list<Siirto>& lista, Asema*, int vari);
-	void huolehdiKuninkaanShakeista(std::list<Siirto>& lista, Asema*, int vari); // poistaa listasta siirrot jotka vievät kuninkaan shakkiin
+	void huolehdiKuninkaanShakeista(std::list<Siirto>& lista, Asema*, int vari); // poistaa listasta siirrot jotka vievï¿½t kuninkaan shakkiin
 	bool onkoRuutuUhattu(Ruutu*, Asema*, int vastustajanVari);
 private:
 	void lisaaSotilaanKorotukset(Siirto*, std::list<Siirto>& lista, Asema*);

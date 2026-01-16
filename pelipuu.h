@@ -1,5 +1,5 @@
 #include "asema.h"
-#include "minMaxPaluu.h"
+#include "minmaxpaluu.h"
 class Pelipuu {
 public:
 	MinMaxPaluu maxi(int syvyys, Asema* asema);
