@@ -74,9 +74,9 @@ void Kayttoliittyma::piirraLauta()
 Siirto Kayttoliittyma::annaVastustajanSiirto()
 {
 	
-	std::wstring komento;
+	std::string komento;
 	wcout << "Anna Siirto : ";
-	wcin >> komento;
+	cin >> komento;
 	if (komento[0] != 'T' || komento[0] != 'R' || komento[0] != 'L' || komento[0] != 'D' || komento[0] != 'K' || komento[0] != 'S') {}
 	int alkuRuutuRivi;
 	if (komento[1] == 'A') alkuRuutuRivi = 1;
