@@ -39,7 +39,11 @@ Asema::Asema()
 		{vt, vr, vl, vd, vk, vl, vr, vt},
 	};
 
-	
+	for (int i = 0; i <= 7; i++) {
+		for (int j = 0; j <= 7; j++) {
+			_lauta[i][j] = _aloituslauta[i][j];
+		}
+	}
 }
 
 

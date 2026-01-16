@@ -11,10 +11,10 @@
 #define LIGHTTILE_INTENSITY   0x0080
 
 // DARKTILE colors
-#define DARKTILE_BLUE         0x0020
+#define DARKTILE_BLUE         0x0050
 #define DARKTILE_GREEN        0x0020
-#define DARKTILE_RED          0x0000
-#define DARKTILE_INTENSITY    0x0010
+#define DARKTILE_RED          0x0060
+#define DARKTILE_INTENSITY    0x0000
 
 // Shakkiohjelman käyttöliittymä, joka osaa visualisoida nykyisen aseman
 // ja lukea käyttäjän syöttämät siirrot. Singleton.

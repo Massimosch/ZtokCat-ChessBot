@@ -22,10 +22,13 @@ Kayttoliittyma* Kayttoliittyma::getInstance()
 #ifdef _WIN32
 void Kayttoliittyma::piirraLauta()
 {
+	CONSOLE_SCREEN_BUFFER_INFO csbi;
+	GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &csbi);
 	bool drawDark = true;
 
-	for (int x = 0; x < 7; x++) {
-		for (int y = 0; y < 7; y++) {
+	for (int x = 0; x <= 7; x++) {
+		for (int y = 0; y <= 7; y++) {
+			
 			if (drawDark) {
 				SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), DARKTILE_INTENSITY | DARKTILE_RED |
 					DARKTILE_GREEN | DARKTILE_BLUE);
@@ -43,12 +46,12 @@ void Kayttoliittyma::piirraLauta()
 			}
 
 			drawDark = !drawDark;
+			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), csbi.wAttributes);
 		}
 
 		wcout << "\n";
-
-		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), BACKGROUND_INTENSITY | BACKGROUND_RED |
-			BACKGROUND_GREEN | BACKGROUND_BLUE);
+		drawDark = !drawDark;
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), csbi.wAttributes);
 	}
 }
 #endif
