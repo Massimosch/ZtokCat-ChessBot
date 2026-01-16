@@ -73,7 +73,32 @@ void Kayttoliittyma::piirraLauta()
 */
 Siirto Kayttoliittyma::annaVastustajanSiirto()
 {
-	Siirto siirto;
+	
+	std::wstring komento;
+	wcout << "Anna Siirto : ";
+	wcin >> komento;
+	if (komento[0] != 'T' || komento[0] != 'R' || komento[0] != 'L' || komento[0] != 'D' || komento[0] != 'K' || komento[0] != 'S') {}
+	int alkuRuutuRivi;
+	if (komento[1] == 'A') alkuRuutuRivi = 1;
+	if (komento[1] == 'B') alkuRuutuRivi = 2;
+	if (komento[1] == 'C') alkuRuutuRivi = 3;
+	if (komento[1] == 'D') alkuRuutuRivi = 4;
+	if (komento[1] == 'E') alkuRuutuRivi = 5;
+	if (komento[1] == 'F') alkuRuutuRivi = 6;
+	if (komento[1] == 'G') alkuRuutuRivi = 7;
+	if (komento[1] == 'H') alkuRuutuRivi = 8;
+	int loppuRuutuRivi;
+	if (komento[4] == 'A') loppuRuutuRivi = 1;
+	if (komento[4] == 'B') loppuRuutuRivi = 2;
+	if (komento[4] == 'C') loppuRuutuRivi = 3;
+	if (komento[4] == 'D') loppuRuutuRivi = 4;
+	if (komento[4] == 'E') loppuRuutuRivi = 5;
+	if (komento[4] == 'F') loppuRuutuRivi = 6;
+	if (komento[4] == 'G') loppuRuutuRivi = 7;
+	if (komento[4] == 'H') loppuRuutuRivi = 8;
+	Siirto siirto(Ruutu(alkuRuutuRivi, (int)komento[2] - '0'), Ruutu(loppuRuutuRivi, (int)komento[5] - '0'));
+
+
 	return siirto;
 	
 }
@@ -81,5 +106,8 @@ Siirto Kayttoliittyma::annaVastustajanSiirto()
 
 int Kayttoliittyma::kysyVastustajanVari()
 {
-	return 0;
+	int val;
+	wcout << "Vastustajan vari (musta = 1, valkoinen = 0) : ";
+	wcin >> val;
+	return val;
 }

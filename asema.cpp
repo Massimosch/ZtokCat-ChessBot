@@ -53,6 +53,10 @@ void Asema::paivitaAsema(Siirto *siirto)
 	// Kaksoisaskel-lippu on oletusarvoisesti pois p��lt�.
 	// Asetetaan my�hemmin, jos tarvii.
 
+	if (siirto->getAlkuruutu().getRivi() == -1 || siirto->getLoppuruutu().getRivi() == -1) return;
+	Nappula* temp = _lauta[siirto->getAlkuruutu().getRivi() - 1][siirto->getAlkuruutu().getSarake() - 1];
+	_lauta[siirto->getAlkuruutu().getRivi() - 1][siirto->getAlkuruutu().getSarake() - 1] = NULL;
+	_lauta[siirto->getLoppuruutu().getRivi() - 1][siirto->getLoppuruutu().getSarake() - 1] = temp;
 
 	//Tarkastetaan on siirto lyhyt linna
 
