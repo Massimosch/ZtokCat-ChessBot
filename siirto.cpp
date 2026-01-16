@@ -2,6 +2,7 @@
 
 Siirto::Siirto(Ruutu _alkuRuutu, Ruutu _loppuRuutu)
 {
+
 }
 
 Siirto::Siirto(bool _lyhytLinna, bool _pitkaLinna) 
