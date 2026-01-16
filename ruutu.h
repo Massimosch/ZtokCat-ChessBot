@@ -3,7 +3,7 @@
 // Shakkilaudan ruutu tietyssä (rivi, sarake) -koordinaatissa.
 class Ruutu{
 public:
-	Ruutu(int, int);
+	Ruutu(int rivi, int sarake);
 	Ruutu() {}
 	int getRivi();
 	int getSarake();

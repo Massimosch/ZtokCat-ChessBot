@@ -38,6 +38,8 @@ Asema::Asema()
 		{vs, vs, vs, vs, vs, vs, vs, vs},
 		{vt, vr, vl, vd, vk, vl, vr, vt},
 	};
+
+	
 }
 
 

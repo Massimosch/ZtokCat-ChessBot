@@ -20,25 +20,9 @@ Kayttoliittyma* Kayttoliittyma::getInstance()
 }
 
 #ifdef _WIN32
-	void Kayttoliittyma::piirraLauta()
-	{
-		bool drawDark = true;
-
-		for (int x = 0; x < 7; x++) {
-			for (int y = 0; y < 7; y++) {
-				if (drawDark) {
-					SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), DARKTILE_INTENSITY | DARKTILE_RED |
-						DARKTILE_GREEN | DARKTILE_BLUE);
-				}
-				else {
-					SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), LIGHTTILE_INTENSITY | LIGHTTILE_RED |
-						LIGHTTILE_GREEN | LIGHTTILE_BLUE);
-				}
-				
-				wcout << "   ";
-				drawDark = !drawDark;
-				
-			}
+void Kayttoliittyma::piirraLauta()
+{
+	bool drawDark = true;
 
 	for (int x = 0; x < 7; x++) {
 		for (int y = 0; y < 7; y++) {
@@ -50,7 +34,7 @@ Kayttoliittyma* Kayttoliittyma::getInstance()
 				SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), LIGHTTILE_INTENSITY | LIGHTTILE_RED |
 					LIGHTTILE_GREEN | LIGHTTILE_BLUE);
 			}
-			
+
 			if (_asema->_lauta[x][y] == NULL) wcout << "   ";
 			else {
 				wcout << " ";
@@ -60,9 +44,13 @@ Kayttoliittyma* Kayttoliittyma::getInstance()
 
 			drawDark = !drawDark;
 		}
+
+		wcout << "\n";
+
 		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), BACKGROUND_INTENSITY | BACKGROUND_RED |
 			BACKGROUND_GREEN | BACKGROUND_BLUE);
 	}
+}
 #endif
 
 
