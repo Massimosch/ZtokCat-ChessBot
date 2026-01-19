@@ -48,7 +48,7 @@ void Kayttoliittyma::piirraLauta()
 			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), csbi.wAttributes);
 		}
 
-		wcout << " " << 8 - x ;
+		wcout << " " << x + 1;
 		wcout << "\n";
 		drawDark = !drawDark;
 		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), csbi.wAttributes);
@@ -74,9 +74,9 @@ void Kayttoliittyma::piirraLauta()
 Siirto Kayttoliittyma::annaVastustajanSiirto()
 {
 	
-	std::string komento;
+	std::wstring komento;
 	wcout << "Anna Siirto : ";
-	cin >> komento;
+	wcin >> komento;
 	if (komento[0] != 'T' || komento[0] != 'R' || komento[0] != 'L' || komento[0] != 'D' || komento[0] != 'K' || komento[0] != 'S') {}
 	int alkuRuutuRivi;
 	if (komento[1] == 'A') alkuRuutuRivi = 1;
@@ -96,6 +96,11 @@ Siirto Kayttoliittyma::annaVastustajanSiirto()
 	if (komento[4] == 'F') loppuRuutuRivi = 6;
 	if (komento[4] == 'G') loppuRuutuRivi = 7;
 	if (komento[4] == 'H') loppuRuutuRivi = 8;
+	wcout << "Komento : " << komento << endl;
+	wcout << "Alkurivi : " << alkuRuutuRivi << endl;
+	wcout << "Loppuruuturivi : " << loppuRuutuRivi << endl;
+	wcout << "Alkuruudun sarake : " << (int)komento[2] - '0' << endl;
+	wcout << "Loppuruudun sarake : " << (int)komento[5] - '0' << endl;
 	Siirto siirto(Ruutu(alkuRuutuRivi, (int)komento[2] - '0'), Ruutu(loppuRuutuRivi, (int)komento[5] - '0'));
 
 

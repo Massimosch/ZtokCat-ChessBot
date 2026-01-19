@@ -29,14 +29,14 @@ Asema::Asema()
 	}
 	// Asetetaan alkuaseman mukaisesti nappulat ruuduille
 	Nappula* _aloituslauta[8][8] = {
-		{mt, mr, ml, md, mk, ml, mr, mt},
-		{ms, ms, ms, ms, ms, ms, ms, ms},
-		{NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL},
-		{NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL},
-		{NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL},
-		{NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL},
-		{vs, vs, vs, vs, vs, vs, vs, vs},
 		{vt, vr, vl, vd, vk, vl, vr, vt},
+		{vs, vs, vs, vs, vs, vs, vs, vs},
+		{NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL},
+		{NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL},
+		{NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL},
+		{NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL},
+		{ms, ms, ms, ms, ms, ms, ms, ms},
+		{mt, mr, ml, md, mk, ml, mr, mt},
 	};
 
 	for (int i = 0; i <= 7; i++) {
@@ -49,7 +49,8 @@ Asema::Asema()
 
 void Asema::paivitaAsema(Siirto *siirto)
 {
-
+	/*		{vs, vs, vs, vs, vs, vs, vs, vs},
+		{vt, vr, vl, vd, vk, vl, vr, vt},*/
 	// Kaksoisaskel-lippu on oletusarvoisesti pois p��lt�.
 	// Asetetaan my�hemmin, jos tarvii.
 
