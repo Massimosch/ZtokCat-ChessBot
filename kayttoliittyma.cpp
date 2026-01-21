@@ -78,6 +78,17 @@ Siirto Kayttoliittyma::annaVastustajanSiirto()
 	wcout << "Anna Siirto : ";
 	wcin >> komento;
 	if (komento[0] != 'T' || komento[0] != 'R' || komento[0] != 'L' || komento[0] != 'D' || komento[0] != 'K' || komento[0] != 'S') {}
+
+	if (komento == L"0-0") {
+		Siirto siirto(true, false);
+		return siirto;
+	}
+
+	if (komento == L"0-0-0") {
+		Siirto siirto(true, false);
+		return siirto;
+	}
+
 	int alkuRuutuRivi;
 	if (komento[1] == 'A') alkuRuutuRivi = 1;
 	if (komento[1] == 'B') alkuRuutuRivi = 2;
@@ -96,22 +107,10 @@ Siirto Kayttoliittyma::annaVastustajanSiirto()
 	if (komento[4] == 'F') loppuRuutuRivi = 6;
 	if (komento[4] == 'G') loppuRuutuRivi = 7;
 	if (komento[4] == 'H') loppuRuutuRivi = 8;
-<<<<<<< HEAD
+	
 
-	if ((komento[0] == 'O') && (komento[2] == 'O')) {
-		Siirto siirto(true, false);
-		return siirto;
-	}
 
-	if ((komento[0] == 'O') && (komento[2] == 'O') && (komento[4] == 'O')) {
-		Siirto siirto(false, true);
-		return siirto;
-	}
-
-	//Debuggi tulosteet
-=======
 #ifdef DEBUG_RIVI
->>>>>>> 36137b9f72041e7dbce37e80d37afe02c13cdefb
 	wcout << "Komento : " << komento << endl;
 	wcout << "Alkurivi : " << alkuRuutuRivi << endl;
 	wcout << "Loppuruuturivi : " << loppuRuutuRivi << endl;
@@ -121,7 +120,6 @@ Siirto Kayttoliittyma::annaVastustajanSiirto()
 
 	
 	Siirto siirto(Ruutu(alkuRuutuRivi, (int)komento[2] - '0'), Ruutu(loppuRuutuRivi, (int)komento[5] - '0'));
-
 
 	return siirto;
 	

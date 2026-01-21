@@ -54,27 +54,51 @@ void Asema::paivitaAsema(Siirto *siirto)
 	// Kaksoisaskel-lippu on oletusarvoisesti pois p��lt�.
 	// Asetetaan my�hemmin, jos tarvii.
 
-	//if (siirto->getAlkuruutu().getRivi() == -1 || siirto->getLoppuruutu().getRivi() == -1) return;
-	Nappula* temp = _lauta[siirto->getAlkuruutu().getRivi() - 1][siirto->getAlkuruutu().getSarake() - 1];
-	_lauta[siirto->getAlkuruutu().getRivi() - 1][siirto->getAlkuruutu().getSarake() - 1] = NULL;
-	_lauta[siirto->getLoppuruutu().getRivi() - 1][siirto->getLoppuruutu().getSarake() - 1] = temp;
+		
+	if (siirto->onkoLyhytLinna()) { //Tarkastetaan on siirto lyhyt linna
+		if (_siirtovuoro == 0) {
+			//Torni
+			_lauta[0][5] = vt;
+			_lauta[0][7] = NULL;
+			//Kunkku
+			_lauta[0][6] = vk;
+			_lauta[0][4] = NULL;
+		}
+		else {
+			//MTorni
+			_lauta[7][5] = mt;
+			_lauta[7][7] = NULL;
+			//MKunnkku
+			_lauta[7][6] = mk;
+			_lauta[7][4] = NULL;
+		}
+	}
+	else if (siirto->onkoPitkalinna()) { 	// onko pitk� linna
+		if (_siirtovuoro == 0) {
+			//VTorni
+			_lauta[0][3] = vt;
+			_lauta[0][0] = NULL;
+			//VKunkku
+			_lauta[0][2] = vk;
+			_lauta[0][4] = NULL;
+		}
+		else {
+			_lauta[7][3] = mt;
+			_lauta[7][0] = NULL;
 
-	//Tarkastetaan on siirto lyhyt linna
-
-
-	// onko pitk� linna
-
-
-
-	// Kaikki muut siirrot
-
+			_lauta[7][2] = mk;
+			_lauta[7][4] = NULL;
+		}
+	}
+	else { // Kaikki muut siirrot
+		//if (siirto->getAlkuruutu().getRivi() == -1 || siirto->getLoppuruutu().getRivi() == -1) return;
+		Nappula* temp = _lauta[siirto->getAlkuruutu().getRivi() - 1][siirto->getAlkuruutu().getSarake() - 1];
+		_lauta[siirto->getAlkuruutu().getRivi() - 1][siirto->getAlkuruutu().getSarake() - 1] = NULL;
+		_lauta[siirto->getLoppuruutu().getRivi() - 1][siirto->getLoppuruutu().getSarake() - 1] = temp;
+	}
 
 		//Ottaa siirron alkuruudussa olleen nappulan talteen 
-
-
 		//Laittaa talteen otetun nappulan uuteen ruutuun
-
-
 		// Tarkistetaan oliko sotilaan kaksoisaskel
 		// (asetetaan kaksoisaskel-lippu)
 
@@ -82,12 +106,8 @@ void Asema::paivitaAsema(Siirto *siirto)
 
 		//// Katsotaan jos nappula on sotilas ja rivi on p��tyrivi niin ei vaihdeta nappulaa 
 		////eli alkuruutuun laitetaan null ja loppuruudussa on jo kliittym�n laittama nappula MIIKKA, ei taida minmaxin kanssa hehkua?
-
-		//
 		////muissa tapauksissa alkuruutuun null ja loppuruutuun sama alkuruudusta l�htenyt nappula
-
 		// katsotaan jos liikkunut nappula on kuningas niin muutetaan onkoKuningasLiikkunut arvo (molemmille v�reille)
-
 		// katsotaan jos liikkunut nappula on torni niin muutetaan onkoTorniLiikkunut arvo (molemmille v�reille ja molemmille torneille)
 
 	//p�ivitet��n _siirtovuoro
