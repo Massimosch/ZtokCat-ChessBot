@@ -54,7 +54,7 @@ void Asema::paivitaAsema(Siirto *siirto)
 	// Kaksoisaskel-lippu on oletusarvoisesti pois p��lt�.
 	// Asetetaan my�hemmin, jos tarvii.
 
-	if (siirto->getAlkuruutu().getRivi() == -1 || siirto->getLoppuruutu().getRivi() == -1) return;
+	//if (siirto->getAlkuruutu().getRivi() == -1 || siirto->getLoppuruutu().getRivi() == -1) return;
 	Nappula* temp = _lauta[siirto->getAlkuruutu().getRivi() - 1][siirto->getAlkuruutu().getSarake() - 1];
 	_lauta[siirto->getAlkuruutu().getRivi() - 1][siirto->getAlkuruutu().getSarake() - 1] = NULL;
 	_lauta[siirto->getLoppuruutu().getRivi() - 1][siirto->getLoppuruutu().getSarake() - 1] = temp;
@@ -91,20 +91,21 @@ void Asema::paivitaAsema(Siirto *siirto)
 		// katsotaan jos liikkunut nappula on torni niin muutetaan onkoTorniLiikkunut arvo (molemmille v�reille ja molemmille torneille)
 
 	//p�ivitet��n _siirtovuoro
-
+	int vuoro = (getSiirtovuoro()) ? 0 : 1;
+	setSiirtovuoro(vuoro);
 }
 
 
 
 int Asema::getSiirtovuoro() 
 {
-	return 0;
+	return _siirtovuoro;
 }
 
 
 void Asema::setSiirtovuoro(int vuoro) 
 {
-	
+	_siirtovuoro = vuoro;
 }
 
 

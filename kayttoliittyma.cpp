@@ -2,6 +2,7 @@
 #include <string>
 #include "kayttoliittyma.h"
 
+
 #ifdef _WIN32
     #include <Windows.h>
     #include <io.h>
@@ -96,11 +97,15 @@ Siirto Kayttoliittyma::annaVastustajanSiirto()
 	if (komento[4] == 'F') loppuRuutuRivi = 6;
 	if (komento[4] == 'G') loppuRuutuRivi = 7;
 	if (komento[4] == 'H') loppuRuutuRivi = 8;
+#ifdef DEBUG_RIVI
 	wcout << "Komento : " << komento << endl;
 	wcout << "Alkurivi : " << alkuRuutuRivi << endl;
 	wcout << "Loppuruuturivi : " << loppuRuutuRivi << endl;
 	wcout << "Alkuruudun sarake : " << (int)komento[2] - '0' << endl;
 	wcout << "Loppuruudun sarake : " << (int)komento[5] - '0' << endl;
+#endif // DEBUG_RIVI
+
+	
 	Siirto siirto(Ruutu(alkuRuutuRivi, (int)komento[2] - '0'), Ruutu(loppuRuutuRivi, (int)komento[5] - '0'));
 
 
@@ -112,7 +117,7 @@ Siirto Kayttoliittyma::annaVastustajanSiirto()
 int Kayttoliittyma::kysyVastustajanVari()
 {
 	int val;
-	wcout << "Vastustajan vari (musta = 1, valkoinen = 0) : ";
+	wcout << "Valitse Ihmispelaajan vari (musta = 1, valkoinen = 0) : ";
 	wcin >> val;
 	return val;
 }

@@ -40,6 +40,7 @@ int main()
 	#endif
 
 	int koneenVari = peli.getKoneenVari();
+	asema.setSiirtovuoro(0);
 
 	while (lopetus != 0) {
 		lista.clear();
@@ -68,8 +69,16 @@ int main()
 				annaVastustajanSiirto();
 			
 		}*/
-		siirto = Kayttoliittyma::getInstance()->
-			annaVastustajanSiirto();
+		if (asema.getSiirtovuoro() == koneenVari) {
+			// Koneen siirto
+			wcout << "Siirtovuoro on botilla" << endl;
+		}
+		else {
+			// Pelaajan siirto
+			wcout << "Siirtovuoro on pelaajalla" << endl;
+			siirto = Kayttoliittyma::getInstance()->annaVastustajanSiirto();
+		}
+		
 		asema.paivitaAsema(&siirto);
 	}
 
