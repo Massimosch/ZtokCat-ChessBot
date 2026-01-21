@@ -22,8 +22,8 @@ Nappula* Asema::ms = new Sotilas(L"\u265F", 1, MS);
 Asema::Asema()
 {
 	// Ensin alustetaan kaikki laudan ruudut nappulla "NULL", koska muuten ruuduissa satunnaista tauhkaa
-	for (int x = 0; x < 7; x++) {
-		for (int y = 0; y < 7; y++) {
+	for (int x = 0; x <= 7; x++) {
+		for (int y = 0; y <= 7; y++) {
 			_lauta[x][y] = NULL;
 		}
 	}
@@ -70,7 +70,7 @@ void Asema::paivitaAsema(Siirto *siirto)
 			_lauta[7][7] = NULL;
 			//MKunnkku
 			_lauta[7][6] = mk;
-			_lauta[7][4] = NULL;
+			_lauta[4][7] = NULL;
 		}
 	}
 	else if (siirto->onkoPitkalinna()) { 	// onko pitk� linna

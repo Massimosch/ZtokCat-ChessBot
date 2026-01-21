@@ -1,17 +1,14 @@
 #include <iostream>
 #include <string>
 #include "kayttoliittyma.h"
-
-
-#ifdef _WIN32
-    #include <Windows.h>
-    #include <io.h>
-    #include <fcntl.h>
-#endif
+#include <Windows.h>
+#include <io.h>
+#include <fcntl.h>
 
 using namespace std;
 
 Kayttoliittyma* Kayttoliittyma::instance = 0;
+bool drawDark{ false };
 
 Kayttoliittyma* Kayttoliittyma::getInstance()
 {
@@ -20,52 +17,34 @@ Kayttoliittyma* Kayttoliittyma::getInstance()
 	return instance;
 }
 
-#ifdef _WIN32
 void Kayttoliittyma::piirraLauta()
 {
 	CONSOLE_SCREEN_BUFFER_INFO csbi;
 	GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &csbi);
-	bool drawDark = true;
 
-	for (int x = 0; x <= 7; x++) {
-		for (int y = 0; y <= 7; y++) {
+	for (int y = 7; y >= 0; y--) {
+		for (int x = 0; x <= 7; x++) {
 			
-			if (drawDark) {
-				SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), DARKTILE_COLOR);
-			}
-			else {
-				SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), LIGHTTILE_COLOR);
-			}
-
+			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), drawDark ? DARKTILE_COLOR : LIGHTTILE_COLOR);
 			
-			if (_asema->_lauta[x][y] == NULL) wcout << "   ";
+			if (_asema->_lauta[y][x] == NULL) 
+				wcout << "   ";
 			else {
 				wcout << " ";
-				wcout << _asema->_lauta[x][y]->getUnicode();
+				wcout << _asema->_lauta[y][x]->getUnicode();
 				wcout << " ";
 			}
 
 			drawDark = !drawDark;
-			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), csbi.wAttributes);
 		}
 
-		wcout << " " << x + 1;
-		wcout << "\n";
-		drawDark = !drawDark;
 		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), csbi.wAttributes);
+		wcout << " " << (y + 1) << endl;
+		drawDark = !drawDark;
 	}
 
-	wcout << " A ";
-	wcout << " B ";
-	wcout << " C ";
-	wcout << " D ";
-	wcout << " E ";
-	wcout << " F ";
-	wcout << " G ";
-	wcout << " H ";
+	wcout << " A  B  C  D  E  F  G  H  ";
 }
-#endif
-
 
 /*
 	Aliohjelma tarkistaa ett� k�ytt�j�n antama sy�te siirroksi on 
@@ -74,7 +53,7 @@ void Kayttoliittyma::piirraLauta()
 */
 Siirto Kayttoliittyma::annaVastustajanSiirto()
 {
-	std::wstring komento;
+	std::wstring komento{};
 	wcout << "Anna Siirto : ";
 	wcin >> komento;
 	if (komento[0] != 'T' || komento[0] != 'R' || komento[0] != 'L' || komento[0] != 'D' || komento[0] != 'K' || komento[0] != 'S') {}
@@ -89,7 +68,7 @@ Siirto Kayttoliittyma::annaVastustajanSiirto()
 		return siirto;
 	}
 
-	int alkuRuutuRivi;
+	int alkuRuutuRivi{};
 	if (komento[1] == 'A') alkuRuutuRivi = 1;
 	if (komento[1] == 'B') alkuRuutuRivi = 2;
 	if (komento[1] == 'C') alkuRuutuRivi = 3;
@@ -98,7 +77,8 @@ Siirto Kayttoliittyma::annaVastustajanSiirto()
 	if (komento[1] == 'F') alkuRuutuRivi = 6;
 	if (komento[1] == 'G') alkuRuutuRivi = 7;
 	if (komento[1] == 'H') alkuRuutuRivi = 8;
-	int loppuRuutuRivi;
+	
+	int loppuRuutuRivi{};
 	if (komento[4] == 'A') loppuRuutuRivi = 1;
 	if (komento[4] == 'B') loppuRuutuRivi = 2;
 	if (komento[4] == 'C') loppuRuutuRivi = 3;
@@ -108,7 +88,8 @@ Siirto Kayttoliittyma::annaVastustajanSiirto()
 	if (komento[4] == 'G') loppuRuutuRivi = 7;
 	if (komento[4] == 'H') loppuRuutuRivi = 8;
 	
-
+	wcout << "\nVUORO (0:V, 1:M) = " << _asema->getSiirtovuoro() << " : " 
+		<< komento[1] << "-" << komento[2] << " " << komento[4] << "-" << komento[5] << endl;
 
 #ifdef DEBUG_RIVI
 	wcout << "Komento : " << komento << endl;
@@ -116,10 +97,12 @@ Siirto Kayttoliittyma::annaVastustajanSiirto()
 	wcout << "Loppuruuturivi : " << loppuRuutuRivi << endl;
 	wcout << "Alkuruudun sarake : " << (int)komento[2] - '0' << endl;
 	wcout << "Loppuruudun sarake : " << (int)komento[5] - '0' << endl;
-#endif // DEBUG_RIVI
+#endif //
 
 	
-	Siirto siirto(Ruutu(alkuRuutuRivi, (int)komento[2] - '0'), Ruutu(loppuRuutuRivi, (int)komento[5] - '0'));
+	Siirto siirto(
+		Ruutu(alkuRuutuRivi, (int)komento[2] - '0'),
+		Ruutu(loppuRuutuRivi, (int)komento[5] - '0'));
 
 	return siirto;
 	

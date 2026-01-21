@@ -4,7 +4,6 @@
 #include "nappula.h"
 using namespace std;
 
-
 Nappula::Nappula(wstring unicode, int vari, int koodi)
 {
 	_unicode = unicode;
