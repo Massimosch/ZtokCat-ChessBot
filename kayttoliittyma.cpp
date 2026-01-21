@@ -73,7 +73,6 @@ void Kayttoliittyma::piirraLauta()
 */
 Siirto Kayttoliittyma::annaVastustajanSiirto()
 {
-	
 	std::wstring komento;
 	wcout << "Anna Siirto : ";
 	wcin >> komento;
@@ -96,6 +95,18 @@ Siirto Kayttoliittyma::annaVastustajanSiirto()
 	if (komento[4] == 'F') loppuRuutuRivi = 6;
 	if (komento[4] == 'G') loppuRuutuRivi = 7;
 	if (komento[4] == 'H') loppuRuutuRivi = 8;
+
+	if ((komento[0] == 'O') && (komento[2] == 'O')) {
+		Siirto siirto(true, false);
+		return siirto;
+	}
+
+	if ((komento[0] == 'O') && (komento[2] == 'O') && (komento[4] == 'O')) {
+		Siirto siirto(false, true);
+		return siirto;
+	}
+
+	//Debuggi tulosteet
 	wcout << "Komento : " << komento << endl;
 	wcout << "Alkurivi : " << alkuRuutuRivi << endl;
 	wcout << "Loppuruuturivi : " << loppuRuutuRivi << endl;
