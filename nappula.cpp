@@ -13,22 +13,26 @@ Nappula::Nappula(wstring unicode, int vari, int koodi)
 
 void Torni::annaSiirrot(std::list<Siirto>& lista, Ruutu* ruutu, Asema* asema, int vari)
 {
-	
+	int rivi = ruutu->getRivi();
+	int sarake = ruutu->getSarake();
 }
 
 void Ratsu::annaSiirrot(std::list<Siirto>& lista, Ruutu* ruutu, Asema* asema, int vari)
 {
-	
+	int rivi = ruutu->getRivi();
+	int sarake = ruutu->getSarake();
 }
 
 void Lahetti::annaSiirrot(std::list<Siirto>& lista, Ruutu* ruutu, Asema* asema, int vari)
 {
-	
+	int rivi = ruutu->getRivi();
+	int sarake = ruutu->getSarake();
 }
 
 void Daami::annaSiirrot(std::list<Siirto>& lista, Ruutu* ruutu, Asema* asema, int vari)
 {
-	
+	int rivi = ruutu->getRivi();
+	int sarake = ruutu->getSarake();
 }
 
 void Kuningas::annaSiirrot(std::list<Siirto>& lista, Ruutu* ruutu, Asema* asema, int vari)
@@ -40,13 +44,44 @@ void Kuningas::annaSiirrot(std::list<Siirto>& lista, Ruutu* ruutu, Asema* asema,
 	int rivi = ruutu->getRivi();
 	int sarake = ruutu->getSarake();
 
+	if (asema->_lauta[rivi + 1][sarake]->getVari() != vari) {
+		
+	}
+	else {
+		return;
+	}
 
-	
+	if (asema->_lauta[rivi - 1][sarake]->getVari() != vari) {
+
+	}
+
+	if (asema->_lauta[rivi][sarake + 1]->getVari() != vari) {
+
+	}
+
+	if (asema->_lauta[rivi][sarake - 1]->getVari() != vari) {
+
+	}
+
+	if (asema->_lauta[rivi + 1][sarake -1]->getVari() != vari) {
+
+	}
+
+	if (asema->_lauta[rivi - 1][sarake - 1]->getVari() != vari) {
+
+	}
+
+	if (asema->_lauta[rivi + 1][sarake + 1]->getVari() != vari) {
+
+	}
+
+
 }
 
 void Sotilas::annaSiirrot(std::list<Siirto>& lista, Ruutu* ruutu, Asema* asema, int vari)
 {
-	
+	int rivi = ruutu->getRivi();
+	int sarake = ruutu->getSarake();
 }
 
 void Sotilas::lisaaSotilaanKorotukset(Siirto* siirto, std::list<Siirto>& lista, Asema* asema) {
