@@ -35,8 +35,10 @@ void Kuningas::annaSiirrot(std::list<Siirto>& lista, Ruutu* ruutu, Asema* asema,
 {
 	/*perusidea on että kaikki viereiset ruudut ovat sallittuja. kuten tornilla ja lähetillä,
 	oman nappulan päälle ei voi mennä ja vastustajan nappulan voi syödä.
-
 	Kaikki muu kuninkaaseen liittyvä tarkistus tehdään eri paikassa*/
+
+	int rivi = ruutu->getRivi();
+	int sarake = ruutu->getSarake();
 
 
 	
