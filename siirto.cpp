@@ -8,6 +8,13 @@ Siirto::Siirto(Ruutu alkuRuutu, Ruutu loppuRuutu)
 	_pitkaLinna = false;
 }
 
+Siirto::Siirto() {
+	_loppuRuutu = Ruutu(-1, -1); 
+	_alkuRuutu = Ruutu(-1, -1); 
+	_lyhytLinna = false;
+	_pitkaLinna = false;
+}
+
 Siirto::Siirto(bool lyhytLinna, bool pitkaLinna) 
 {
 	_lyhytLinna = lyhytLinna;

@@ -32,7 +32,7 @@ Asema::Asema()
 		{vt, vr, vl, vd, vk, vl, vr, vt},
 		{vs, vs, vs, vs, vs, vs, vs, vs},
 		{NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL},
-		{NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL},
+		{NULL, NULL, NULL, NULL, vt, NULL, NULL, NULL},
 		{NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL},
 		{NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL},
 		{ms, ms, ms, ms, ms, ms, ms, ms},
@@ -318,5 +318,10 @@ void Asema::huolehdiKuninkaanShakeista(std::list<Siirto>& lista, int vari)
 
 
 void Asema::annaLaillisetSiirrot(std::list<Siirto>& lista) {
-	
+	for (int x = 7; x >= 0; x--) {
+		for (int y = 0; y <= 7; y++) {
+			if (_lauta[x][y] == nullptr) continue;
+			_lauta[x][y]->annaSiirrot(lista, new Ruutu(x, y), this, _siirtovuoro);
+		}
+	}
 }

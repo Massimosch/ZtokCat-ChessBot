@@ -2,6 +2,7 @@
 #include <string>
 #include "kayttoliittyma.h"
 #include "asema.h"
+#include <random>
 
 #ifdef _WIN32
     #include <Windows.h>
@@ -47,8 +48,8 @@ int main()
 		Kayttoliittyma::getInstance()->piirraLauta();
 		wcout << "\n";
 		// Tarkasta onko peli loppu?
-		/*asema.annaLaillisetSiirrot(lista);
-		if (lista.size() == 0) {
+		asema.annaLaillisetSiirrot(lista);
+		/*if (lista.size() == 0) {
 			lopetus = 0;
 			std::wcout << "Peli loppui";
 			continue;
@@ -72,6 +73,7 @@ int main()
 		if (asema.getSiirtovuoro() == koneenVari) {
 			// Koneen siirto
 			wcout << "Siirtovuoro on botilla" << endl;
+			siirto = lista.front();
 		}
 		else {
 			// Pelaajan siirto

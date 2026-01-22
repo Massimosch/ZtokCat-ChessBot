@@ -12,7 +12,7 @@ class Siirto
 {
 public:
 	Siirto(Ruutu, Ruutu);
-	Siirto() { _loppuRuutu = Ruutu(-1, -1); _alkuRuutu = Ruutu(-1, -1); }
+	Siirto();
 	Siirto(bool lyhytLinna, bool pitkaLinna); // Linnoitus lyhesti (K-siipi) tai pitk�sti (D-siipi?
 	Ruutu getAlkuruutu();
 	Ruutu getLoppuruutu();
