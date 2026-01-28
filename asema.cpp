@@ -1,4 +1,5 @@
 #include <iostream>
+#include <vector>
 #include "asema.h"
 #include "minmaxpaluu.h"
 #include "nappula.h"
@@ -311,13 +312,13 @@ bool Asema::onkoRuutuUhattu(Ruutu* ruutu, int vastustajanVari)
 }
 
 
-void Asema::huolehdiKuninkaanShakeista(std::list<Siirto>& lista, int vari) 
+void Asema::huolehdiKuninkaanShakeista(std::vector<Siirto>& lista, int vari) 
 { 
 	
 }
 
 
-void Asema::annaLaillisetSiirrot(std::list<Siirto>& lista) {
+void Asema::annaLaillisetSiirrot(std::vector<Siirto>& lista) {
 	for (int x = 0; x <= 7; x++) {
 		for (int y = 0; y <= 7; y++) {
 			if (_lauta[x][y] == nullptr) continue;

@@ -3,6 +3,7 @@
 #include "kayttoliittyma.h"
 #include "asema.h"
 #include <random>
+#include <vector>
 
 #ifdef _WIN32
     #include <Windows.h>
@@ -32,7 +33,7 @@ int main()
 
 	Peli peli(Kayttoliittyma::getInstance()->
 		kysyVastustajanVari());
-	std::list<Siirto> lista;
+	std::vector<Siirto> lista;
 
 	#ifdef _WIN32
     	system("cls");
@@ -74,7 +75,7 @@ int main()
 			// Koneen siirto
 			wcout << "Siirtovuoro on botilla" << endl;
 			if (lista.empty()) break;
-		    siirto = lista.back();
+		    siirto = lista[rand() % lista.size()];
 		}
 		else {
 			// Pelaajan siirto
