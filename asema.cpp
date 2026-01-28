@@ -30,14 +30,14 @@ Asema::Asema()
 	}
 	// Asetetaan alkuaseman mukaisesti nappulat ruuduille
 	Nappula* _aloituslauta[8][8] = {
-		{vt, vr, vl, vd, vk, vl, vr, vt},
-		{vs, vs, vs, vs, vs, vs, vs, vs},
-		{NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL},
-		{NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL},
-		{NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL},
-		{NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL},
-		{ms, ms, ms, ms, ms, ms, ms, ms},
 		{mt, mr, ml, md, mk, ml, mr, mt},
+		{ms, ms, ms, ms, ms, ms, ms, ms},
+		{NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL},
+		{NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL},
+		{NULL, NULL, NULL, vt, NULL, NULL, NULL, NULL},
+		{NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL},
+		{vs, vs, vs, vs, vs, vs, vs, vs},
+		{vt, vr, vl, vd, vk, vl, vr, vt},
 	};
 
 	for (int i = 0; i <= 7; i++) {
@@ -93,9 +93,9 @@ void Asema::paivitaAsema(Siirto *siirto)
 	}
 	else { // Kaikki muut siirrot
 		//if (siirto->getAlkuruutu().getRivi() == -1 || siirto->getLoppuruutu().getRivi() == -1) return;
-		Nappula* temp = _lauta[siirto->getAlkuruutu().getRivi()][siirto->getAlkuruutu().getSarake()];
-		_lauta[siirto->getAlkuruutu().getRivi()][siirto->getAlkuruutu().getSarake()] = NULL;
-		_lauta[siirto->getLoppuruutu().getRivi()][siirto->getLoppuruutu().getSarake()] = temp;
+		Nappula* temp = _lauta[siirto->getAlkuruutu().getSarake()][siirto->getAlkuruutu().getRivi()];
+		_lauta[siirto->getAlkuruutu().getSarake()][siirto->getAlkuruutu().getRivi()] = NULL;
+		_lauta[siirto->getLoppuruutu().getSarake()][siirto->getLoppuruutu().getRivi()] = temp;
 	}
 
 		//Ottaa siirron alkuruudussa olleen nappulan talteen 
@@ -321,9 +321,9 @@ void Asema::huolehdiKuninkaanShakeista(std::vector<Siirto>& lista, int vari)
 void Asema::annaLaillisetSiirrot(std::vector<Siirto>& lista) {
 	for (int x = 0; x <= 7; x++) {
 		for (int y = 0; y <= 7; y++) {
-			if (_lauta[x][y] == nullptr) continue;
-			Ruutu* ruutu = &Ruutu(x, y);
-			_lauta[x][y]->annaSiirrot(lista, ruutu, this, _siirtovuoro);
+			if (_lauta[y][x] == nullptr) continue;
+			Ruutu* ruutu = &Ruutu(y, x);
+			_lauta[y][x]->annaSiirrot(lista, ruutu, this, _siirtovuoro);
 		}
 	}
 }

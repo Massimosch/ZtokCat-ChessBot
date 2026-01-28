@@ -22,7 +22,7 @@ void Kayttoliittyma::piirraLauta()
 	CONSOLE_SCREEN_BUFFER_INFO csbi;
 	GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &csbi);
 
-	for (int y = 7; y >= 0; y--) {
+	for (int y = 0; y <= 7; y++) {
 		for (int x = 0; x <= 7; x++) {
 			
 			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), drawDark ? DARKTILE_COLOR : LIGHTTILE_COLOR);
@@ -39,7 +39,7 @@ void Kayttoliittyma::piirraLauta()
 		}
 
 		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), csbi.wAttributes);
-		wcout << " " << (y + 1) << endl;
+		wcout << " " << 8 - y << endl;
 		drawDark = !drawDark;
 	}
 
@@ -87,7 +87,6 @@ Siirto Kayttoliittyma::annaVastustajanSiirto()
 	if (komento[4] == 'F') loppuRuutuRivi = 6;
 	if (komento[4] == 'G') loppuRuutuRivi = 7;
 	if (komento[4] == 'H') loppuRuutuRivi = 8;
-	loppuRuutuRivi--;
 	wcout << "\nVUORO (0:V, 1:M) = " << _asema->getSiirtovuoro() << " : " 
 		<< komento[1] << "-" << komento[2] << " " << komento[4] << "-" << komento[5] << endl;
 

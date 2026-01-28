@@ -73,7 +73,7 @@ void Torni::annaSiirrot(std::vector<Siirto>& lista, Ruutu* ruutu, Asema* asema, 
 	}
 
 	// Alas
-	for (int y = sarake+1; y <= 7; y++) {
+	for (int y = rivi+1; y <= 7; y++) {
 		if (asema->_lauta[y][sarake] == nullptr) {
 			Siirto newSiirto = Siirto(*ruutu, Ruutu(y, sarake));
 			lista.push_back(newSiirto);
