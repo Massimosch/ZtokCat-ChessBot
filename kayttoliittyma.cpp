@@ -77,7 +77,7 @@ Siirto Kayttoliittyma::annaVastustajanSiirto()
 	if (komento[1] == 'F') alkuRuutuRivi = 6;
 	if (komento[1] == 'G') alkuRuutuRivi = 7;
 	if (komento[1] == 'H') alkuRuutuRivi = 8;
-	
+	alkuRuutuRivi--;
 	int loppuRuutuRivi{};
 	if (komento[4] == 'A') loppuRuutuRivi = 1;
 	if (komento[4] == 'B') loppuRuutuRivi = 2;
@@ -87,7 +87,7 @@ Siirto Kayttoliittyma::annaVastustajanSiirto()
 	if (komento[4] == 'F') loppuRuutuRivi = 6;
 	if (komento[4] == 'G') loppuRuutuRivi = 7;
 	if (komento[4] == 'H') loppuRuutuRivi = 8;
-	
+	loppuRuutuRivi--;
 	wcout << "\nVUORO (0:V, 1:M) = " << _asema->getSiirtovuoro() << " : " 
 		<< komento[1] << "-" << komento[2] << " " << komento[4] << "-" << komento[5] << endl;
 
@@ -101,8 +101,8 @@ Siirto Kayttoliittyma::annaVastustajanSiirto()
 
 	
 	Siirto siirto(
-		Ruutu(alkuRuutuRivi, (int)komento[2] - '0'),
-		Ruutu(loppuRuutuRivi, (int)komento[5] - '0'));
+		Ruutu(alkuRuutuRivi, (int)komento[2] - '0' - 1),
+		Ruutu(loppuRuutuRivi, (int)komento[5] - '0' - 1));
 
 	return siirto;
 	

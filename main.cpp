@@ -73,7 +73,8 @@ int main()
 		if (asema.getSiirtovuoro() == koneenVari) {
 			// Koneen siirto
 			wcout << "Siirtovuoro on botilla" << endl;
-			siirto = lista.front();
+			if (lista.empty()) break;
+		    siirto = lista.back();
 		}
 		else {
 			// Pelaajan siirto

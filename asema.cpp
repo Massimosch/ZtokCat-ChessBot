@@ -32,7 +32,7 @@ Asema::Asema()
 		{vt, vr, vl, vd, vk, vl, vr, vt},
 		{vs, vs, vs, vs, vs, vs, vs, vs},
 		{NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL},
-		{NULL, NULL, NULL, NULL, vt, NULL, NULL, NULL},
+		{NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL},
 		{NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL},
 		{NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL},
 		{ms, ms, ms, ms, ms, ms, ms, ms},
@@ -92,9 +92,9 @@ void Asema::paivitaAsema(Siirto *siirto)
 	}
 	else { // Kaikki muut siirrot
 		//if (siirto->getAlkuruutu().getRivi() == -1 || siirto->getLoppuruutu().getRivi() == -1) return;
-		Nappula* temp = _lauta[siirto->getAlkuruutu().getRivi() - 1][siirto->getAlkuruutu().getSarake() - 1];
-		_lauta[siirto->getAlkuruutu().getRivi() - 1][siirto->getAlkuruutu().getSarake() - 1] = NULL;
-		_lauta[siirto->getLoppuruutu().getRivi() - 1][siirto->getLoppuruutu().getSarake() - 1] = temp;
+		Nappula* temp = _lauta[siirto->getAlkuruutu().getRivi()][siirto->getAlkuruutu().getSarake()];
+		_lauta[siirto->getAlkuruutu().getRivi()][siirto->getAlkuruutu().getSarake()] = NULL;
+		_lauta[siirto->getLoppuruutu().getRivi()][siirto->getLoppuruutu().getSarake()] = temp;
 	}
 
 		//Ottaa siirron alkuruudussa olleen nappulan talteen 
@@ -318,7 +318,7 @@ void Asema::huolehdiKuninkaanShakeista(std::list<Siirto>& lista, int vari)
 
 
 void Asema::annaLaillisetSiirrot(std::list<Siirto>& lista) {
-	for (int x = 7; x >= 0; x--) {
+	for (int x = 0; x <= 7; x++) {
 		for (int y = 0; y <= 7; y++) {
 			if (_lauta[x][y] == nullptr) continue;
 			Ruutu* ruutu = &Ruutu(x, y);

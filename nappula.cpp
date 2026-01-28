@@ -15,76 +15,77 @@ void Torni::annaSiirrot(std::list<Siirto>& lista, Ruutu* ruutu, Asema* asema, in
 {
 	int rivi = ruutu->getRivi();
 	int sarake = ruutu->getSarake();
+	if (asema->getSiirtovuoro() != this->getVari()) return;
 
 	// Oikealle
-	for (int x = rivi+1; x <= 7; x++) {
-		if (asema->_lauta[x][sarake] == nullptr) {
-			Siirto newSiirto = Siirto(*ruutu, Ruutu(x, sarake));
+	for (int x = sarake+1; x <= 7; x++) {
+		if (asema->_lauta[rivi][x] == nullptr) {
+			Siirto newSiirto = Siirto(*ruutu, Ruutu(rivi, x));
 			lista.push_back(newSiirto);
 			continue;
 		}
-		if (asema->_lauta[x][sarake]->getVari() == vari) break; // oma nappula
-		if (asema->_lauta[x][sarake]->getVari() != vari) {		// vastustajan nappula
-			Siirto newSiirto = Siirto(*ruutu, Ruutu(x, sarake));
+		if (asema->_lauta[rivi][x]->getVari() == vari) break; // oma nappula
+		if (asema->_lauta[rivi][x]->getVari() != vari) {		// vastustajan nappula
+			Siirto newSiirto = Siirto(*ruutu, Ruutu(rivi, x));
 			lista.push_back(newSiirto);
 			break;
 		}
 		// ei nappulaa
-		Siirto newSiirto = Siirto(*ruutu, Ruutu(x, sarake));
+		Siirto newSiirto = Siirto(*ruutu, Ruutu(rivi, x));
 		lista.push_back(newSiirto);
 	}
 
 	// Vasemmalle
-	for (int x = rivi-1; x >= 0; x--) {
-		if (asema->_lauta[x][sarake] == nullptr) {
-			Siirto newSiirto = Siirto(*ruutu, Ruutu(x, sarake));
+	for (int x = sarake-1; x >= 0; x--) {
+		if (asema->_lauta[rivi][x] == nullptr) {
+			Siirto newSiirto = Siirto(*ruutu, Ruutu(rivi, x));
 			lista.push_back(newSiirto);
 			continue;
 		}
-		if (asema->_lauta[x][sarake]->getVari() == vari) break; // oma nappula
-		if (asema->_lauta[x][sarake]->getVari() != vari) {		// vastustajan nappula
-			Siirto newSiirto = Siirto(*ruutu, Ruutu(x, sarake));
+		if (asema->_lauta[rivi][x]->getVari() == vari) break; // oma nappula
+		if (asema->_lauta[rivi][x]->getVari() != vari) {		// vastustajan nappula
+			Siirto newSiirto = Siirto(*ruutu, Ruutu(rivi, x));
 			lista.push_back(newSiirto);
 			break;
 		}
 		// ei nappulaa
-		Siirto newSiirto = Siirto(*ruutu, Ruutu(x, sarake));
+		Siirto newSiirto = Siirto(*ruutu, Ruutu(rivi, x));
 		lista.push_back(newSiirto);
 	}
 
 	// Ylös
-	for (int y = sarake+1; y <= 7; y++) {
-		if (asema->_lauta[rivi][y] == nullptr) {
-			Siirto newSiirto = Siirto(*ruutu, Ruutu(rivi, y));
+	for (int y = rivi-1; y >= 0; y--) {
+		if (asema->_lauta[y][sarake] == nullptr) {
+			Siirto newSiirto = Siirto(*ruutu, Ruutu(y, sarake));
 			lista.push_back(newSiirto);
 			continue;
 		}
-		if (asema->_lauta[rivi][y]->getVari() == vari) break; // oma nappula
-		if (asema->_lauta[rivi][y]->getVari() != vari) {		// vastustajan nappula
-			Siirto newSiirto = Siirto(*ruutu, Ruutu(rivi, y));
+		if (asema->_lauta[y][sarake]->getVari() == vari) break; // oma nappula
+		if (asema->_lauta[y][sarake]->getVari() != vari) {		// vastustajan nappula
+			Siirto newSiirto = Siirto(*ruutu, Ruutu(y, sarake));
 			lista.push_back(newSiirto);
 			break;
 		}
 		// ei nappulaa
-		Siirto newSiirto = Siirto(*ruutu, Ruutu(rivi, y));
+		Siirto newSiirto = Siirto(*ruutu, Ruutu(y, sarake));
 		lista.push_back(newSiirto);
 	}
 
 	// Alas
-	for (int y = sarake-1; y >= 0; y--) {
-		if (asema->_lauta[rivi][y] == nullptr) {
-			Siirto newSiirto = Siirto(*ruutu, Ruutu(rivi, y));
+	for (int y = sarake+1; y <= 7; y++) {
+		if (asema->_lauta[y][sarake] == nullptr) {
+			Siirto newSiirto = Siirto(*ruutu, Ruutu(y, sarake));
 			lista.push_back(newSiirto);
 			continue;
 		}
-		if (asema->_lauta[rivi][y]->getVari() == vari) break; // oma nappula
-		if (asema->_lauta[rivi][y]->getVari() != vari) {		// vastustajan nappula
-			Siirto newSiirto = Siirto(*ruutu, Ruutu(rivi, y));
+		if (asema->_lauta[y][sarake]->getVari() == vari) break; // oma nappula
+		if (asema->_lauta[y][sarake]->getVari() != vari) {		// vastustajan nappula
+			Siirto newSiirto = Siirto(*ruutu, Ruutu(y, sarake));
 			lista.push_back(newSiirto);
 			break;
 		}
 		// ei nappulaa
-		Siirto newSiirto = Siirto(*ruutu, Ruutu(rivi, y));
+		Siirto newSiirto = Siirto(*ruutu, Ruutu(y, sarake));
 		lista.push_back(newSiirto);
 	}
 }
