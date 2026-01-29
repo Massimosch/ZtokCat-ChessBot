@@ -3,6 +3,7 @@
 #include <string>
 #include "asema.h"
 #include "nappula.h"
+#include <iostream>
 using namespace std;
 
 Nappula::Nappula(wstring unicode, int vari, int koodi)
@@ -183,12 +184,88 @@ void Lahetti::annaSiirrot(std::vector<Siirto>& lista, Ruutu* ruutu, Asema* asema
 {
 	int rivi = ruutu->getRivi();
 	int sarake = ruutu->getSarake();
+
+	if (asema->getSiirtovuoro() != this->getVari()) return;
+
+		//Oikealle ylös
+	for (int y = rivi - 1, x = sarake + 1; x <= 7 && y >= 0; x++, y--) {
+		if (asema->_lauta[y][x] == nullptr) {
+			Siirto newSiirto = Siirto(*ruutu, Ruutu(x, y));
+			lista.push_back(newSiirto);
+			continue;
+		}
+		if (asema->_lauta[y][x]->getVari() == vari) break; // oma nappula
+		if (asema->_lauta[y][x]->getVari() != vari) {		// vastustajan nappula
+			Siirto newSiirto = Siirto(*ruutu, Ruutu(x, y));
+			lista.push_back(newSiirto);
+			break;
+		}
+		// ei nappulaa
+		Siirto newSiirto = Siirto(*ruutu, Ruutu(x, y));
+		lista.push_back(newSiirto);
+	}
+
+	//Oikealle alas
+	for (int y = rivi + 1, x = sarake + 1; x <= 7 && y <= 7; x++, y++) {
+		if (asema->_lauta[y][x] == nullptr) {
+			Siirto newSiirto = Siirto(*ruutu, Ruutu(x, y));
+			lista.push_back(newSiirto);
+			continue;
+		}
+		if (asema->_lauta[y][x]->getVari() == vari) break; // oma nappula
+		if (asema->_lauta[y][x]->getVari() != vari) {		// vastustajan nappula
+			Siirto newSiirto = Siirto(*ruutu, Ruutu(x, y));
+			lista.push_back(newSiirto);
+			break;
+		}
+		// ei nappulaa
+		Siirto newSiirto = Siirto(*ruutu, Ruutu(x, y));
+		lista.push_back(newSiirto);
+	}
+
+	//Vasemmalle ylös - TARKISTA KULMISTA TOIMIIKO ESIM 0, 0
+	for (int x = sarake - 1, y = rivi - 1; x >= 0 && y >= 0; x--, y--) {
+		if (asema->_lauta[y][x] == nullptr) {
+			Siirto newSiirto = Siirto(*ruutu, Ruutu(x, y));
+			lista.push_back(newSiirto);
+			continue;
+		}
+		if (asema->_lauta[y][x]->getVari() == vari) break; // oma nappula
+		if (asema->_lauta[y][x]->getVari() != vari) {		// vastustajan nappula
+			Siirto newSiirto = Siirto(*ruutu, Ruutu(x, y));
+			lista.push_back(newSiirto);
+			break;
+		}
+		// ei nappulaa
+		Siirto newSiirto = Siirto(*ruutu, Ruutu(x, y));
+		lista.push_back(newSiirto);
+	}
+
+	//Vasemmalle alas
+	for (int x = sarake + 1, y = rivi + 1; x >= 0 && y <= 7; x--, y++) {
+		if (asema->_lauta[y][x] == nullptr) {
+			Siirto newSiirto = Siirto(*ruutu, Ruutu(x, y));
+			lista.push_back(newSiirto);
+			continue;
+		}
+		if (asema->_lauta[y][x]->getVari() == vari) break; // oma nappula
+		if (asema->_lauta[y][x]->getVari() != vari) {		// vastustajan nappula
+			Siirto newSiirto = Siirto(*ruutu, Ruutu(x, y));
+			lista.push_back(newSiirto);
+			break;
+		}
+		// ei nappulaa
+		Siirto newSiirto = Siirto(*ruutu, Ruutu(x, y));
+		lista.push_back(newSiirto);
+	}
 }
 
 void Daami::annaSiirrot(std::vector<Siirto>& lista, Ruutu* ruutu, Asema* asema, int vari)
 {
 	int rivi = ruutu->getRivi();
 	int sarake = ruutu->getSarake();
+
+
 }
 
 void Kuningas::annaSiirrot(std::vector<Siirto>& lista, Ruutu* ruutu, Asema* asema, int vari)
