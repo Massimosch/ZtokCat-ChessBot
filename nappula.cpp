@@ -196,48 +196,150 @@ void Kuningas::annaSiirrot(std::vector<Siirto>& lista, Ruutu* ruutu, Asema* asem
 	/*perusidea on että kaikki viereiset ruudut ovat sallittuja. kuten tornilla ja lähetillä,
 	oman nappulan päälle ei voi mennä ja vastustajan nappulan voi syödä.
 	Kaikki muu kuninkaaseen liittyvä tarkistus tehdään eri paikassa*/
-
+	if (asema->getSiirtovuoro() != this->getVari()) return;
 	int rivi = ruutu->getRivi();
 	int sarake = ruutu->getSarake();
-	return;
-	if (asema->_lauta[rivi + 1][sarake]->getVari() != vari) {
-		
+
+	if (rivi + 1 <= 7) {
+		if (asema->_lauta[rivi + 1][sarake] != nullptr) {
+			if (asema->_lauta[rivi + 1][sarake]->getVari() != vari) {
+				lista.push_back(Siirto(*ruutu, Ruutu(sarake, rivi + 1)));
+			}
+		}
+		else {
+			lista.push_back(Siirto(*ruutu, Ruutu(sarake, rivi+1)));
+		}
 	}
-	else {
-		return;
-	}
-
-	if (asema->_lauta[rivi - 1][sarake]->getVari() != vari) {
-
-	}
-
-	if (asema->_lauta[rivi][sarake + 1]->getVari() != vari) {
-
-	}
-
-	if (asema->_lauta[rivi][sarake - 1]->getVari() != vari) {
-
-	}
-
-	if (asema->_lauta[rivi + 1][sarake -1]->getVari() != vari) {
-
-	}
-
-	if (asema->_lauta[rivi - 1][sarake - 1]->getVari() != vari) {
-
+	
+	if (rivi - 1 >= 0) {
+		if (asema->_lauta[rivi - 1][sarake] != nullptr) {
+			if (asema->_lauta[rivi - 1][sarake]->getVari() != vari) {
+				lista.push_back(Siirto(*ruutu, Ruutu(sarake, rivi - 1)));
+			}
+		}
+		else {
+			lista.push_back(Siirto(*ruutu, Ruutu(sarake, rivi - 1)));
+		}
 	}
 
-	if (asema->_lauta[rivi + 1][sarake + 1]->getVari() != vari) {
-
+	if (sarake + 1 <= 7) {
+		if (asema->_lauta[rivi][sarake+1] != nullptr) {
+			if (asema->_lauta[rivi][sarake+1]->getVari() != vari) {
+				lista.push_back(Siirto(*ruutu, Ruutu(sarake+1, rivi)));
+			}
+		}
+		else {
+			lista.push_back(Siirto(*ruutu, Ruutu(sarake+1, rivi)));
+		}
 	}
 
+	if (sarake - 1 >= 0) {
+		if (asema->_lauta[rivi][sarake-1] != nullptr) {
+			if (asema->_lauta[rivi][sarake-1]->getVari() != vari) {
+				lista.push_back(Siirto(*ruutu, Ruutu(sarake - 1, rivi)));
+			}
+		}
+		else {
+			lista.push_back(Siirto(*ruutu, Ruutu(sarake - 1, rivi)));
+		}
+	}
 
+	if (rivi + 1 <= 7 && sarake + 1 <= 7) {
+		if (asema->_lauta[rivi + 1][sarake + 1] != nullptr) {
+			if (asema->_lauta[rivi + 1][sarake + 1]->getVari() != vari) {
+				lista.push_back(Siirto(*ruutu, Ruutu(sarake + 1, rivi + 1)));
+			}
+		}
+		else {
+			lista.push_back(Siirto(*ruutu, Ruutu(sarake + 1, rivi + 1)));
+		}
+	}
+
+	if (rivi - 1 >= 0 && sarake + 1 <= 7) {
+		if (asema->_lauta[rivi - 1][sarake + 1] != nullptr) {
+			if (asema->_lauta[rivi - 1][sarake + 1]->getVari() != vari) {
+				lista.push_back(Siirto(*ruutu, Ruutu(sarake + 1, rivi - 1)));
+			}
+		}
+		else {
+			lista.push_back(Siirto(*ruutu, Ruutu(sarake + 1, rivi - 1)));
+		}
+	}
+
+	if (rivi + 1 <= 7 && sarake - 1 >= 0) {
+		if (asema->_lauta[rivi + 1][sarake - 1] != nullptr) {
+			if (asema->_lauta[rivi + 1][sarake - 1]->getVari() != vari) {
+				lista.push_back(Siirto(*ruutu, Ruutu(sarake - 1, rivi + 1)));
+			}
+		}
+		else {
+			lista.push_back(Siirto(*ruutu, Ruutu(sarake - 1, rivi + 1)));
+		}
+	}
+
+	if (rivi - 1 >= 0 && sarake - 1 >= 0) {
+		if (asema->_lauta[rivi - 1][sarake - 1] != nullptr) {
+			if (asema->_lauta[rivi - 1][sarake - 1]->getVari() != vari) {
+				lista.push_back(Siirto(*ruutu, Ruutu(sarake - 1, rivi - 1)));
+			}
+		}
+		else {
+			lista.push_back(Siirto(*ruutu, Ruutu(sarake - 1, rivi - 1)));
+		}
+	}
 }
 
 void Sotilas::annaSiirrot(std::vector<Siirto>& lista, Ruutu* ruutu, Asema* asema, int vari)
 {
+
+	if (asema->getSiirtovuoro() != this->getVari()) return;
 	int rivi = ruutu->getRivi();
 	int sarake = ruutu->getSarake();
+
+	if (this->getVari() == 0) {
+		// Valkoinen sotilas
+		if (rivi - 1 >= 0) {
+			if (asema->_lauta[rivi - 1][sarake] == nullptr) 
+				lista.push_back(Siirto(*ruutu, Ruutu(sarake, rivi - 1)));
+		}
+
+		if (sarake + 1 <= 7 && rivi - 1 >= 0 && asema->_lauta[rivi - 1][sarake + 1] != nullptr) {
+			if (asema->_lauta[rivi - 1][sarake + 1]->getVari() != vari)
+				lista.push_back(Siirto(*ruutu, Ruutu(sarake + 1, rivi - 1)));
+		}
+
+		if (sarake - 1 >= 0 && rivi - 1 >= 0 && asema->_lauta[rivi - 1][sarake - 1] != nullptr) {
+			if (asema->_lauta[rivi - 1][sarake - 1]->getVari() != vari)
+				lista.push_back(Siirto(*ruutu, Ruutu(sarake - 1, rivi - 1)));
+		}
+
+		if (rivi == 6 && rivi - 2 >= 0) {
+			if (asema->_lauta[rivi - 1][sarake] == nullptr && asema->_lauta[rivi - 2][sarake] == nullptr)
+				lista.push_back(Siirto(*ruutu, Ruutu(sarake, rivi - 2)));
+		}
+	}
+	else {
+		// Musta sotilas
+		if (rivi + 1 <= 7) {
+			if (asema->_lauta[rivi + 1][sarake] == nullptr)
+				lista.push_back(Siirto(*ruutu, Ruutu(sarake, rivi + 1)));
+		}
+
+		if (sarake + 1 <= 7 && rivi + 1 <= 7 && asema->_lauta[rivi + 1][sarake + 1] != nullptr) {
+			if (asema->_lauta[rivi + 1][sarake + 1]->getVari() != vari)
+				lista.push_back(Siirto(*ruutu, Ruutu(sarake + 1, rivi + 1)));
+		}
+
+		if (sarake - 1 >= 0 && rivi + 1 <= 7 && asema->_lauta[rivi + 1][sarake - 1] != nullptr) {
+			if (asema->_lauta[rivi + 1][sarake - 1]->getVari() != vari)
+				lista.push_back(Siirto(*ruutu, Ruutu(sarake - 1, rivi + 1)));
+		}
+
+		if (rivi == 1 && rivi + 2 <= 7) {
+			if (asema->_lauta[rivi + 1][sarake] == nullptr && asema->_lauta[rivi + 2][sarake] == nullptr) 
+				lista.push_back(Siirto(*ruutu, Ruutu(sarake, rivi + 2)));
+		}
+	}
 }
 
 void Sotilas::lisaaSotilaanKorotukset(Siirto* siirto, std::vector<Siirto>& lista, Asema* asema) {
