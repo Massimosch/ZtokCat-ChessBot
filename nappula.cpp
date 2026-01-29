@@ -21,72 +21,72 @@ void Torni::annaSiirrot(std::vector<Siirto>& lista, Ruutu* ruutu, Asema* asema, 
 	// Oikealle
 	for (int x = sarake+1; x <= 7; x++) {
 		if (asema->_lauta[rivi][x] == nullptr) {
-			Siirto newSiirto = Siirto(*ruutu, Ruutu(rivi, x));
+			Siirto newSiirto = Siirto(*ruutu, Ruutu(x, rivi));
 			lista.push_back(newSiirto);
 			continue;
 		}
 		if (asema->_lauta[rivi][x]->getVari() == vari) break; // oma nappula
 		if (asema->_lauta[rivi][x]->getVari() != vari) {		// vastustajan nappula
-			Siirto newSiirto = Siirto(*ruutu, Ruutu(rivi, x));
+			Siirto newSiirto = Siirto(*ruutu, Ruutu(x, rivi));
 			lista.push_back(newSiirto);
 			break;
 		}
 		// ei nappulaa
-		Siirto newSiirto = Siirto(*ruutu, Ruutu(rivi, x));
+		Siirto newSiirto = Siirto(*ruutu, Ruutu(x, rivi));
 		lista.push_back(newSiirto);
 	}
 
 	// Vasemmalle
 	for (int x = sarake-1; x >= 0; x--) {
 		if (asema->_lauta[rivi][x] == nullptr) {
-			Siirto newSiirto = Siirto(*ruutu, Ruutu(rivi, x));
+			Siirto newSiirto = Siirto(*ruutu, Ruutu(x, rivi));
 			lista.push_back(newSiirto);
 			continue;
 		}
 		if (asema->_lauta[rivi][x]->getVari() == vari) break; // oma nappula
 		if (asema->_lauta[rivi][x]->getVari() != vari) {		// vastustajan nappula
-			Siirto newSiirto = Siirto(*ruutu, Ruutu(rivi, x));
+			Siirto newSiirto = Siirto(*ruutu, Ruutu(x, rivi));
 			lista.push_back(newSiirto);
 			break;
 		}
 		// ei nappulaa
-		Siirto newSiirto = Siirto(*ruutu, Ruutu(rivi, x));
+		Siirto newSiirto = Siirto(*ruutu, Ruutu(x, rivi));
 		lista.push_back(newSiirto);
 	}
 
 	// Ylös
 	for (int y = rivi-1; y >= 0; y--) {
 		if (asema->_lauta[y][sarake] == nullptr) {
-			Siirto newSiirto = Siirto(*ruutu, Ruutu(y, sarake));
+			Siirto newSiirto = Siirto(*ruutu, Ruutu(sarake, y));
 			lista.push_back(newSiirto);
 			continue;
 		}
 		if (asema->_lauta[y][sarake]->getVari() == vari) break; // oma nappula
 		if (asema->_lauta[y][sarake]->getVari() != vari) {		// vastustajan nappula
-			Siirto newSiirto = Siirto(*ruutu, Ruutu(y, sarake));
+			Siirto newSiirto = Siirto(*ruutu, Ruutu(sarake, y));
 			lista.push_back(newSiirto);
 			break;
 		}
 		// ei nappulaa
-		Siirto newSiirto = Siirto(*ruutu, Ruutu(y, sarake));
+		Siirto newSiirto = Siirto(*ruutu, Ruutu(sarake, y));
 		lista.push_back(newSiirto);
 	}
 
 	// Alas
 	for (int y = rivi+1; y <= 7; y++) {
 		if (asema->_lauta[y][sarake] == nullptr) {
-			Siirto newSiirto = Siirto(*ruutu, Ruutu(y, sarake));
+			Siirto newSiirto = Siirto(*ruutu, Ruutu(sarake, y));
 			lista.push_back(newSiirto);
 			continue;
 		}
 		if (asema->_lauta[y][sarake]->getVari() == vari) break; // oma nappula
 		if (asema->_lauta[y][sarake]->getVari() != vari) {		// vastustajan nappula
-			Siirto newSiirto = Siirto(*ruutu, Ruutu(y, sarake));
+			Siirto newSiirto = Siirto(*ruutu, Ruutu(sarake, y));
 			lista.push_back(newSiirto);
 			break;
 		}
 		// ei nappulaa
-		Siirto newSiirto = Siirto(*ruutu, Ruutu(y, sarake));
+		Siirto newSiirto = Siirto(*ruutu, Ruutu(sarake, y));
 		lista.push_back(newSiirto);
 	}
 }

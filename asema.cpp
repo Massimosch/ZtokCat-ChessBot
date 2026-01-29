@@ -93,9 +93,9 @@ void Asema::paivitaAsema(Siirto *siirto)
 	}
 	else { // Kaikki muut siirrot
 		//if (siirto->getAlkuruutu().getRivi() == -1 || siirto->getLoppuruutu().getRivi() == -1) return;
-		Nappula* temp = _lauta[siirto->getAlkuruutu().getSarake()][siirto->getAlkuruutu().getRivi()];
-		_lauta[siirto->getAlkuruutu().getSarake()][siirto->getAlkuruutu().getRivi()] = NULL;
-		_lauta[siirto->getLoppuruutu().getSarake()][siirto->getLoppuruutu().getRivi()] = temp;
+		Nappula* temp = _lauta[siirto->getAlkuruutu().getRivi()][siirto->getAlkuruutu().getSarake()];
+		_lauta[siirto->getAlkuruutu().getRivi()][siirto->getAlkuruutu().getSarake()] = NULL;
+		_lauta[siirto->getLoppuruutu().getRivi()][siirto->getLoppuruutu().getSarake()] = temp;
 	}
 
 		//Ottaa siirron alkuruudussa olleen nappulan talteen 
@@ -319,11 +319,11 @@ void Asema::huolehdiKuninkaanShakeista(std::vector<Siirto>& lista, int vari)
 
 
 void Asema::annaLaillisetSiirrot(std::vector<Siirto>& lista) {
-	for (int x = 0; x <= 7; x++) {
-		for (int y = 0; y <= 7; y++) {
-			if (_lauta[y][x] == nullptr) continue;
-			Ruutu* ruutu = &Ruutu(y, x);
-			_lauta[y][x]->annaSiirrot(lista, ruutu, this, _siirtovuoro);
+	for (int rivi = 0; rivi <= 7; rivi++) {
+		for (int sarake = 0; sarake <= 7; sarake++) {
+			if (_lauta[rivi][sarake] == nullptr) continue;
+			Ruutu* ruutu = &Ruutu(sarake, rivi);
+			_lauta[rivi][sarake]->annaSiirrot(lista, ruutu, this, _siirtovuoro);
 		}
 	}
 }
