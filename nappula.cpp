@@ -262,10 +262,8 @@ void Lahetti::annaSiirrot(std::vector<Siirto>& lista, Ruutu* ruutu, Asema* asema
 
 void Daami::annaSiirrot(std::vector<Siirto>& lista, Ruutu* ruutu, Asema* asema, int vari)
 {
-	int rivi = ruutu->getRivi();
-	int sarake = ruutu->getSarake();
-
-
+	Torni::annaSiirrot(lista, ruutu, asema, vari);
+	Lahetti::annaSiirrot(lista, ruutu, asema, vari);
 }
 
 void Kuningas::annaSiirrot(std::vector<Siirto>& lista, Ruutu* ruutu, Asema* asema, int vari)
