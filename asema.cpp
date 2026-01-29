@@ -34,11 +34,7 @@ Asema::Asema()
 		{ms, ms, ms, ms, ms, ms, ms, ms},
 		{NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL},
 		{NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL},
-<<<<<<< HEAD
 		{NULL, NULL, NULL, vl, NULL, NULL, NULL, NULL},
-=======
-		{NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL},
->>>>>>> 41b2b75fd6aa3467577921cc1a988e93b4c3b406
 		{NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL},
 		{vs, vs, vs, vs, vs, vs, vs, vs},
 		{vt, vr, vl, vd, vk, vl, vr, vt},
