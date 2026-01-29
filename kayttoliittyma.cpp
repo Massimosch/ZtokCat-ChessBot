@@ -56,52 +56,21 @@ Siirto Kayttoliittyma::annaVastustajanSiirto()
 	std::wstring komento{};
 	wcout << "Anna Siirto : ";
 	wcin >> komento;
-	if (komento[0] != 'T' || komento[0] != 'R' || komento[0] != 'L' || komento[0] != 'D' || komento[0] != 'K' || komento[0] != 'S') {}
-
+	if (komento.size() == 6) komento.erase(0, 1);
 	if (komento == L"0-0") {
 		Siirto siirto(true, false);
 		return siirto;
 	}
-
 	if (komento == L"0-0-0") {
 		Siirto siirto(true, false);
 		return siirto;
 	}
-
-	int alkuRuutuRivi{};
-	if (komento[1] == 'A') alkuRuutuRivi = 1;
-	if (komento[1] == 'B') alkuRuutuRivi = 2;
-	if (komento[1] == 'C') alkuRuutuRivi = 3;
-	if (komento[1] == 'D') alkuRuutuRivi = 4;
-	if (komento[1] == 'E') alkuRuutuRivi = 5;
-	if (komento[1] == 'F') alkuRuutuRivi = 6;
-	if (komento[1] == 'G') alkuRuutuRivi = 7;
-	if (komento[1] == 'H') alkuRuutuRivi = 8;
-	alkuRuutuRivi--;
-	int loppuRuutuRivi{};
-	if (komento[4] == 'A') loppuRuutuRivi = 1;
-	if (komento[4] == 'B') loppuRuutuRivi = 2;
-	if (komento[4] == 'C') loppuRuutuRivi = 3;
-	if (komento[4] == 'D') loppuRuutuRivi = 4;
-	if (komento[4] == 'E') loppuRuutuRivi = 5;
-	if (komento[4] == 'F') loppuRuutuRivi = 6;
-	if (komento[4] == 'G') loppuRuutuRivi = 7;
-	if (komento[4] == 'H') loppuRuutuRivi = 8;
+	int alkuRuutuSarake = komento[0] - 'A';
+	int loppuRuutuSarake = komento[3] - 'A';
 	wcout << "\nVUORO (0:V, 1:M) = " << _asema->getSiirtovuoro() << " : " 
-		<< komento[1] << "-" << komento[2] << " " << komento[4] << "-" << komento[5] << endl;
-
-#ifdef DEBUG_RIVI
-	wcout << "Komento : " << komento << endl;
-	wcout << "Alkurivi : " << alkuRuutuRivi << endl;
-	wcout << "Loppuruuturivi : " << loppuRuutuRivi << endl;
-	wcout << "Alkuruudun sarake : " << (int)komento[2] - '0' << endl;
-	wcout << "Loppuruudun sarake : " << (int)komento[5] - '0' << endl;
-#endif //
-
+		<< komento[0] << "-" << komento[1] << " " << komento[3] << "-" << komento[4] << endl;
 	
-	Siirto siirto(
-		Ruutu(alkuRuutuRivi, (int)komento[2] - '0' - 1),
-		Ruutu(loppuRuutuRivi, (int)komento[5] - '0' - 1));
+	Siirto siirto(Ruutu(komento[1] - '0' - 1, alkuRuutuSarake), Ruutu(komento[4] - '0' - 1, loppuRuutuSarake));
 
 	return siirto;
 	
