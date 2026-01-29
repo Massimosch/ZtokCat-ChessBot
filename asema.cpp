@@ -34,7 +34,7 @@ Asema::Asema()
 		{ms, ms, ms, ms, ms, ms, ms, ms},
 		{NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL},
 		{NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL},
-		{NULL, NULL, NULL, vt, NULL, NULL, NULL, NULL},
+		{NULL, NULL, NULL, vl, NULL, NULL, NULL, NULL},
 		{NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL},
 		{vs, vs, vs, vs, vs, vs, vs, vs},
 		{vt, vr, vl, vd, vk, vl, vr, vt},
