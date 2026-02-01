@@ -1,13 +1,14 @@
 #pragma once
 #include <string>
+using namespace std;
 
 // Vastustajan tiedot.
 class Vastustaja
 {
 public:
-	Vastustaja(std::wstring);
-	std::wstring getNimimerkki();
+	Vastustaja(wstring nimimerkki);
+	wstring getNimimerkki();
 
 private:
-	std::wstring _nimimerkki;
+	wstring _nimimerkki;
 };

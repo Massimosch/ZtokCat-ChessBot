@@ -2,8 +2,7 @@
 #include <string>
 #include "kayttoliittyma.h"
 #include <Windows.h>
-#include <io.h>
-#include <fcntl.h>
+#include "nappula.h"
 
 using namespace std;
 
@@ -53,7 +52,7 @@ void Kayttoliittyma::piirraLauta()
 */
 Siirto Kayttoliittyma::annaVastustajanSiirto()
 {
-	std::wstring komento{};
+	wstring komento{};
 	wcout << "Anna Siirto : ";
 	wcin >> komento;
 	if (komento.size() == 6) komento.erase(0, 1);

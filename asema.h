@@ -1,10 +1,9 @@
 #pragma once
 
 #include <vector>
-#include <list>
-#include <string>
 #include "minmaxpaluu.h"
 #include "siirto.h"
+using namespace std;
 
 // Ns. "forward declaration". Nyt Asema-luokassa voidaa esitell� Nappula-osoittimia ilman,
 // ett� nappula.h -tiedostoa t�ytyy includoida.
@@ -36,7 +35,7 @@ public:
 	MinMaxPaluu maxi(int syvyys);							// Minimax (max:n siirtovuoro).
 	MinMaxPaluu mini(int syvyys);							// Minimax (min:n siirtovuoro).
 	MinMaxPaluu minimax(int syvyys);						// Minimax-algoritmi.
-	void annaLaillisetSiirrot(std::vector<Siirto>& lista);	// Siirtogeneraattori.
+	void annaLaillisetSiirrot(vector<Siirto>& lista);	// Siirtogeneraattori.
 	int getSiirtovuoro();									// Palauttaa siirtovuoron.
 	void setSiirtovuoro(int);								// Asettaa siirtovuoron.
 	bool getOnkoValkeaKuningasLiikkunut();					// Linnoittuminen mahdollista?
@@ -45,6 +44,8 @@ public:
 	bool getOnkoValkeaKTliikkunut();						// Linnoittuminen mahdollista?
 	bool getOnkoMustaDTliikkunut();							// Linnoittuminen mahdollista?
 	bool getOnkoMustaKTliikkunut();							// Linnoittuminen mahdollista?
+	Ruutu _valkeanKuninkaanRuutu;							// VK Sijainti
+	Ruutu _mustanKuninkaanRuutu;							// MK Sijainti
 	
 private:
 
@@ -62,8 +63,8 @@ private:
 	double nappuloitaKeskella(int);
 	double linjat(int);
 	bool onkoRuutuUhattu(Ruutu*, int vastustajanVari);
-	void annaLinnoitusSiirrot(std::vector<Siirto>& lista, int vari);
+	void annaLinnoitusSiirrot(vector<Siirto>& lista, int vari);
 
 	// Karsii siirrot, jotka j�tt�v�t oman K:n shakkiin.
-	void huolehdiKuninkaanShakeista(std::vector<Siirto>& lista, int vari); 
+	void huolehdiKuninkaanShakeista(vector<Siirto>& lista, int vari); 
 };

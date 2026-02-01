@@ -1,45 +1,29 @@
 #include <iostream>
-#include <string>
 #include "kayttoliittyma.h"
 #include "asema.h"
-#include <random>
 #include <vector>
-
-#ifdef _WIN32
-    #include <Windows.h>
-    #include <io.h>
-    #include <fcntl.h>
-#else
-    #include <unistd.h>
-#endif
-
+#include <io.h>
+#include <fcntl.h>
+#include <cstdio>
+#include "peli.h"
+#include <cstdlib>
 using namespace std; 
 
 int main()
 {
-	#ifdef _WIN32
-    	_setmode(_fileno(stdout), _O_U16TEXT);
-	#else
-    	setlocale(LC_ALL, "");
-	#endif
+    _setmode(_fileno(stdout), _O_U16TEXT);
 
-
-	wcout << "HeippariShakki\n";
-	wcout << "Tervetuloa pelaamaan!\n";
+	wcout << "Ultimate ZtokCät ChessBot! \nTervetuloa kokeilemaan onneanne...\n" << endl;
 
 	int lopetus = 100;
+	vector<Siirto> lista;
 	Asema asema; 
 	Kayttoliittyma::getInstance()->aseta_asema(&asema);
-
+	
 	Peli peli(Kayttoliittyma::getInstance()->
 		kysyVastustajanVari());
-	std::vector<Siirto> lista;
 
-	#ifdef _WIN32
-    	system("cls");
-	#else
-    	system("clear");
-	#endif
+    system("cls");
 
 	int koneenVari = peli.getKoneenVari();
 	asema.setSiirtovuoro(0);
@@ -52,7 +36,7 @@ int main()
 		asema.annaLaillisetSiirrot(lista);
 		if (lista.size() == 0) {
 			lopetus = 0;
-			std::wcout << "Peli loppui";
+			wcout << "Peli loppui";
 			continue;
 		}
 		Siirto siirto;

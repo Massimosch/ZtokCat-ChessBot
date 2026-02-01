@@ -1,10 +1,5 @@
-#include <list>
 #include <vector>
-#include <string>
-#include "asema.h"
 #include "nappula.h"
-#include <iostream>
-using namespace std;
 
 Nappula::Nappula(wstring unicode, int vari, int koodi)
 {
@@ -13,7 +8,7 @@ Nappula::Nappula(wstring unicode, int vari, int koodi)
 	_koodi = koodi;
 }
 
-void Torni::annaSiirrot(std::vector<Siirto>& lista, Ruutu* ruutu, Asema* asema, int vari)
+void Torni::annaSiirrot(vector<Siirto>& lista, Ruutu* ruutu, Asema* asema, int vari)
 {
 	int rivi = ruutu->getRivi();
 	int sarake = ruutu->getSarake();
@@ -92,7 +87,7 @@ void Torni::annaSiirrot(std::vector<Siirto>& lista, Ruutu* ruutu, Asema* asema, 
 	}
 }
 
-void Ratsu::annaSiirrot(std::vector<Siirto>& lista, Ruutu* ruutu, Asema* asema, int vari)
+void Ratsu::annaSiirrot(vector<Siirto>& lista, Ruutu* ruutu, Asema* asema, int vari)
 {
 
 	if (asema->getSiirtovuoro() != this->getVari()) return;
@@ -180,7 +175,7 @@ void Ratsu::annaSiirrot(std::vector<Siirto>& lista, Ruutu* ruutu, Asema* asema, 
 	}
 }
 
-void Lahetti::annaSiirrot(std::vector<Siirto>& lista, Ruutu* ruutu, Asema* asema, int vari)
+void Lahetti::annaSiirrot(vector<Siirto>& lista, Ruutu* ruutu, Asema* asema, int vari)
 {
 	int rivi = ruutu->getRivi();
 	int sarake = ruutu->getSarake();
@@ -260,13 +255,13 @@ void Lahetti::annaSiirrot(std::vector<Siirto>& lista, Ruutu* ruutu, Asema* asema
 	}
 }
 
-void Daami::annaSiirrot(std::vector<Siirto>& lista, Ruutu* ruutu, Asema* asema, int vari)
+void Daami::annaSiirrot(vector<Siirto>& lista, Ruutu* ruutu, Asema* asema, int vari)
 {
 	Torni::annaSiirrot(lista, ruutu, asema, vari);
 	Lahetti::annaSiirrot(lista, ruutu, asema, vari);
 }
 
-void Kuningas::annaSiirrot(std::vector<Siirto>& lista, Ruutu* ruutu, Asema* asema, int vari)
+void Kuningas::annaSiirrot(vector<Siirto>& lista, Ruutu* ruutu, Asema* asema, int vari)
 {
 	/*perusidea on että kaikki viereiset ruudut ovat sallittuja. kuten tornilla ja lähetillä,
 	oman nappulan päälle ei voi mennä ja vastustajan nappulan voi syödä.
@@ -364,7 +359,7 @@ void Kuningas::annaSiirrot(std::vector<Siirto>& lista, Ruutu* ruutu, Asema* asem
 	}
 }
 
-void Sotilas::annaSiirrot(std::vector<Siirto>& lista, Ruutu* ruutu, Asema* asema, int vari)
+void Sotilas::annaSiirrot(vector<Siirto>& lista, Ruutu* ruutu, Asema* asema, int vari)
 {
 
 	if (asema->getSiirtovuoro() != this->getVari()) return;
@@ -417,6 +412,6 @@ void Sotilas::annaSiirrot(std::vector<Siirto>& lista, Ruutu* ruutu, Asema* asema
 	}
 }
 
-void Sotilas::lisaaSotilaanKorotukset(Siirto* siirto, std::vector<Siirto>& lista, Asema* asema) {
+void Sotilas::lisaaSotilaanKorotukset(Siirto* siirto, vector<Siirto>& lista, Asema* asema) {
 	
 }

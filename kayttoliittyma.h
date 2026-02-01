@@ -1,7 +1,6 @@
 #pragma once
+
 #include "asema.h"
-#include "nappula.h"
-#include "peli.h"
 #include "siirto.h"
 
 #define LIGHTTILE_COLOR   0x01E0
