@@ -14,7 +14,7 @@ public:
 
 	void aseta_asema(Asema* asema) { this->_asema = asema;  }
 	void piirraLauta();
-	Siirto annaVastustajanSiirto();
+	Siirto annaVastustajanSiirto(Asema* asema);
 	int kysyVastustajanVari();
 
 	static Kayttoliittyma* getInstance();

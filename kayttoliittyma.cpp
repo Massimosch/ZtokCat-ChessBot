@@ -50,7 +50,7 @@ void Kayttoliittyma::piirraLauta()
 	muodollisesti korrekti (ei tarkista aseman laillisuutta)
 	Ottaa irti my�s nappulan kirjaimen (K/D/L/R/T), tarkistaa ett� kirjain korrekti
 */
-Siirto Kayttoliittyma::annaVastustajanSiirto()
+Siirto Kayttoliittyma::annaVastustajanSiirto(Asema* asema)
 {
 	wstring komento{};
 	wcout << "Anna Siirto : ";
@@ -74,7 +74,7 @@ Siirto Kayttoliittyma::annaVastustajanSiirto()
 	Ruutu loppuruutu = Ruutu(loppuRuutuSarake + 1, 7 - (komento[4] - '0' - 1));
 	Siirto siirto(alkuruutu, loppuruutu);
 
-	if (siirto.getLoppuruutu().getRivi() == 7 || siirto.getLoppuruutu().getRivi() == 0) {
+	if (siirto.getLoppuruutu().getRivi() == 7 || siirto.getLoppuruutu().getRivi() == 0 && asema->_lauta[][]) {
 		
 		string komento{};
 		

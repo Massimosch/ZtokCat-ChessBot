@@ -57,49 +57,63 @@ void Asema::paivitaAsema(Siirto *siirto)
 		{vt, vr, vl, vd, vk, vl, vr, vt},*/
 	// Kaksoisaskel-lippu on oletusarvoisesti pois p��lt�.
 	// Asetetaan my�hemmin, jos tarvii.
+
 	
 		
 	if (siirto->onkoLyhytLinna()) { //Tarkastetaan on siirto lyhyt linna
 		if (_siirtovuoro == 0) {
 			//Torni
-			_lauta[0][5] = vt;
-			_lauta[0][7] = NULL;
+			_lauta[7][5] = vt;
+			_lauta[7][7] = NULL;
 			//Kunkku
-			_lauta[0][6] = vk;
-			_lauta[0][4] = NULL;
+			_lauta[7][6] = vk;
+			_lauta[7][4] = NULL;
 		}
 		else {
 			//MTorni
-			_lauta[7][5] = mt;
-			_lauta[7][7] = NULL;
+			_lauta[0][5] = mt;
+			_lauta[0][7] = NULL;
 			//MKunnkku
-			_lauta[7][6] = mk;
-			_lauta[4][7] = NULL;
+			_lauta[0][6] = mk;
+			_lauta[0][7] = NULL;
 		}
 	}
 	else if (siirto->onkoPitkalinna()) { 	// onko pitk� linna
 		if (_siirtovuoro == 0) {
 			//VTorni
-			_lauta[0][3] = vt;
-			_lauta[0][0] = NULL;
+			_lauta[7][3] = vt;
+			_lauta[7][0] = NULL;
 			//VKunkku
-			_lauta[0][2] = vk;
-			_lauta[0][4] = NULL;
+			_lauta[7][2] = vk;
+			_lauta[7][4] = NULL;
 		}
 		else {
-			_lauta[7][3] = mt;
-			_lauta[7][0] = NULL;
+			_lauta[0][3] = mt;
+			_lauta[0][0] = NULL;
 
-			_lauta[7][2] = mk;
-			_lauta[7][4] = NULL;
+			_lauta[0][2] = mk;
+			_lauta[0][4] = NULL;
 		}
 	}
 	else { // Kaikki muut siirrot
-		
+		Nappula* aloitusruudussanappula = _lauta[siirto->getAlkuruutu().getRivi()][siirto->getAlkuruutu().getSarake()];
 		Nappula* temp = _lauta[siirto->getAlkuruutu().getRivi()][siirto->getAlkuruutu().getSarake()]; // Tallennetaan nykyinen nappula
 		if (siirto->getMiksikorotetaan() != nullptr) temp = siirto->getMiksikorotetaan(); // korotus
 		_lauta[siirto->getAlkuruutu().getRivi()][siirto->getAlkuruutu().getSarake()] = NULL; // Poistetaan nappula aloitusruudulta
 		_lauta[siirto->getLoppuruutu().getRivi()][siirto->getLoppuruutu().getSarake()] = temp; // siirretään nappula loppuruudulle
+
+		
+		if (aloitusruudussanappula->getKoodi() == MK) _onkoMustaKuningasLiikkunut = true;
+		if (aloitusruudussanappula->getKoodi() == MT && siirto->getAlkuruutu().getRivi() == 0
+			&& siirto->getAlkuruutu().getSarake() == 0) _onkoMustaKTliikkunut = true;
+		if (aloitusruudussanappula->getKoodi() == MT && siirto->getAlkuruutu().getRivi() == 0
+			&& siirto->getAlkuruutu().getSarake() == 7) _onkoMustaDTliikkunut = true;
+
+		if (aloitusruudussanappula->getKoodi() == VK) _onkoValkeaKuningasLiikkunut = true;
+		if (aloitusruudussanappula->getKoodi() == VT && siirto->getAlkuruutu().getRivi() == 7
+			&& siirto->getAlkuruutu().getSarake() == 0) _onkoValkeaKTliikkunut = true;
+		if (aloitusruudussanappula->getKoodi() == VT && siirto->getAlkuruutu().getRivi() == 7
+			&& siirto->getAlkuruutu().getSarake() == 7) _onkoValkeaDTliikkunut = true;
 	}
 
 		// Tarkistetaan oliko sotilaan kaksoisaskel
@@ -111,6 +125,7 @@ void Asema::paivitaAsema(Siirto *siirto)
 		////eli alkuruutuun laitetaan null ja loppuruudussa on jo kliittym�n laittama nappula MIIKKA, ei taida minmaxin kanssa hehkua?
 		////muissa tapauksissa alkuruutuun null ja loppuruutuun sama alkuruudusta l�htenyt nappula
 		// katsotaan jos liikkunut nappula on kuningas niin muutetaan onkoKuningasLiikkunut arvo (molemmille v�reille)
+	
 		// katsotaan jos liikkunut nappula on torni niin muutetaan onkoTorniLiikkunut arvo (molemmille v�reille ja molemmille torneille)
 
 	//p�ivitet��n _siirtovuoro
@@ -134,37 +149,37 @@ void Asema::setSiirtovuoro(int vuoro)
 
 bool Asema::getOnkoValkeaKuningasLiikkunut() 
 {
-	return false;
+	return _onkoValkeaKuningasLiikkunut;
 }
 
 
 bool Asema::getOnkoMustaKuningasLiikkunut() 
 {
-	return false;
+	return _onkoMustaKuningasLiikkunut;
 }
 
 
 bool Asema::getOnkoValkeaDTliikkunut() 
 {
-	return false;
+	return _onkoValkeaDTliikkunut;
 }
 
 
 bool Asema::getOnkoValkeaKTliikkunut() 
 {
-	return false;
+	return _onkoValkeaKTliikkunut;
 }
 
 
 bool Asema::getOnkoMustaDTliikkunut() 
 {
-	return false;
+	return _onkoMustaDTliikkunut;
 }
 
 
 bool Asema::getOnkoMustaKTliikkunut() 
 {
-	return false;
+	return _onkoMustaKTliikkunut;
 }
 
 
