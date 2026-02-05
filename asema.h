@@ -44,8 +44,6 @@ public:
 	bool getOnkoValkeaKTliikkunut();						// Linnoittuminen mahdollista?
 	bool getOnkoMustaDTliikkunut();							// Linnoittuminen mahdollista?
 	bool getOnkoMustaKTliikkunut();							// Linnoittuminen mahdollista?
-	Ruutu _valkeanKuninkaanRuutu;							// VK Sijainti
-	Ruutu _mustanKuninkaanRuutu;							// MK Sijainti
 	
 private:
 

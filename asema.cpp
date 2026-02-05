@@ -2,6 +2,7 @@
 #include "asema.h"
 #include "nappula.h"
 #include "ruutu.h"
+#include <list>
 
 Nappula* Asema::vk = new Kuningas(L"\u2654", 0, VK);
 Nappula* Asema::vd = new Daami(L"\u2655", 0, VD);
@@ -44,10 +45,6 @@ Asema::Asema()
 			_lauta[i][j] = _aloituslauta[i][j];
 		}
 	}
-
-	//Kuninkaiden aloitusruudut
-	_valkeanKuninkaanRuutu = Ruutu(4, 0);
-	_mustanKuninkaanRuutu = Ruutu(4, 7);
 }
 
 
@@ -310,8 +307,28 @@ MinMaxPaluu Asema::mini(int syvyys)
 
 bool Asema::onkoRuutuUhattu(Ruutu* ruutu, int vastustajanVari)
 {
+	std::vector<Siirto> vastustajanSiirrot;
 
-	return false;
+	bool uhattu { false };
+
+	for (int y = 0; y <= 7; y++) {
+		for (int x = 0; x <= 7; x++) {
+			if (this->_lauta[y][x] == NULL)
+				continue;
+			if (this->_lauta[y][x]->getVari() == vastustajanVari)
+				this->_lauta[y][x]->annaSiirrot(vastustajanSiirrot, &Ruutu(y, x), this, vastustajanVari);
+		}
+	}
+
+	for (auto siirto : vastustajanSiirrot) {
+		if (ruutu->getSarake() == siirto.getLoppuruutu().getSarake() &&
+			ruutu->getRivi() == siirto.getLoppuruutu().getRivi()) {
+			uhattu = true;
+			break;
+		}
+	}
+
+	return uhattu;
 }
 
 void Asema::annaLinnoitusSiirrot(vector<Siirto>& lista, int vari)
