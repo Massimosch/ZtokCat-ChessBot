@@ -54,7 +54,7 @@ void Asema::paivitaAsema(Siirto *siirto)
 		{vt, vr, vl, vd, vk, vl, vr, vt},*/
 	// Kaksoisaskel-lippu on oletusarvoisesti pois p��lt�.
 	// Asetetaan my�hemmin, jos tarvii.
-
+	
 		
 	if (siirto->onkoLyhytLinna()) { //Tarkastetaan on siirto lyhyt linna
 		if (_siirtovuoro == 0) {
@@ -92,14 +92,13 @@ void Asema::paivitaAsema(Siirto *siirto)
 		}
 	}
 	else { // Kaikki muut siirrot
-		//if (siirto->getAlkuruutu().getRivi() == -1 || siirto->getLoppuruutu().getRivi() == -1) return;
-		Nappula* temp = _lauta[siirto->getAlkuruutu().getRivi()][siirto->getAlkuruutu().getSarake()];
-		_lauta[siirto->getAlkuruutu().getRivi()][siirto->getAlkuruutu().getSarake()] = NULL;
-		_lauta[siirto->getLoppuruutu().getRivi()][siirto->getLoppuruutu().getSarake()] = temp;
+		
+		Nappula* temp = _lauta[siirto->getAlkuruutu().getRivi()][siirto->getAlkuruutu().getSarake()]; // Tallennetaan nykyinen nappula
+		if (siirto->getMiksikorotetaan() != nullptr) temp = siirto->getMiksikorotetaan(); // korotus
+		_lauta[siirto->getAlkuruutu().getRivi()][siirto->getAlkuruutu().getSarake()] = NULL; // Poistetaan nappula aloitusruudulta
+		_lauta[siirto->getLoppuruutu().getRivi()][siirto->getLoppuruutu().getSarake()] = temp; // siirretään nappula loppuruudulle
 	}
 
-		//Ottaa siirron alkuruudussa olleen nappulan talteen 
-		//Laittaa talteen otetun nappulan uuteen ruutuun
 		// Tarkistetaan oliko sotilaan kaksoisaskel
 		// (asetetaan kaksoisaskel-lippu)
 
