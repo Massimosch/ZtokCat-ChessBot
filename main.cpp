@@ -66,9 +66,12 @@ int main()
 			wcout << "Siirtovuoro on pelaajalla" << endl;
 			bool validSiirto = false;
 			while (!validSiirto) {
-				siirto = Kayttoliittyma::getInstance()->annaVastustajanSiirto();
+				siirto = Kayttoliittyma::getInstance()->annaVastustajanSiirto(&asema);
 				validSiirto = true;
 				if (siirto.onkoLyhytLinna() && asema.getOnkoMustaKTliikkunut()
+					|| asema.getOnkoMustaKuningasLiikkunut() && asema.getSiirtovuoro() == 1) validSiirto = false;
+
+				if (siirto.onkoPitkalinna() && asema.getOnkoMustaDTliikkunut()
 					|| asema.getOnkoMustaKuningasLiikkunut() && asema.getSiirtovuoro() == 1) validSiirto = false;
 
 			}
