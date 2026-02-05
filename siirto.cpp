@@ -16,18 +16,18 @@ Siirto::Siirto() {
 	_pitkaLinna = false;
 }
 
+Siirto::Siirto(bool lyhytLinna, bool pitkaLinna) 
+{
+	_lyhytLinna = lyhytLinna;
+	_pitkaLinna = pitkaLinna;
+}
+
 Siirto::Siirto(Ruutu alkuRuutu, Ruutu loppuRuutu, Nappula* miksikorotetaan) {
 	_alkuRuutu = alkuRuutu;
 	_loppuRuutu = loppuRuutu;
 	_lyhytLinna = false;
 	_pitkaLinna = false;
 	_miksikorotetaan = miksikorotetaan;
-}
-
-Siirto::Siirto(bool lyhytLinna, bool pitkaLinna) 
-{
-	_lyhytLinna = lyhytLinna;
-	_pitkaLinna = pitkaLinna;
 }
 
 Ruutu Siirto::getAlkuruutu()

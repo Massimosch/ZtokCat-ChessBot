@@ -8,8 +8,7 @@ class Nappula;
 
 // Siirto kuvaa nappulan siirtymisen ruudusta toiseen, mukaanlukien erikoissiirrot
 // (linnoitus ja ohestaly�nti).
-class Siirto
-{
+class Siirto {
 public:
 	Siirto(Ruutu, Ruutu);
 	Siirto(Ruutu, Ruutu, Nappula* miksikorotetaan);
