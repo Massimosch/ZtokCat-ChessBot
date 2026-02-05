@@ -4,7 +4,6 @@ Siirto::Siirto(Ruutu alkuRuutu, Ruutu loppuRuutu)
 {
 	_alkuRuutu = alkuRuutu;
 	_loppuRuutu = loppuRuutu;
-	_miksikorotetaan = nullptr;
 	_lyhytLinna = false;
 	_pitkaLinna = false;
 }
@@ -14,14 +13,6 @@ Siirto::Siirto() {
 	_alkuRuutu = Ruutu(-1, -1); 
 	_lyhytLinna = false;
 	_pitkaLinna = false;
-}
-
-Siirto::Siirto(Ruutu alkuRuutu, Ruutu loppuRuutu, Nappula* miksikorotetaan) {
-	_alkuRuutu = alkuRuutu;
-	_loppuRuutu = loppuRuutu;
-	_lyhytLinna = false;
-	_pitkaLinna = false;
-	_miksikorotetaan = miksikorotetaan;
 }
 
 Siirto::Siirto(bool lyhytLinna, bool pitkaLinna) 
@@ -49,8 +40,4 @@ bool Siirto::onkoLyhytLinna()
 bool Siirto::onkoPitkalinna() 
 {
 	return _pitkaLinna;
-}
-
-Nappula* Siirto::getMiksikorotetaan() {
-	return _miksikorotetaan;
 }
