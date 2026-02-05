@@ -64,12 +64,43 @@ Siirto Kayttoliittyma::annaVastustajanSiirto()
 		Siirto siirto(true, false);
 		return siirto;
 	}
-	int alkuRuutuSarake = komento[0] - 'A';
-	int loppuRuutuSarake = komento[3] - 'A';
+	int alkuRuutuSarake = std::toupper(komento[0]) - 'A' - 1;
+	int loppuRuutuSarake = std::toupper(komento[3]) - 'A' - 1;
+
 	wcout << "\nVUORO (0:V, 1:M) = " << _asema->getSiirtovuoro() << " : " 
 		<< komento[0] << "-" << komento[1] << " " << komento[3] << "-" << komento[4] << endl;
 	
-	Siirto siirto(Ruutu(komento[1] - '0' - 1, alkuRuutuSarake), Ruutu(komento[4] - '0' - 1, loppuRuutuSarake));
+	Ruutu alkuruutu = Ruutu(alkuRuutuSarake + 1, 7 - (komento[1] - '0' - 1));
+	Ruutu loppuruutu = Ruutu(loppuRuutuSarake + 1, 7 - (komento[4] - '0' - 1));
+	Siirto siirto(alkuruutu, loppuruutu);
+
+	if (siirto.getLoppuruutu().getRivi() == 7 || siirto.getLoppuruutu().getRivi() == 0) {
+		
+		string komento{};
+		
+		Nappula* miksikorotetaan{};
+		bool inputvalid = false;
+		
+
+		while (!inputvalid) {
+			wcout << "Miksi nappulaksi haluat korottaa? (väri + nappulan tyyppi. esim, m + t = mt)" << endl;
+			cin >> komento;
+			if (komento == "mt") miksikorotetaan = Asema::mt;
+			if (komento == "mr") miksikorotetaan = Asema::mr;
+			if (komento == "ml") miksikorotetaan = Asema::ml;
+			if (komento == "md") miksikorotetaan = Asema::md;
+
+			if (komento == "vt") miksikorotetaan = Asema::vt;
+			if (komento == "vr") miksikorotetaan = Asema::vr;
+			if (komento == "vl") miksikorotetaan = Asema::vl;
+			if (komento == "vd") miksikorotetaan = Asema::vd;
+
+			if (miksikorotetaan != nullptr) inputvalid = true;
+			if (!inputvalid) wcout << "Laita korotettu nappula oikein kirjoitettuna esim, m + t = mt" << endl;
+		}
+
+		siirto = Siirto(alkuruutu, loppuruutu, miksikorotetaan);
+	}
 
 	return siirto;
 	

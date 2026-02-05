@@ -368,50 +368,100 @@ void Sotilas::annaSiirrot(vector<Siirto>& lista, Ruutu* ruutu, Asema* asema, int
 
 	if (this->getVari() == 0) {
 		// Valkoinen sotilas
+		
 		if (rivi - 1 >= 0) {
-			if (asema->_lauta[rivi - 1][sarake] == nullptr) 
-				lista.push_back(Siirto(*ruutu, Ruutu(sarake, rivi - 1)));
+			if (asema->_lauta[rivi - 1][sarake] == nullptr) {
+				Siirto newSiirto = Siirto(*ruutu, Ruutu(sarake, rivi - 1));
+				lista.push_back(newSiirto);
+				lisaaSotilaanKorotukset(&newSiirto, lista, asema);
+			}
 		}
 
 		if (sarake + 1 <= 7 && rivi - 1 >= 0 && asema->_lauta[rivi - 1][sarake + 1] != nullptr) {
-			if (asema->_lauta[rivi - 1][sarake + 1]->getVari() != vari)
-				lista.push_back(Siirto(*ruutu, Ruutu(sarake + 1, rivi - 1)));
+			if (asema->_lauta[rivi - 1][sarake + 1]->getVari() != vari) {
+				Siirto newSiirto = Siirto(*ruutu, Ruutu(sarake + 1, rivi - 1));
+				lista.push_back(newSiirto);
+				lisaaSotilaanKorotukset(&newSiirto, lista, asema);
+			}
+				
 		}
 
 		if (sarake - 1 >= 0 && rivi - 1 >= 0 && asema->_lauta[rivi - 1][sarake - 1] != nullptr) {
-			if (asema->_lauta[rivi - 1][sarake - 1]->getVari() != vari)
-				lista.push_back(Siirto(*ruutu, Ruutu(sarake - 1, rivi - 1)));
+			if (asema->_lauta[rivi - 1][sarake - 1]->getVari() != vari) {
+				Siirto newSiirto = Siirto(*ruutu, Ruutu(sarake - 1, rivi - 1));
+				lista.push_back(newSiirto);
+				lisaaSotilaanKorotukset(&newSiirto, lista, asema);
+			}
+				
 		}
 
 		if (rivi == 6 && rivi - 2 >= 0) {
-			if (asema->_lauta[rivi - 1][sarake] == nullptr && asema->_lauta[rivi - 2][sarake] == nullptr)
-				lista.push_back(Siirto(*ruutu, Ruutu(sarake, rivi - 2)));
+			if (asema->_lauta[rivi - 1][sarake] == nullptr && asema->_lauta[rivi - 2][sarake] == nullptr) {
+				Siirto newSiirto = Siirto(*ruutu, Ruutu(sarake, rivi - 2));
+				lista.push_back(newSiirto);
+			}
+				
 		}
 	}
 	else {
 		// Musta sotilas
 		if (rivi + 1 <= 7) {
-			if (asema->_lauta[rivi + 1][sarake] == nullptr)
-				lista.push_back(Siirto(*ruutu, Ruutu(sarake, rivi + 1)));
+			if (asema->_lauta[rivi + 1][sarake] == nullptr) {
+				Siirto newSiirto = Siirto(*ruutu, Ruutu(sarake, rivi + 1));
+				lista.push_back(newSiirto);
+				lisaaSotilaanKorotukset(&newSiirto, lista, asema);
+			}
+				
 		}
 
 		if (sarake + 1 <= 7 && rivi + 1 <= 7 && asema->_lauta[rivi + 1][sarake + 1] != nullptr) {
-			if (asema->_lauta[rivi + 1][sarake + 1]->getVari() != vari)
-				lista.push_back(Siirto(*ruutu, Ruutu(sarake + 1, rivi + 1)));
+			if (asema->_lauta[rivi + 1][sarake + 1]->getVari() != vari) {
+				Siirto newSiirto = Siirto(*ruutu, Ruutu(sarake + 1, rivi + 1));
+				lista.push_back(newSiirto);
+				lisaaSotilaanKorotukset(&newSiirto, lista, asema);
+			}
 		}
 
 		if (sarake - 1 >= 0 && rivi + 1 <= 7 && asema->_lauta[rivi + 1][sarake - 1] != nullptr) {
-			if (asema->_lauta[rivi + 1][sarake - 1]->getVari() != vari)
-				lista.push_back(Siirto(*ruutu, Ruutu(sarake - 1, rivi + 1)));
+			if (asema->_lauta[rivi + 1][sarake - 1]->getVari() != vari) {
+				Siirto newSiirto = Siirto(*ruutu, Ruutu(sarake - 1, rivi + 1));
+				lista.push_back(newSiirto);
+				lisaaSotilaanKorotukset(&newSiirto, lista, asema);
+			}
 		}
 
 		if (rivi == 1 && rivi + 2 <= 7) {
-			if (asema->_lauta[rivi + 1][sarake] == nullptr && asema->_lauta[rivi + 2][sarake] == nullptr) 
-				lista.push_back(Siirto(*ruutu, Ruutu(sarake, rivi + 2)));
+			if (asema->_lauta[rivi + 1][sarake] == nullptr && asema->_lauta[rivi + 2][sarake] == nullptr) {
+				Siirto newSiirto = Siirto(*ruutu, Ruutu(sarake, rivi + 2));
+				lista.push_back(newSiirto);
+			}
 		}
 	}
 }
 
 void Sotilas::lisaaSotilaanKorotukset(Siirto* siirto, vector<Siirto>& lista, Asema* asema) {
-	
+	if (this->getVari() == 1) { // Musta sotilas
+		if (siirto->getLoppuruutu().getRivi() == 7) {
+			Siirto mtSiirto = Siirto(siirto->getAlkuruutu(), siirto->getLoppuruutu(), Asema::mt);
+			lista.push_back(mtSiirto);
+			Siirto mrSiirto = Siirto(siirto->getAlkuruutu(), siirto->getLoppuruutu(), Asema::mr);
+			lista.push_back(mrSiirto);
+			Siirto mlSiirto = Siirto(siirto->getAlkuruutu(), siirto->getLoppuruutu(), Asema::ml);
+			lista.push_back(mlSiirto);
+			Siirto mdSiirto = Siirto(siirto->getAlkuruutu(), siirto->getLoppuruutu(), Asema::md);
+			lista.push_back(mdSiirto);
+		}
+	} 
+	else if (this->getVari() == 0) { // Valkoinen sotilas
+		if (siirto->getLoppuruutu().getRivi() == 0) {
+			Siirto vtSiirto = Siirto(siirto->getAlkuruutu(), siirto->getLoppuruutu(), Asema::vt);
+			lista.push_back(vtSiirto);
+			Siirto vrSiirto = Siirto(siirto->getAlkuruutu(), siirto->getLoppuruutu(), Asema::vr);
+			lista.push_back(vrSiirto);
+			Siirto vlSiirto = Siirto(siirto->getAlkuruutu(), siirto->getLoppuruutu(), Asema::vl);
+			lista.push_back(vlSiirto);
+			Siirto vdSiirto = Siirto(siirto->getAlkuruutu(), siirto->getLoppuruutu(), Asema::vd);
+			lista.push_back(vdSiirto);
+		}
+	}
 }
