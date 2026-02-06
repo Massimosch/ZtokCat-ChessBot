@@ -54,3 +54,8 @@ bool Siirto::onkoPitkalinna()
 Nappula* Siirto::getMiksikorotetaan() {
 	return _miksikorotetaan;
 }
+
+bool Siirto::operator== (const Siirto& rhs)
+{
+	return (this->_alkuRuutu == rhs._alkuRuutu) && (this->_loppuRuutu == rhs._loppuRuutu);
+}

@@ -60,12 +60,23 @@ int main()
 			// Koneen siirto
 			wcout << "Siirtovuoro on botilla" << endl;
 			if (!lista.empty()) siirto = lista[rand() % lista.size()];
-			siirto = lista.front();
+			siirto = lista.back();
 		}
 		else {
 			// Pelaajan siirto
 			wcout << "Siirtovuoro on pelaajalla" << endl;
-			siirto = Kayttoliittyma::getInstance()->annaVastustajanSiirto(&asema);
+			
+			bool validInput = false;
+			while (!validInput) {
+				siirto = Kayttoliittyma::getInstance()->annaVastustajanSiirto(&asema);
+				if (find(lista.begin(), lista.end(), siirto) != lista.end()) { // etsii onko siirto laillinen.
+					break;
+				}
+				else {
+					wcout << "Laita laillinen siirto!" << endl;
+				}
+			}
+			
 		}
 		
 		asema.paivitaAsema(&siirto);

@@ -30,14 +30,14 @@ Asema::Asema()
 
 	// Asetetaan alkuaseman mukaisesti nappulat ruuduille
 	Nappula* _aloituslauta[8][8] = {
-		{NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL},
-		{NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL},
-		{NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL},
-		{NULL, NULL, vk, NULL, mr, NULL, NULL, NULL},
+		{mt, mr, ml, md, mk, ml, mr, mt},
+		{ms, ms, ms, ms, ms, ms, ms, ms},
 		{NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL},
 		{NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL},
 		{NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL},
 		{NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL},
+		{vs, vs, vs, vs, vs, vs, vs, vs},
+		{vt, vr, vl, vd, vk, vl, vr, vt},
 	};
 
 	for (int i = 0; i <= 7; i++) {
@@ -63,7 +63,7 @@ void Asema::paivitaAsema(Siirto *siirto)
 	// Kaksoisaskel-lippu on oletusarvoisesti pois p��lt�.
 	// Asetetaan my�hemmin, jos tarvii.
 
-	
+	kaksoisaskelSarakkeella = -1;
 		
 	if (siirto->onkoLyhytLinna()) { //Tarkastetaan on siirto lyhyt linna
 		if (_siirtovuoro == 0) {
@@ -107,7 +107,15 @@ void Asema::paivitaAsema(Siirto *siirto)
 		_lauta[siirto->getAlkuruutu().getRivi()][siirto->getAlkuruutu().getSarake()] = NULL; // Poistetaan nappula aloitusruudulta
 		_lauta[siirto->getLoppuruutu().getRivi()][siirto->getLoppuruutu().getSarake()] = temp; // siirretään nappula loppuruudulle
 
-		
+		// Jos sotilas liikkui kaksoisaskeleen, voi en passantaa
+		if (aloitusruudussanappula->getKoodi() == MS || aloitusruudussanappula->getKoodi() == VS && abs(siirto->getAlkuruutu().getRivi() - siirto->getLoppuruutu().getRivi()) == 2) {
+			kaksoisaskelSarakkeella = siirto->getLoppuruutu().getSarake();
+		}
+
+		// En passant
+		if (aloitusruudussanappula->getKoodi() == MS && _lauta[siirto->getLoppuruutu().getRivi() - 1][siirto->getLoppuruutu().getSarake()] == vs) _lauta[siirto->getLoppuruutu().getRivi() - 1][siirto->getLoppuruutu().getSarake()] = NULL;
+		if (aloitusruudussanappula->getKoodi() == VS && _lauta[siirto->getLoppuruutu().getRivi() + 1][siirto->getLoppuruutu().getSarake()] == ms) _lauta[siirto->getLoppuruutu().getRivi() + 1][siirto->getLoppuruutu().getSarake()] = NULL;
+
 		if (aloitusruudussanappula->getKoodi() == MK) _onkoMustaKuningasLiikkunut = true;
 		if (aloitusruudussanappula->getKoodi() == MT && siirto->getAlkuruutu().getRivi() == 0
 			&& siirto->getAlkuruutu().getSarake() == 0) _onkoMustaKTliikkunut = true;
@@ -125,7 +133,7 @@ void Asema::paivitaAsema(Siirto *siirto)
 		// (asetetaan kaksoisaskel-lippu)
 
 		// Ohestaly�nti on tyhj��n ruutuun. Vieress� oleva (sotilas) poistetaan.
-
+	
 		//// Katsotaan jos nappula on sotilas ja rivi on p��tyrivi niin ei vaihdeta nappulaa 
 		////eli alkuruutuun laitetaan null ja loppuruudussa on jo kliittym�n laittama nappula MIIKKA, ei taida minmaxin kanssa hehkua?
 		////muissa tapauksissa alkuruutuun null ja loppuruutuun sama alkuruudusta l�htenyt nappula
@@ -420,6 +428,6 @@ void Asema::annaLaillisetSiirrot(vector<Siirto>& lista) {
 			_lauta[rivi][sarake]->annaSiirrot(lista, ruutu, this, _siirtovuoro);
 		}
 	}
-	annaLinnoitusSiirrot(lista, getSiirtovuoro());
+	//annaLinnoitusSiirrot(lista, getSiirtovuoro());
 	huolehdiKuninkaanShakeista(lista, getSiirtovuoro());
 }

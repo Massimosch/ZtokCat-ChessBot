@@ -402,6 +402,18 @@ void Sotilas::annaSiirrot(vector<Siirto>& lista, Ruutu* ruutu, Asema* asema, int
 			}
 				
 		}
+
+		// en passant vasemmalle
+		if (asema->kaksoisaskelSarakkeella == sarake - 1 && rivi == 3 && asema->_lauta[rivi - 1][sarake-1] == nullptr) {
+			Siirto newSiirto = Siirto(*ruutu, Ruutu(sarake - 1, rivi - 1));
+			lista.push_back(newSiirto);
+		}
+		// en passant oikealle
+		if (asema->kaksoisaskelSarakkeella == sarake + 1 && rivi == 3 && asema->_lauta[rivi - 1][sarake + 1] == nullptr) {
+			Siirto newSiirto = Siirto(*ruutu, Ruutu(sarake + 1, rivi - 1));
+			lista.push_back(newSiirto);
+		}
+
 	}
 	else {
 		// Musta sotilas
@@ -435,6 +447,17 @@ void Sotilas::annaSiirrot(vector<Siirto>& lista, Ruutu* ruutu, Asema* asema, int
 				Siirto newSiirto = Siirto(*ruutu, Ruutu(sarake, rivi + 2));
 				lista.push_back(newSiirto);
 			}
+		}
+
+		// en passant vasemmalle
+		if (asema->kaksoisaskelSarakkeella == sarake - 1 && rivi == 4 && asema->_lauta[rivi + 1][sarake - 1] == nullptr) {
+			Siirto newSiirto = Siirto(*ruutu, Ruutu(sarake - 1, rivi + 1));
+			lista.push_back(newSiirto);
+		}
+		// en passant oikealle
+		if (asema->kaksoisaskelSarakkeella == sarake + 1 && rivi == 4 && asema->_lauta[rivi + 1][sarake + 1] == nullptr) {
+			Siirto newSiirto = Siirto(*ruutu, Ruutu(sarake + 1, rivi + 1));
+			lista.push_back(newSiirto);
 		}
 	}
 }

@@ -19,6 +19,7 @@ public:
 	bool onkoLyhytLinna();
 	bool onkoPitkalinna();
 	Nappula* getMiksikorotetaan();
+	bool operator== (const Siirto& rhs);
 
 private:
 	Ruutu _alkuRuutu;
