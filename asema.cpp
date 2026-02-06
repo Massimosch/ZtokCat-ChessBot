@@ -33,7 +33,7 @@ Asema::Asema()
 		{mt, mr, ml, md, mk, ml, mr, mt},
 		{ms, ms, ms, ms, ms, ms, ms, ms},
 		{NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL},
-		{NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL},
+		{NULL, md, vk, md, NULL, NULL, NULL, NULL},
 		{NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL},
 		{NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL},
 		{vs, vs, vs, vs, vs, vs, vs, vs},
@@ -395,26 +395,17 @@ void Asema::huolehdiKuninkaanShakeista(vector<Siirto>& lista, int vari)
 { 
 	if (lista.size() == 0) return;
 
-	int kunkkuKoodi = (vari == 0) ? VK : MK;
-	int vastustajanVari = (vari == 0) ? 1 : 0;
-	Ruutu kuninkaanRuutu;
+	int vastustaja = (vari == 0) ? 1 : 0;
 
-	for (int i{ 0 }; i <= (lista.size() - 1); i++) {
-		
-		for (int y{ 0 }; y <= 7; y++) {
-			for (int x{ 0 }; x <= 7; x++) {
-				if (this->_lauta[y][x] != nullptr &&
-					this->_lauta[y][x]->getKoodi() == kunkkuKoodi) {
-					kuninkaanRuutu = Ruutu(x, y);
-					break;
-				}
-				if (kuninkaanRuutu.getRivi() >= 0 && kuninkaanRuutu.getRivi() < 8) break;
-			}
-			if (kuninkaanRuutu.getRivi() >= 0 && kuninkaanRuutu.getRivi() < 8) break;
-		}
+	for (int i = lista.size() - 1; i >= 0; i--) {
 
-		if (this->onkoRuutuUhattu(&kuninkaanRuutu, vastustajanVari))
+		Siirto& siirto = lista[i];
+		Ruutu kohde = siirto.getLoppuruutu();
+
+		if (onkoRuutuUhattu(&kohde, vastustaja)) {
 			lista.erase(lista.begin() + i);
+			wcout << "Kuninkaalta poistettiin laiton siirto!" << endl;
+		}
 	}
 }
 
