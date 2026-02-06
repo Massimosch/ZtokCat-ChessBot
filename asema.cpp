@@ -33,7 +33,7 @@ Asema::Asema()
 		{mt, mr, ml, md, mk, ml, mr, mt},
 		{ms, ms, ms, ms, ms, ms, ms, ms},
 		{NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL},
-		{NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL},
+		{NULL, NULL, vk, NULL, mr, NULL, NULL, NULL},
 		{NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL},
 		{NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL},
 		{vs, vs, vs, vs, vs, vs, vs, vs},
@@ -353,7 +353,27 @@ void Asema::annaLinnoitusSiirrot(vector<Siirto>& lista, int vari)
 
 void Asema::huolehdiKuninkaanShakeista(vector<Siirto>& lista, int vari) 
 { 
-	
+	if (lista.size() == 0) return;
+
+	int kunkkuKoodi = (vari == 0) ? VK : MK;
+	int vastustajanVari = (vari == 0) ? 1 : 0;
+	Ruutu kuninkaanRuutu;
+
+	for (int i{ 0 }; i <= (lista.size() - 1); i++) {
+		
+		for (int y{ 0 }; y <= 7; y++) {
+			for (int x{ 0 }; x <= 7; x++) {
+				if (this->_lauta[y][x] != nullptr &&
+					this->_lauta[y][x]->getKoodi() == kunkkuKoodi) {
+					kuninkaanRuutu = Ruutu(y, x);
+					break;
+				}
+			}
+		}
+
+		if (this->onkoRuutuUhattu(&kuninkaanRuutu, vastustajanVari))
+			lista.erase(lista.begin() + i);
+	}
 }
 
 
