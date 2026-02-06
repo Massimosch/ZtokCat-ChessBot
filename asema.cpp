@@ -333,12 +333,12 @@ bool Asema::onkoRuutuUhattu(Ruutu* ruutu, int vastustajanVari)
 
 	bool uhattu { false };
 
-	for (int y = 0; y <= 7; y++) {
-		for (int x = 0; x <= 7; x++) {
-			if (this->_lauta[y][x] == NULL)
+	for (int x = 0; x <= 7; x++) {
+		for (int y = 0; y <= 7; y++) {
+			if (this->_lauta[x][y] == NULL)
 				continue;
-			if (this->_lauta[y][x]->getVari() == vastustajanVari)
-				this->_lauta[y][x]->annaSiirrot(vastustajanSiirrot, &Ruutu(y, x), this, vastustajanVari);
+			if (this->_lauta[x][y]->getVari() == vastustajanVari)
+				this->_lauta[x][y]->annaSiirrot(vastustajanSiirrot, &Ruutu(x, y), this, vastustajanVari);
 		}
 	}
 
@@ -392,11 +392,11 @@ void Asema::huolehdiKuninkaanShakeista(vector<Siirto>& lista, int vari)
 
 	for (int i{ 0 }; i <= (lista.size() - 1); i++) {
 		
-		for (int y{ 0 }; y <= 7; y++) {
-			for (int x{ 0 }; x <= 7; x++) {
-				if (this->_lauta[y][x] != nullptr &&
-					this->_lauta[y][x]->getKoodi() == kunkkuKoodi) {
-					kuninkaanRuutu = Ruutu(y, x);
+		for (int x{ 0 }; x <= 7; x++) {
+			for (int y{ 0 }; y <= 7; y++) {
+				if (this->_lauta[x][y] != nullptr &&
+					this->_lauta[x][y]->getKoodi() == kunkkuKoodi) {
+					kuninkaanRuutu = Ruutu(x, y);
 					break;
 				}
 			}
@@ -417,4 +417,5 @@ void Asema::annaLaillisetSiirrot(vector<Siirto>& lista) {
 		}
 	}
 	annaLinnoitusSiirrot(lista, getSiirtovuoro());
+	huolehdiKuninkaanShakeista(lista, getSiirtovuoro());
 }

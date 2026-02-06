@@ -1,9 +1,10 @@
 #pragma once
 
 // Shakkilaudan ruutu tietyssä (rivi, sarake) -koordinaatissa.
+
 class Ruutu{
 public:
-	Ruutu(int rivi, int sarake);
+	Ruutu(int sarake, int rivi);
 	Ruutu() {}
 	int getRivi();
 	int getSarake();
