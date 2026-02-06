@@ -60,7 +60,7 @@ int main()
 			// Koneen siirto
 			wcout << "Siirtovuoro on botilla" << endl;
 			if (!lista.empty()) siirto = lista[rand() % lista.size()];
-			siirto = lista.back();
+			siirto = lista.front();
 		}
 		else {
 			// Pelaajan siirto

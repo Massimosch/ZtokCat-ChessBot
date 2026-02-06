@@ -12,7 +12,7 @@ void Torni::annaSiirrot(vector<Siirto>& lista, Ruutu* ruutu, Asema* asema, int v
 {
 	int rivi = ruutu->getRivi();
 	int sarake = ruutu->getSarake();
-	if (asema->getSiirtovuoro() != this->getVari()) return;
+	// if (asema->getSiirtovuoro() != this->getVari()) return;
 
 	// Oikealle
 	for (int x = sarake+1; x <= 7; x++) {
@@ -90,7 +90,7 @@ void Torni::annaSiirrot(vector<Siirto>& lista, Ruutu* ruutu, Asema* asema, int v
 void Ratsu::annaSiirrot(vector<Siirto>& lista, Ruutu* ruutu, Asema* asema, int vari)
 {
 
-	if (asema->getSiirtovuoro() != this->getVari()) return;
+	// if (asema->getSiirtovuoro() != this->getVari()) return;
 	int rivi = ruutu->getRivi();
 	int sarake = ruutu->getSarake();
 
@@ -180,7 +180,7 @@ void Lahetti::annaSiirrot(vector<Siirto>& lista, Ruutu* ruutu, Asema* asema, int
 	int rivi = ruutu->getRivi();
 	int sarake = ruutu->getSarake();
 
-	if (asema->getSiirtovuoro() != this->getVari()) return;
+	// if (asema->getSiirtovuoro() != this->getVari()) return;
 
 		//Oikealle ylös
 	for (int y = rivi - 1, x = sarake + 1; x <= 7 && y >= 0; x++, y--) {
@@ -266,7 +266,7 @@ void Kuningas::annaSiirrot(vector<Siirto>& lista, Ruutu* ruutu, Asema* asema, in
 	/*perusidea on että kaikki viereiset ruudut ovat sallittuja. kuten tornilla ja lähetillä,
 	oman nappulan päälle ei voi mennä ja vastustajan nappulan voi syödä.
 	Kaikki muu kuninkaaseen liittyvä tarkistus tehdään eri paikassa*/
-	if (asema->getSiirtovuoro() != this->getVari()) return;
+	// if (asema->getSiirtovuoro() != this->getVari()) return;
 	int rivi = ruutu->getRivi();
 	int sarake = ruutu->getSarake();
 
@@ -362,7 +362,7 @@ void Kuningas::annaSiirrot(vector<Siirto>& lista, Ruutu* ruutu, Asema* asema, in
 void Sotilas::annaSiirrot(vector<Siirto>& lista, Ruutu* ruutu, Asema* asema, int vari)
 {
 
-	if (asema->getSiirtovuoro() != this->getVari()) return;
+	// if (asema->getSiirtovuoro() != this->getVari()) return;
 	int rivi = ruutu->getRivi();
 	int sarake = ruutu->getSarake();
 

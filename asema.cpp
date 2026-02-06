@@ -30,14 +30,14 @@ Asema::Asema()
 
 	// Asetetaan alkuaseman mukaisesti nappulat ruuduille
 	Nappula* _aloituslauta[8][8] = {
-		{mt, mr, ml, md, mk, ml, mr, mt},
-		{ms, ms, ms, ms, ms, ms, ms, ms},
+		{NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL},
+		{NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL},
 		{NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL},
 		{NULL, NULL, vk, NULL, mr, NULL, NULL, NULL},
 		{NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL},
 		{NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL},
-		{vs, vs, vs, vs, vs, vs, vs, vs},
-		{vt, vr, vl, vd, vk, vl, vr, vt},
+		{NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL},
+		{NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL},
 	};
 
 	for (int i = 0; i <= 7; i++) {
@@ -342,6 +342,7 @@ bool Asema::onkoRuutuUhattu(Ruutu* ruutu, int vastustajanVari)
 		}
 	}
 
+
 	for (auto siirto : vastustajanSiirrot) {
 		if (ruutu->getSarake() == siirto.getLoppuruutu().getSarake() &&
 			ruutu->getRivi() == siirto.getLoppuruutu().getRivi()) {
@@ -399,7 +400,9 @@ void Asema::huolehdiKuninkaanShakeista(vector<Siirto>& lista, int vari)
 					kuninkaanRuutu = Ruutu(x, y);
 					break;
 				}
+				if (kuninkaanRuutu.getRivi() >= 0 && kuninkaanRuutu.getRivi() < 8) break;
 			}
+			if (kuninkaanRuutu.getRivi() >= 0 && kuninkaanRuutu.getRivi() < 8) break;
 		}
 
 		if (this->onkoRuutuUhattu(&kuninkaanRuutu, vastustajanVari))
@@ -412,6 +415,7 @@ void Asema::annaLaillisetSiirrot(vector<Siirto>& lista) {
 	for (int rivi = 0; rivi <= 7; rivi++) {
 		for (int sarake = 0; sarake <= 7; sarake++) {
 			if (_lauta[rivi][sarake] == nullptr) continue;
+			if (_lauta[rivi][sarake]->getVari() != getSiirtovuoro()) continue;
 			Ruutu* ruutu = &Ruutu(sarake, rivi);
 			_lauta[rivi][sarake]->annaSiirrot(lista, ruutu, this, _siirtovuoro);
 		}
