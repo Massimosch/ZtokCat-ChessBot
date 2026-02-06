@@ -45,6 +45,14 @@ Asema::Asema()
 			_lauta[i][j] = _aloituslauta[i][j];
 		}
 	}
+
+	_onkoMustaDTliikkunut = false;
+	_onkoMustaKTliikkunut = false;
+	_onkoMustaKuningasLiikkunut = false;
+	_onkoValkeaDTliikkunut = false;
+	_onkoValkeaKTliikkunut = false;
+	_onkoValkeaKuningasLiikkunut = false;
+
 }
 
 
@@ -347,7 +355,30 @@ bool Asema::onkoRuutuUhattu(Ruutu* ruutu, int vastustajanVari)
 
 void Asema::annaLinnoitusSiirrot(vector<Siirto>& lista, int vari)
 {
-
+	if (vari == 0) { // Valkean linnoitukset
+		// Lyhyt linnoitus
+		if (!onkoRuutuUhattu(&Ruutu(4, 7), 1) && !onkoRuutuUhattu(&Ruutu(5, 7), 1) 
+			&& !onkoRuutuUhattu(&Ruutu(6, 7), 1) && !getOnkoValkeaKTliikkunut() || !getOnkoValkeaKuningasLiikkunut()) {
+			if (_lauta[7][5] == nullptr && _lauta[7][6] == nullptr) lista.push_back(Siirto(true, false));
+		}
+		// Pitkä linnoitus
+		if (!onkoRuutuUhattu(&Ruutu(7, 4), 1) && !onkoRuutuUhattu(&Ruutu(7, 3), 1)
+			&& !onkoRuutuUhattu(&Ruutu(7, 2), 1) && !getOnkoValkeaDTliikkunut() || !getOnkoValkeaKuningasLiikkunut()) {
+			if (_lauta[7][3] == nullptr && _lauta[7][2] == nullptr && _lauta[7][1] == nullptr) lista.push_back(Siirto(false, true));
+		}
+	}
+	else if (vari == 1) { // Mustan linnoitukset
+		// Lyhyt linnoitus
+		if (!onkoRuutuUhattu(&Ruutu(4, 0), 0) && !onkoRuutuUhattu(&Ruutu(5, 0), 0)
+			&& !onkoRuutuUhattu(&Ruutu(6, 0), 0) && !getOnkoMustaKTliikkunut() || !getOnkoMustaKuningasLiikkunut()) {
+			if (_lauta[0][5] == nullptr && _lauta[0][6] == nullptr) lista.push_back(Siirto(true, false));
+		}
+		// Pitkä linnoitus
+		if (!onkoRuutuUhattu(&Ruutu(0, 4), 0) && !onkoRuutuUhattu(&Ruutu(0, 3), 0)
+			&& !onkoRuutuUhattu(&Ruutu(0, 2), 1) && !getOnkoMustaDTliikkunut() || !getOnkoMustaKuningasLiikkunut()) {
+			if (_lauta[0][3] == nullptr && _lauta[0][2] == nullptr && _lauta[0][1] == nullptr) lista.push_back(Siirto(false, true));
+		}
+	}
 }
 
 
@@ -365,4 +396,5 @@ void Asema::annaLaillisetSiirrot(vector<Siirto>& lista) {
 			_lauta[rivi][sarake]->annaSiirrot(lista, ruutu, this, _siirtovuoro);
 		}
 	}
+	annaLinnoitusSiirrot(lista, getSiirtovuoro());
 }

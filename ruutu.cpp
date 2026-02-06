@@ -1,5 +1,6 @@
 #include "ruutu.h"
 
+// Laita ensin sarake, sitten rivi !!!!
 Ruutu::Ruutu(int sarake, int rivi)
 {
 	_sarake = sarake;

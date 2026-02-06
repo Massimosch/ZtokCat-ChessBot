@@ -73,10 +73,11 @@ Siirto Kayttoliittyma::annaVastustajanSiirto(Asema* asema)
 	Ruutu alkuruutu = Ruutu(alkuRuutuSarake + 1, 7 - (komento[1] - '0' - 1));
 	Ruutu loppuruutu = Ruutu(loppuRuutuSarake + 1, 7 - (komento[4] - '0' - 1));
 	Siirto siirto(alkuruutu, loppuruutu);
-
-	if (siirto.getLoppuruutu().getRivi() == 7 || siirto.getLoppuruutu().getRivi() == 0 
-		&& asema->_lauta[siirto.getAlkuruutu().getRivi()][siirto.getAlkuruutu().getSarake()] == Asema::ms ||
-		asema->_lauta[siirto.getAlkuruutu().getRivi()][siirto.getAlkuruutu().getSarake()] == Asema::vs) {
+	siirto.getLoppuruutu().getRivi();
+	siirto.getLoppuruutu().getRivi();
+	if ((siirto.getLoppuruutu().getRivi() == 7 || siirto.getLoppuruutu().getRivi() == 0) 
+		&& (asema->_lauta[siirto.getAlkuruutu().getRivi()][siirto.getAlkuruutu().getSarake()] == Asema::ms 
+			|| asema->_lauta[siirto.getAlkuruutu().getRivi()][siirto.getAlkuruutu().getSarake()] == Asema::vs)) {
 		
 		string komento{};
 		

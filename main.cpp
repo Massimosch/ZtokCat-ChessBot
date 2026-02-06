@@ -55,27 +55,17 @@ int main()
 				annaVastustajanSiirto();
 			
 		}*/
+
 		if (asema.getSiirtovuoro() == koneenVari) {
 			// Koneen siirto
 			wcout << "Siirtovuoro on botilla" << endl;
 			if (!lista.empty()) siirto = lista[rand() % lista.size()];
-		    
+			siirto = lista.back();
 		}
 		else {
 			// Pelaajan siirto
 			wcout << "Siirtovuoro on pelaajalla" << endl;
-			bool validSiirto = false;
-			while (!validSiirto) {
-				siirto = Kayttoliittyma::getInstance()->annaVastustajanSiirto(&asema);
-				validSiirto = true;
-				if (siirto.onkoLyhytLinna() && asema.getOnkoMustaKTliikkunut()
-					|| asema.getOnkoMustaKuningasLiikkunut() && asema.getSiirtovuoro() == 1) validSiirto = false;
-
-				if (siirto.onkoPitkalinna() && asema.getOnkoMustaDTliikkunut()
-					|| asema.getOnkoMustaKuningasLiikkunut() && asema.getSiirtovuoro() == 1) validSiirto = false;
-
-			}
-			
+			siirto = Kayttoliittyma::getInstance()->annaVastustajanSiirto(&asema);
 		}
 		
 		asema.paivitaAsema(&siirto);
