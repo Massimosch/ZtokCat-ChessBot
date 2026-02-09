@@ -42,7 +42,35 @@ void Kayttoliittyma::piirraLauta()
 		drawDark = !drawDark;
 	}
 
-	wcout << " A  B  C  D  E  F  G  H  ";
+	wcout << " A  B  C  D  E  F  G  H  " << endl;
+}
+
+void Kayttoliittyma::piirraLauta(Asema* _asema) {
+	CONSOLE_SCREEN_BUFFER_INFO csbi;
+	GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &csbi);
+
+	for (int y = 0; y <= 7; y++) {
+		for (int x = 0; x <= 7; x++) {
+
+			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), drawDark ? DARKTILE_COLOR : LIGHTTILE_COLOR);
+
+			if (_asema->_lauta[y][x] == NULL)
+				wcout << "   ";
+			else {
+				wcout << " ";
+				wcout << _asema->_lauta[y][x]->getUnicode();
+				wcout << " ";
+			}
+
+			drawDark = !drawDark;
+		}
+
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), csbi.wAttributes);
+		wcout << " " << 8 - y << endl;
+		drawDark = !drawDark;
+	}
+
+	wcout << " A  B  C  D  E  F  G  H  " << endl;
 }
 
 /*
@@ -53,8 +81,10 @@ void Kayttoliittyma::piirraLauta()
 Siirto Kayttoliittyma::annaVastustajanSiirto(Asema* asema)
 {
 	wstring komento{};
-	wcout << "Anna Siirto : ";
-	wcin >> komento;
+	while (komento.size() < 5 || komento.size() > 6) {
+		wcout << "Anna Siirto : ";
+		wcin >> komento;
+	}
 	if (komento.size() == 6) komento.erase(0, 1);
 	if (komento == L"0-0") {
 		Siirto siirto(true, false);

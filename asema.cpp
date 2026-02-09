@@ -3,6 +3,7 @@
 #include "nappula.h"
 #include "ruutu.h"
 #include <list>
+#include "kayttoliittyma.h"
 
 Nappula* Asema::vk = new Kuningas(L"\u2654", 0, VK);
 Nappula* Asema::vd = new Daami(L"\u2655", 0, VD);
@@ -33,7 +34,7 @@ Asema::Asema()
 		{mt, mr, ml, md, mk, ml, mr, mt},
 		{ms, ms, ms, ms, ms, ms, ms, ms},
 		{NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL},
-		{NULL, md, vk, md, NULL, NULL, NULL, NULL},
+		{NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL},
 		{NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL},
 		{NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL},
 		{vs, vs, vs, vs, vs, vs, vs, vs},
@@ -113,8 +114,10 @@ void Asema::paivitaAsema(Siirto *siirto)
 		}
 
 		// En passant
-		if (aloitusruudussanappula->getKoodi() == MS && _lauta[siirto->getLoppuruutu().getRivi() - 1][siirto->getLoppuruutu().getSarake()] == vs) _lauta[siirto->getLoppuruutu().getRivi() - 1][siirto->getLoppuruutu().getSarake()] = NULL;
-		if (aloitusruudussanappula->getKoodi() == VS && _lauta[siirto->getLoppuruutu().getRivi() + 1][siirto->getLoppuruutu().getSarake()] == ms) _lauta[siirto->getLoppuruutu().getRivi() + 1][siirto->getLoppuruutu().getSarake()] = NULL;
+		if (aloitusruudussanappula->getKoodi() == MS && _lauta[siirto->getLoppuruutu().getRivi() - 1][siirto->getLoppuruutu().getSarake()] == vs 
+			&& _lauta[siirto->getLoppuruutu().getRivi()][siirto->getLoppuruutu().getSarake()] == NULL) _lauta[siirto->getLoppuruutu().getRivi() - 1][siirto->getLoppuruutu().getSarake()] = NULL;
+		if (aloitusruudussanappula->getKoodi() == VS && _lauta[siirto->getLoppuruutu().getRivi() + 1][siirto->getLoppuruutu().getSarake()] == ms
+			&& _lauta[siirto->getLoppuruutu().getRivi()][siirto->getLoppuruutu().getSarake()] == NULL) _lauta[siirto->getLoppuruutu().getRivi() + 1][siirto->getLoppuruutu().getSarake()] = NULL;
 
 		if (aloitusruudussanappula->getKoodi() == MK) _onkoMustaKuningasLiikkunut = true;
 		if (aloitusruudussanappula->getKoodi() == MT && siirto->getAlkuruutu().getRivi() == 0
@@ -339,27 +342,21 @@ bool Asema::onkoRuutuUhattu(Ruutu* ruutu, int vastustajanVari)
 {
 	std::vector<Siirto> vastustajanSiirrot;
 
-	bool uhattu { false };
-
 	for (int y = 0; y <= 7; y++) {
 		for (int x = 0; x <= 7; x++) {
-			if (this->_lauta[y][x] == NULL)
-				continue;
-			if (this->_lauta[y][x]->getVari() == vastustajanVari)
-				this->_lauta[y][x]->annaSiirrot(vastustajanSiirrot, &Ruutu(x, y), this, vastustajanVari);
+			if (_lauta[y][x] == NULL) continue;
+			if (_lauta[y][x]->getVari() == vastustajanVari) _lauta[y][x]->annaSiirrot(vastustajanSiirrot, &Ruutu(x, y), this, vastustajanVari);
 		}
 	}
-
 
 	for (auto siirto : vastustajanSiirrot) {
 		if (ruutu->getSarake() == siirto.getLoppuruutu().getSarake() &&
 			ruutu->getRivi() == siirto.getLoppuruutu().getRivi()) {
-			uhattu = true;
-			break;
+			return true;
 		}
 	}
 
-	return uhattu;
+	return false;
 }
 
 void Asema::annaLinnoitusSiirrot(vector<Siirto>& lista, int vari)
@@ -399,13 +396,40 @@ void Asema::huolehdiKuninkaanShakeista(vector<Siirto>& lista, int vari)
 
 	for (int i = lista.size() - 1; i >= 0; i--) {
 
-		Siirto& siirto = lista[i];
-		Ruutu kohde = siirto.getLoppuruutu();
+		Siirto siirto = lista[i];
+		Asema testi_asema = *this;
+		testi_asema.paivitaAsema(&siirto);
 
-		if (onkoRuutuUhattu(&kohde, vastustaja)) {
-			lista.erase(lista.begin() + i);
-			wcout << "Kuninkaalta poistettiin laiton siirto!" << endl;
+		Ruutu kuningasruutu;
+		for (int rivi = 0; rivi <= 7; rivi++) {
+			for (int sarake = 0; sarake <= 7; sarake++) {
+				if (testi_asema._lauta[rivi][sarake] == nullptr) continue;
+				if ((testi_asema._lauta[rivi][sarake]->getKoodi() == VK && vari == 0) || (testi_asema._lauta[rivi][sarake]->getKoodi() == MK && vari == 1)) {
+					kuningasruutu = Ruutu(sarake, rivi);
+					break;
+				}
+			}
+			if (kuningasruutu.getRivi() <= 7 && kuningasruutu.getRivi() >= 0) break;
 		}
+
+
+		if (testi_asema.onkoRuutuUhattu(&kuningasruutu, vastustaja)) {
+			wcout << "Poistettu Asema ";
+			wcout << i << endl;
+			Kayttoliittyma::getInstance()->piirraLauta(&testi_asema);
+			lista.erase(lista.begin() + i);
+		}
+		
+
+		//Ruutu alkuruutu = siirto.getAlkuruutu();
+		//Ruutu kohde = siirto.getLoppuruutu();
+		//if (!_lauta[alkuruutu.getRivi()][alkuruutu.getSarake()]) continue;
+		//if (_lauta[alkuruutu.getRivi()][alkuruutu.getSarake()]->getKoodi() != MK 
+		//	&& _lauta[alkuruutu.getRivi()][alkuruutu.getSarake()]->getKoodi() != VK) continue;
+		//if (onkoRuutuUhattu(&kohde, vastustaja)) {
+		//	lista.erase(lista.begin() + i);
+		//	wcout << "Kuninkaalta poistettiin laiton siirto!" << endl;
+		//}
 	}
 }
 
@@ -414,11 +438,11 @@ void Asema::annaLaillisetSiirrot(vector<Siirto>& lista) {
 	for (int rivi = 0; rivi <= 7; rivi++) {
 		for (int sarake = 0; sarake <= 7; sarake++) {
 			if (_lauta[rivi][sarake] == nullptr) continue;
-			if (_lauta[rivi][sarake]->getVari() != getSiirtovuoro()) continue;
+			if (_lauta[rivi][sarake]->getVari() != _siirtovuoro) continue;
 			Ruutu* ruutu = &Ruutu(sarake, rivi);
 			_lauta[rivi][sarake]->annaSiirrot(lista, ruutu, this, _siirtovuoro);
 		}
 	}
-	//annaLinnoitusSiirrot(lista, getSiirtovuoro());
-	huolehdiKuninkaanShakeista(lista, getSiirtovuoro());
+	annaLinnoitusSiirrot(lista, _siirtovuoro);
+	huolehdiKuninkaanShakeista(lista, _siirtovuoro);
 }
