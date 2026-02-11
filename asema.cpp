@@ -109,26 +109,26 @@ void Asema::paivitaAsema(Siirto *siirto)
 		_lauta[siirto->getLoppuruutu().getRivi()][siirto->getLoppuruutu().getSarake()] = temp; // siirretään nappula loppuruudulle
 
 		// Jos sotilas liikkui kaksoisaskeleen, voi en passantaa
-		if (aloitusruudussanappula->getKoodi() == MS || aloitusruudussanappula->getKoodi() == VS && abs(siirto->getAlkuruutu().getRivi() - siirto->getLoppuruutu().getRivi()) == 2) {
+		if (aloitusruudussanappula == ms || aloitusruudussanappula == vs && abs(siirto->getAlkuruutu().getRivi() - siirto->getLoppuruutu().getRivi()) == 2) {
 			kaksoisaskelSarakkeella = siirto->getLoppuruutu().getSarake();
 		}
 
 		// En passant
-		if (aloitusruudussanappula->getKoodi() == MS && _lauta[siirto->getLoppuruutu().getRivi() - 1][siirto->getLoppuruutu().getSarake()] == vs 
+		if (aloitusruudussanappula == ms && _lauta[siirto->getLoppuruutu().getRivi() - 1][siirto->getLoppuruutu().getSarake()] == vs 
 			&& _lauta[siirto->getLoppuruutu().getRivi()][siirto->getLoppuruutu().getSarake()] == NULL) _lauta[siirto->getLoppuruutu().getRivi() - 1][siirto->getLoppuruutu().getSarake()] = NULL;
-		if (aloitusruudussanappula->getKoodi() == VS && _lauta[siirto->getLoppuruutu().getRivi() + 1][siirto->getLoppuruutu().getSarake()] == ms
+		if (aloitusruudussanappula == vs && _lauta[siirto->getLoppuruutu().getRivi() + 1][siirto->getLoppuruutu().getSarake()] == ms
 			&& _lauta[siirto->getLoppuruutu().getRivi()][siirto->getLoppuruutu().getSarake()] == NULL) _lauta[siirto->getLoppuruutu().getRivi() + 1][siirto->getLoppuruutu().getSarake()] = NULL;
 
-		if (aloitusruudussanappula->getKoodi() == MK) _onkoMustaKuningasLiikkunut = true;
-		if (aloitusruudussanappula->getKoodi() == MT && siirto->getAlkuruutu().getRivi() == 0
+		if (aloitusruudussanappula == mk) _onkoMustaKuningasLiikkunut = true;
+		if (aloitusruudussanappula == mt && siirto->getAlkuruutu().getRivi() == 0
 			&& siirto->getAlkuruutu().getSarake() == 0) _onkoMustaKTliikkunut = true;
-		if (aloitusruudussanappula->getKoodi() == MT && siirto->getAlkuruutu().getRivi() == 0
+		if (aloitusruudussanappula == mt && siirto->getAlkuruutu().getRivi() == 0
 			&& siirto->getAlkuruutu().getSarake() == 7) _onkoMustaDTliikkunut = true;
 
-		if (aloitusruudussanappula->getKoodi() == VK) _onkoValkeaKuningasLiikkunut = true;
-		if (aloitusruudussanappula->getKoodi() == VT && siirto->getAlkuruutu().getRivi() == 7
+		if (aloitusruudussanappula == vk) _onkoValkeaKuningasLiikkunut = true;
+		if (aloitusruudussanappula == vt && siirto->getAlkuruutu().getRivi() == 7
 			&& siirto->getAlkuruutu().getSarake() == 0) _onkoValkeaKTliikkunut = true;
-		if (aloitusruudussanappula->getKoodi() == VT && siirto->getAlkuruutu().getRivi() == 7
+		if (aloitusruudussanappula == vt && siirto->getAlkuruutu().getRivi() == 7
 			&& siirto->getAlkuruutu().getSarake() == 7) _onkoValkeaDTliikkunut = true;
 	}
 
@@ -215,24 +215,54 @@ vai olla est�m�ss� vastustajan korotusta siksi ei oteta kantaa
 */
 double Asema::evaluoi() 
 {
-	return 0;
-
 	//kertoimet asetettu sen takia ett� niiden avulla asioiden painoarvoa voidaan s��t�� helposti yhdest� paikasta
 	
 	//1. Nappuloiden arvo
 	
+	
+	double nappula_arvo = laskeNappuloidenArvo(_siirtovuoro);
 	//2. Kuningas turvassa
 	
 	//3. Arvosta keskustaa
 	
 	// 4. Arvosta linjoja
-	
+	return nappula_arvo;
 }
 
 
 double Asema::laskeNappuloidenArvo(int vari) 
 {
-	return 0;
+	double daami = 9;
+	double torni = 5;
+	double lahetti = 3.25;
+	double ratsu = 3;
+	double sotilas = 1;
+	double valkea_arvo = 0;
+	double musta_arvo = 0;
+
+	for (int y = 0; y <= 7; y++) {
+		for (int x = 0; x <= 7; x++) {
+			if (_lauta[y][x] == NULL) continue;
+			if (vari == 1) {
+				if (_lauta[y][x] == md) musta_arvo += daami;
+				if (_lauta[y][x] == mt) musta_arvo += torni;
+				if (_lauta[y][x] == ml) musta_arvo += lahetti;
+				if (_lauta[y][x] == mr) musta_arvo += ratsu;
+				if (_lauta[y][x] == ms) musta_arvo += sotilas;
+			}
+			else {
+				if (_lauta[y][x] == vd) valkea_arvo += daami;
+				if (_lauta[y][x] == vt) valkea_arvo += torni;
+				if (_lauta[y][x] == vl) valkea_arvo += lahetti;
+				if (_lauta[y][x] == vr) valkea_arvo += ratsu;
+				if (_lauta[y][x] == vs) valkea_arvo += sotilas;
+			}
+		}
+	}
+
+	double arvo = valkea_arvo - musta_arvo;
+
+	return arvo;
 	
 }
 
@@ -307,19 +337,62 @@ double Asema::linjat(int vari)
 //	}
 //	return min;
 //}
+
 MinMaxPaluu Asema::minimax(int syvyys)
 {
 	MinMaxPaluu paluuarvo;
 
 	// Generoidaan aseman lailliset siirrot.
-	
+	vector<Siirto> siirrot;
+	annaLaillisetSiirrot(siirrot);
 	// Rekursion kantatapaus 1: peli on loppu
-	
+	if (siirrot.size() == 0) {
+		// katso onko kuningas uhattu jos joo niin peli palauttaa äärettömän suuren arvon
+		Ruutu kuningasruutu;
+		for (int rivi = 0; rivi <= 7; rivi++) {
+			for (int sarake = 0; sarake <= 7; sarake++) {
+				if (_lauta[rivi][sarake] == nullptr) continue;
+				if ((_lauta[rivi][sarake]->getKoodi() == VK && _siirtovuoro == 0) || (_lauta[rivi][sarake]->getKoodi() == MK && _siirtovuoro == 1)) {
+					kuningasruutu = Ruutu(sarake, rivi);
+					break;
+				}
+			}
+		}
+		int vastustajan_vari = (_siirtovuoro == 0) ? 1 : 0;
+		if (onkoRuutuUhattu(&kuningasruutu, vastustajan_vari)) {
+			paluuarvo._evaluointiArvo = 1000000;
+			return paluuarvo;
+		}
+		paluuarvo._evaluointiArvo = 0;
+		return paluuarvo;
+	}
 	// Rekursion kantatapaus 2: katkaisusyvyydess�
-	
+	if (syvyys == 0) {
+		paluuarvo._evaluointiArvo = this->evaluoi();
+		return paluuarvo;
+	}
 	// Rekursioaskel: kokeillaan jokaista laillista siirtoa s
 	// (alustetaan paluuarvo huonoimmaksi mahdolliseksi).
-	
+	Siirto paras_siirto;
+	double mini = 10000;
+	double maxi = -10000;
+	for (Siirto s : siirrot) {
+		Asema testi_asema = *this;
+		testi_asema.paivitaAsema(&s);
+		double arvo = minimax(syvyys - 1)._evaluointiArvo;
+
+		if (testi_asema._siirtovuoro == 0 && arvo > maxi) {
+			paluuarvo._parasSiirto = s;
+			maxi = paluuarvo._evaluointiArvo;
+		}
+		else if (testi_asema._siirtovuoro == 1 && arvo < mini) {
+			paluuarvo._parasSiirto = s;
+			mini = paluuarvo._evaluointiArvo;
+		}
+
+
+		
+	}
 	return paluuarvo;
 }
 
@@ -409,14 +482,10 @@ void Asema::huolehdiKuninkaanShakeista(vector<Siirto>& lista, int vari)
 					break;
 				}
 			}
-			if (kuningasruutu.getRivi() <= 7 && kuningasruutu.getRivi() >= 0) break;
 		}
 
 
 		if (testi_asema.onkoRuutuUhattu(&kuningasruutu, vastustaja)) {
-			wcout << "Poistettu Asema ";
-			wcout << i << endl;
-			Kayttoliittyma::getInstance()->piirraLauta(&testi_asema);
 			lista.erase(lista.begin() + i);
 		}
 		

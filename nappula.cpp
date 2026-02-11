@@ -237,7 +237,7 @@ void Lahetti::annaSiirrot(vector<Siirto>& lista, Ruutu* ruutu, Asema* asema, int
 	}
 
 	//Vasemmalle alas
-	for (int x = sarake + 1, y = rivi + 1; x >= 0 && y <= 7; x--, y++) {
+	for (int x = sarake - 1, y = rivi + 1; x >= 0 && y <= 7; x--, y++) {
 		if (asema->_lauta[y][x] == nullptr) {
 			Siirto newSiirto = Siirto(*ruutu, Ruutu(x, y));
 			lista.push_back(newSiirto);

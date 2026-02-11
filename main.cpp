@@ -40,28 +40,16 @@ int main()
 			continue;
 		}
 		Siirto siirto;
-		/*if (asema.getSiirtovuoro() == koneenVari) {
+		if (asema.getSiirtovuoro() == koneenVari) {
 			MinMaxPaluu paluu;
-			if (koneenVari == 0) {
-				paluu = asema.maxi(3);
-			}
-			else {
-				paluu = asema.mini(3);
-			}
+			paluu = asema.minimax(4);
 			siirto = paluu._parasSiirto;
-		}*/
+		}
 		/*else {
 			siirto = Kayttoliittyma::getInstance()->
 				annaVastustajanSiirto();
 			
 		}*/
-
-		if (asema.getSiirtovuoro() == koneenVari) {
-			// Koneen siirto
-			wcout << "Siirtovuoro on botilla" << endl;
-			if (!lista.empty()) siirto = lista[rand() % lista.size()];
-			siirto = lista.back();
-		}
 		else {
 			// Pelaajan siirto
 			wcout << "Siirtovuoro on pelaajalla" << endl;
