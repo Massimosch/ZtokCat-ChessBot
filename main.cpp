@@ -42,7 +42,7 @@ int main()
 		Siirto siirto;
 		if (asema.getSiirtovuoro() == koneenVari) {
 			MinMaxPaluu paluu;
-			paluu = asema.minimax(4);
+			paluu = asema.minimax(2);
 			siirto = paluu._parasSiirto;
 		}
 		/*else {

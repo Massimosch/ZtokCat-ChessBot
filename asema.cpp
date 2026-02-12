@@ -585,10 +585,9 @@ MinMaxPaluu Asema::minimax(int syvyys)
 			paluuarvo._parasSiirto = s;
 			mini = paluuarvo._evaluointiArvo;
 		}
-
-
-		
 	}
+
+	paluuarvo._evaluointiArvo = (_siirtovuoro == 0) ? maxi : mini;
 	return paluuarvo;
 }
 
