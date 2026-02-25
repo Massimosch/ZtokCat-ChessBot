@@ -5,6 +5,6 @@
 // Struct ajaisi saman asian. Kun ei rakenneta gettereitä ja settereitä, niin ei tarvita toteutus .cpp tiedostoa
 class MinMaxPaluu{
 public:
-	double _evaluointiArvo;
+	double _evaluointiArvo{ 0.0 };
 	Siirto _parasSiirto;
 };
