@@ -571,18 +571,15 @@ MinMaxPaluu Asema::minimax(int syvyys)
 	// (alustetaan paluuarvo huonoimmaksi mahdolliseksi).
 	double mini = 100000000;
 	double maxi = -100000000;
-	double mini = 1000000000;
-	double maxi = -1000000000;
 	for (Siirto s : siirrot) {
 		
 		Asema testi_asema = *this;
 		testi_asema.paivitaAsema(&s);
-		double arvo = testi_asema.minimax(syvyys - 1)._evaluointiArvo;
 
 		double arvo = testi_asema.minimax(syvyys - 1)._evaluointiArvo;
 
-		wcout << " Arvo: " << arvo << endl;
-		Kayttoliittyma::getInstance()->piirraLauta(&testi_asema);
+		//wcout << " Arvo: " << arvo << endl;
+		//Kayttoliittyma::getInstance()->piirraLauta(&testi_asema);
 
 		if (_siirtovuoro == 0 && arvo > maxi) {
 			paluuarvo._parasSiirto = s;
