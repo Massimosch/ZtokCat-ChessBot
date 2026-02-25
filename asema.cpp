@@ -534,7 +534,7 @@ double Asema::linjat(int vari)
 //	return min;
 //}
 
-MinMaxPaluu Asema::minimax(int syvyys)
+MinMaxPaluu Asema::minimax(int alpha, int beta, int syvyys)
 {
 	MinMaxPaluu paluuarvo;
 	// Generoidaan aseman lailliset siirrot.
@@ -576,7 +576,7 @@ MinMaxPaluu Asema::minimax(int syvyys)
 		Asema testi_asema = *this;
 		testi_asema.paivitaAsema(&s);
 
-		double arvo = testi_asema.minimax(syvyys - 1)._evaluointiArvo;
+		double arvo = testi_asema.minimax(alpha, beta, syvyys - 1)._evaluointiArvo;
 
 		//wcout << " Arvo: " << arvo << endl;
 		//Kayttoliittyma::getInstance()->piirraLauta(&testi_asema);
@@ -585,12 +585,17 @@ MinMaxPaluu Asema::minimax(int syvyys)
 			paluuarvo._parasSiirto = s;
 			paluuarvo._evaluointiArvo = arvo;
 			maxi = arvo;
+			if (arvo > alpha) alpha = arvo;
 		}
 		else if (_siirtovuoro == 1 && arvo < mini) {
 			paluuarvo._parasSiirto = s;
 			paluuarvo._evaluointiArvo = arvo;
 			mini = arvo;
 		}
+
+		if (_siirtovuoro == 0 && arvo >= beta) return paluuarvo;
+		if (_siirtovuoro == 1 && arvo <= alpha) return paluuarvo;
+
 	}
 	return paluuarvo;
 }
