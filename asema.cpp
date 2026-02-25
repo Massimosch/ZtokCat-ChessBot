@@ -457,9 +457,9 @@ double Asema::laskeNappuloidenArvo(int vari)
 			}
 		}
 	}
-
-	return (musta_arvo + valkea_arvo) / 24;
-	
+	double arvo = (musta_arvo + valkea_arvo) / 24;
+	if (arvo < -2000 || arvo > 2000) wcout << "Jotain meni pieleen";
+	return arvo;
 }
 
 
@@ -537,7 +537,6 @@ double Asema::linjat(int vari)
 MinMaxPaluu Asema::minimax(int syvyys)
 {
 	MinMaxPaluu paluuarvo;
-
 	// Generoidaan aseman lailliset siirrot.
 	vector<Siirto> siirrot;
 	annaLaillisetSiirrot(siirrot);
@@ -548,7 +547,7 @@ MinMaxPaluu Asema::minimax(int syvyys)
 		for (int rivi = 0; rivi <= 7; rivi++) {
 			for (int sarake = 0; sarake <= 7; sarake++) {
 				if (_lauta[rivi][sarake] == nullptr) continue;
-				if ((_lauta[rivi][sarake]->getKoodi() == VK && _siirtovuoro == 0) || (_lauta[rivi][sarake]->getKoodi() == MK && _siirtovuoro == 1)) {
+				if ((_lauta[rivi][sarake] == vk && _siirtovuoro == 0) || (_lauta[rivi][sarake] == mk && _siirtovuoro == 1)) {
 					kuningasruutu = Ruutu(sarake, rivi);
 					break;
 				}
@@ -565,17 +564,22 @@ MinMaxPaluu Asema::minimax(int syvyys)
 	// Rekursion kantatapaus 2: katkaisusyvyydess�
 	if (syvyys == 0) {
 		paluuarvo._evaluointiArvo = this->evaluoi();
+		if (paluuarvo._evaluointiArvo < -2000 || paluuarvo._evaluointiArvo > 2000) wcout << "Jotain meni pieleen";
 		return paluuarvo;
 	}
 	// Rekursioaskel: kokeillaan jokaista laillista siirtoa s
 	// (alustetaan paluuarvo huonoimmaksi mahdolliseksi).
-	Siirto paras_siirto;
-	double mini = 10000;
-	double maxi = -10000;
+	double mini = 1000000000;
+	double maxi = -1000000000;
 	for (Siirto s : siirrot) {
+		
 		Asema testi_asema = *this;
 		testi_asema.paivitaAsema(&s);
-		double arvo = minimax(syvyys - 1)._evaluointiArvo;
+
+		double arvo = testi_asema.minimax(syvyys - 1)._evaluointiArvo;
+
+		wcout << " Arvo: " << arvo << endl;
+		Kayttoliittyma::getInstance()->piirraLauta(&testi_asema);
 
 		if (testi_asema._siirtovuoro == 0 && arvo > maxi) {
 			paluuarvo._parasSiirto = s;
@@ -585,9 +589,6 @@ MinMaxPaluu Asema::minimax(int syvyys)
 			paluuarvo._parasSiirto = s;
 			mini = paluuarvo._evaluointiArvo;
 		}
-
-
-		
 	}
 	return paluuarvo;
 }
