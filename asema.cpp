@@ -281,7 +281,7 @@ void Asema::paivitaAsema(Siirto *siirto)
 		else {
 			//MTorni
 			_lauta[0][5] = mt;
-			_lauta[0][7] = NULL;
+			_lauta[0][4] = NULL;
 			//MKunnkku
 			_lauta[0][6] = mk;
 			_lauta[0][7] = NULL;
@@ -348,8 +348,8 @@ void Asema::paivitaAsema(Siirto *siirto)
 		// katsotaan jos liikkunut nappula on torni niin muutetaan onkoTorniLiikkunut arvo (molemmille v�reille ja molemmille torneille)
 
 	//p�ivitet��n _siirtovuoro
-	int vuoro = (getSiirtovuoro()) ? 0 : 1;
-	setSiirtovuoro(vuoro);
+	int vuoro = (_siirtovuoro) ? 0 : 1;
+	_siirtovuoro = vuoro;
 }
 
 
@@ -560,32 +560,37 @@ double Asema::linjat(int vari)
 //}
 
 MinMaxPaluu Asema::minimax_multithread(int alpha, int beta, int syvyys) {
+    vector<future<MinMaxPaluu>> futures;
+    vector<Siirto> siirrot;
+    MinMaxPaluu paluuarvo;
+    double min = -1000000;
+	double max = 1000000;
+    annaLaillisetSiirrot(siirrot);
 
-	vector<MinMaxPaluu> paluuarvot;
-	MinMaxPaluu paluuarvo;
-	vector<Siirto> siirrot;
-	annaLaillisetSiirrot(siirrot);
-	double best_value = -1000000;
+    for (const Siirto& s : siirrot) {
+		// pyöritä minmaxia jokaiselle siirrolle omassa säikeessään
+        futures.push_back(std::async(std::launch::async, [this, s, alpha, beta, syvyys]() {
+            Asema testi_asema = *this;
+            testi_asema.paivitaAsema(const_cast<Siirto*>(&s));
+            return testi_asema.minimax(alpha, beta, syvyys - 1);
+        }));
+    }
 
-	vector<thread> threads;
-
-
-
-	for (Siirto s : siirrot) {
-		Asema testi_asema = *this;
-		testi_asema.paivitaAsema(&s);
-		threads.emplace_back(thread(&Asema::minimax, alpha, beta, syvyys));
-	}
-	for (auto& th : threads)
-		th.join();
-	for (MinMaxPaluu paluu : paluuarvot) {
-		if (paluu._evaluointiArvo > best_value) {
-			best_value = paluu._evaluointiArvo;
-			paluuarvo._parasSiirto = paluu._parasSiirto;
+    for (int i = 0; i < futures.size(); i++) {
+		futures[i].wait(); // odotetaan että säie on valmis
+        MinMaxPaluu paluu = futures[i].get();
+        if (paluu._evaluointiArvo > min && _siirtovuoro == 0) {
+            min = paluu._evaluointiArvo;
+            paluuarvo._parasSiirto = siirrot[i];
+            paluuarvo._evaluointiArvo = paluu._evaluointiArvo;
+        }
+		else if (paluu._evaluointiArvo < max && _siirtovuoro == 1) {
+			max = paluu._evaluointiArvo;
+			paluuarvo._parasSiirto = siirrot[i];
 			paluuarvo._evaluointiArvo = paluu._evaluointiArvo;
 		}
-	}
-	return paluuarvo;
+    }
+    return paluuarvo;
 }
 
 MinMaxPaluu Asema::minimax(int alpha, int beta, int syvyys)
@@ -618,7 +623,6 @@ MinMaxPaluu Asema::minimax(int alpha, int beta, int syvyys)
 	// Rekursion kantatapaus 2: katkaisusyvyydess�
 	if (syvyys == 0) {
 		paluuarvo._evaluointiArvo = this->evaluoi();
-		if (paluuarvo._evaluointiArvo < -2000 || paluuarvo._evaluointiArvo > 2000) wcout << "Jotain meni pieleen";
 		return paluuarvo;
 	}
 	// Rekursioaskel: kokeillaan jokaista laillista siirtoa s
@@ -695,24 +699,24 @@ void Asema::annaLinnoitusSiirrot(vector<Siirto>& lista, int vari)
 	if (vari == 0) { // Valkean linnoitukset
 		// Lyhyt linnoitus
 		if (!onkoRuutuUhattu(&Ruutu(4, 7), 1) && !onkoRuutuUhattu(&Ruutu(5, 7), 1) 
-			&& !onkoRuutuUhattu(&Ruutu(6, 7), 1) && !getOnkoValkeaKTliikkunut() || !getOnkoValkeaKuningasLiikkunut()) {
+			&& !onkoRuutuUhattu(&Ruutu(6, 7), 1) && !getOnkoValkeaKTliikkunut() && !getOnkoValkeaKuningasLiikkunut()) {
 			if (_lauta[7][5] == nullptr && _lauta[7][6] == nullptr) lista.push_back(Siirto(true, false));
 		}
 		// Pitkä linnoitus
-		if (!onkoRuutuUhattu(&Ruutu(7, 4), 1) && !onkoRuutuUhattu(&Ruutu(7, 3), 1)
-			&& !onkoRuutuUhattu(&Ruutu(7, 2), 1) && !getOnkoValkeaDTliikkunut() || !getOnkoValkeaKuningasLiikkunut()) {
+		if (!onkoRuutuUhattu(&Ruutu(4, 7), 1) && !onkoRuutuUhattu(&Ruutu(3, 7), 1)
+			&& !onkoRuutuUhattu(&Ruutu(2, 7), 1) && !getOnkoValkeaDTliikkunut() && !getOnkoValkeaKuningasLiikkunut()) {
 			if (_lauta[7][3] == nullptr && _lauta[7][2] == nullptr && _lauta[7][1] == nullptr) lista.push_back(Siirto(false, true));
 		}
 	}
 	else if (vari == 1) { // Mustan linnoitukset
 		// Lyhyt linnoitus
 		if (!onkoRuutuUhattu(&Ruutu(4, 0), 0) && !onkoRuutuUhattu(&Ruutu(5, 0), 0)
-			&& !onkoRuutuUhattu(&Ruutu(6, 0), 0) && !getOnkoMustaKTliikkunut() || !getOnkoMustaKuningasLiikkunut()) {
+			&& !onkoRuutuUhattu(&Ruutu(6, 0), 0) && !getOnkoMustaKTliikkunut() && !getOnkoMustaKuningasLiikkunut()) {
 			if (_lauta[0][5] == nullptr && _lauta[0][6] == nullptr) lista.push_back(Siirto(true, false));
 		}
 		// Pitkä linnoitus
-		if (!onkoRuutuUhattu(&Ruutu(0, 4), 0) && !onkoRuutuUhattu(&Ruutu(0, 3), 0)
-			&& !onkoRuutuUhattu(&Ruutu(0, 2), 1) && !getOnkoMustaDTliikkunut() || !getOnkoMustaKuningasLiikkunut()) {
+		if (!onkoRuutuUhattu(&Ruutu(4, 0), 0) && !onkoRuutuUhattu(&Ruutu(3, 0), 0)
+			&& !onkoRuutuUhattu(&Ruutu(2, 0), 1) && !getOnkoMustaDTliikkunut() && !getOnkoMustaKuningasLiikkunut()) {
 			if (_lauta[0][3] == nullptr && _lauta[0][2] == nullptr && _lauta[0][1] == nullptr) lista.push_back(Siirto(false, true));
 		}
 	}

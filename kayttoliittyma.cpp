@@ -84,6 +84,7 @@ Siirto Kayttoliittyma::annaVastustajanSiirto(Asema* asema)
 	while (komento.size() < 5 || komento.size() > 6) {
 		wcout << "Anna Siirto : ";
 		wcin >> komento;
+		if (komento == L"0-0" || komento == L"0-0-0") break;
 	}
 	if (komento.size() == 6) komento.erase(0, 1);
 	if (komento == L"0-0") {
@@ -94,6 +95,7 @@ Siirto Kayttoliittyma::annaVastustajanSiirto(Asema* asema)
 		Siirto siirto(true, false);
 		return siirto;
 	}
+
 	int alkuRuutuSarake = std::toupper(komento[0]) - 'A' - 1;
 	int loppuRuutuSarake = std::toupper(komento[3]) - 'A' - 1;
 
