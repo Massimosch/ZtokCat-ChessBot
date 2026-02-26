@@ -4,6 +4,8 @@
 #include "ruutu.h"
 #include <list>
 #include "kayttoliittyma.h"
+#include <thread>
+#include <future>
 
 Nappula* Asema::vk = new Kuningas(L"\u2654", 0, VK);
 Nappula* Asema::vd = new Daami(L"\u2655", 0, VD);
@@ -533,6 +535,35 @@ double Asema::linjat(int vari)
 //	}
 //	return min;
 //}
+
+MinMaxPaluu Asema::minimax_multithread(int alpha, int beta, int syvyys) {
+
+	vector<MinMaxPaluu> paluuarvot;
+	MinMaxPaluu paluuarvo;
+	vector<Siirto> siirrot;
+	annaLaillisetSiirrot(siirrot);
+	double best_value = -1000000;
+
+	vector<thread> threads;
+
+
+
+	for (Siirto s : siirrot) {
+		Asema testi_asema = *this;
+		testi_asema.paivitaAsema(&s);
+		threads.emplace_back(thread(&Asema::minimax, alpha, beta, syvyys));
+	}
+	for (auto& th : threads)
+		th.join();
+	for (MinMaxPaluu paluu : paluuarvot) {
+		if (paluu._evaluointiArvo > best_value) {
+			best_value = paluu._evaluointiArvo;
+			paluuarvo._parasSiirto = paluu._parasSiirto;
+			paluuarvo._evaluointiArvo = paluu._evaluointiArvo;
+		}
+	}
+	return paluuarvo;
+}
 
 MinMaxPaluu Asema::minimax(int alpha, int beta, int syvyys)
 {
