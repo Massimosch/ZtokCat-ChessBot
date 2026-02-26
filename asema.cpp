@@ -4,6 +4,8 @@
 #include "ruutu.h"
 #include <list>
 #include "kayttoliittyma.h"
+#include <thread>
+#include <future>
 
 Nappula* Asema::vk = new Kuningas(L"\u2654", 0, VK);
 Nappula* Asema::vd = new Daami(L"\u2655", 0, VD);
@@ -453,6 +455,107 @@ double Asema::laskeNappuloidenArvo(int vari)
 	pestotaulukon mukaan pelin eri tilanteissa (12 = Keskipeli, 0 = Loppupeli...) */
 	int egPhase = 24 - mgPhase;
 	return (mgScore * mgPhase + egScore * egPhase) / 24;
+}
+
+
+bool Asema::onkoAvausTaiKeskipeli(int vari) 
+{
+	return 0;
+	// Jos upseereita 3 tai v�hemm�n on loppupeli
+	// mutta jos daami laudalla on loppueli vasta kun kuin vain daami j�ljell�
+	
+	//Jos vari on 0 eli valkoiset
+	//niin on keskipeli jos mustalla upseereita yli 2 tai jos daami+1
+	
+
+}
+
+
+double Asema::nappuloitaKeskella(int vari) 
+{
+	return 0;
+
+	//sotilaat ydinkeskustassa + 0.25/napa
+	//ratsut ydinkeskustassa + 0.25/napa
+	//sotilaat laitakeskustassa + 0.11/napa
+	//ratsut laitakeskustassa + 0.11/napa
+	
+	//valkeille ydinkeskusta
+
+	
+	
+	//valkeille laitakeskusta
+	
+
+
+	//mustille ydinkeskusta
+	
+	//mustille laitakeskusta
+	
+}
+
+
+double Asema::linjat(int vari) 
+{
+	return 0;
+	
+	//valkoiset
+	
+	//mustat
+	
+}
+
+
+// https://chessprogramming.wikispaces.com/Minimax MinMax-algoritmin pseudokoodi (lis�sin parametrina aseman)
+//int maxi(int depth, asema a) 
+//	if (depth == 0) return evaluate();
+//	int max = -oo;
+//	for (all moves ) {
+//		score = mini(depth - 1, seuraaja);
+//		if (score > max)
+//			max = score;
+//	}
+//	return max;
+//}
+
+//int mini(int depth, asema a) {
+//	if (depth == 0) return -evaluate();
+//	int min = +oo;
+//	for (all moves) {
+//		score = maxi(depth - 1);
+//		if (score < min)
+//			min = score;
+//	}
+//	return min;
+//}
+
+MinMaxPaluu Asema::minimax_multithread(int alpha, int beta, int syvyys) {
+
+	vector<MinMaxPaluu> paluuarvot;
+	MinMaxPaluu paluuarvo;
+	vector<Siirto> siirrot;
+	annaLaillisetSiirrot(siirrot);
+	double best_value = -1000000;
+
+	vector<thread> threads;
+
+
+
+	for (Siirto s : siirrot) {
+		Asema testi_asema = *this;
+		testi_asema.paivitaAsema(&s);
+		threads.emplace_back(thread(&Asema::minimax, alpha, beta, syvyys));
+	}
+	for (auto& th : threads)
+		th.join();
+	for (MinMaxPaluu paluu : paluuarvot) {
+		if (paluu._evaluointiArvo > best_value) {
+			best_value = paluu._evaluointiArvo;
+			paluuarvo._parasSiirto = paluu._parasSiirto;
+			paluuarvo._evaluointiArvo = paluu._evaluointiArvo;
+		}
+	}
+	return paluuarvo;
 }
 
 MinMaxPaluu Asema::minimax(int alpha, int beta, int syvyys)
