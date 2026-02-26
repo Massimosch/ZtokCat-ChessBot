@@ -423,8 +423,15 @@ double Asema::evaluoi()
 	//1. Nappuloiden arvo
 	int arvo = laskeNappuloidenArvo(0);
 
+
 	//double nappula_arvo = laskeNappuloidenArvo(_siirtovuoro);
 	//2. Kuningas turvassa
+	for (int sq = 0; sq < 64; ++sq) {
+		int pc = board[sq];
+		if (pc != EMPTY) {
+			
+		}
+	}
 
 	//3. Arvosta keskustaa
 
@@ -436,12 +443,20 @@ double Asema::laskeNappuloidenArvo(int vari)
 {
 	double valkea_arvo = 0;
 	double musta_arvo = 0;
+	int mg[2];
+	int eg[2];
+	mg[WHITE] = 0;
+	mg[BLACK] = 0;
+	eg[WHITE] = 0;
+	eg[BLACK] = 0;
+	int gamePhase = 0;
 	int sq = 0;
 	for (int rivi = 0; rivi <= 7; rivi++, sq++) {
 		for (int sarake = 0; sarake <= 7; sarake++, sq++) {
 			Nappula* pc = _lauta[rivi][sarake];
+
 			if (pc != nullptr) {
-				int nappula;
+				int nappula{ 0 };
 				if (pc == vs) nappula = WHITE_PAWN;
 				else if (pc == ms) nappula = BLACK_PAWN;
 				else if (pc == vr) nappula = WHITE_KNIGHT;
@@ -456,12 +471,20 @@ double Asema::laskeNappuloidenArvo(int vari)
 				else if (pc == mk) nappula = BLACK_KING;
 				if (pc->getVari() == 0 )	musta_arvo += mg_table[nappula][sq];
 				else						valkea_arvo += eg_table[nappula][sq];
+
+				mg[PCOLOR(nappula)] += mg_table[nappula][sq];
+				eg[PCOLOR(nappula)] += eg_table[nappula][sq];
+				gamePhase += gamephaseInc[nappula];
 			}
 		}
 	}
-	double arvo = (musta_arvo + valkea_arvo) / 24;
-	if (arvo < -2000 || arvo > 2000) wcout << "Jotain meni pieleen";
-	return arvo;
+
+	int mgScore = mg[side2move] - mg[OTHER(side2move)];
+	int egScore = eg[side2move] - eg[OTHER(side2move)];
+	int mgPhase = gamePhase;
+	if (mgPhase > 24) mgPhase = 24; /* in case of early promotion */
+	int egPhase = 24 - mgPhase;
+	return (mgScore * mgPhase + egScore * egPhase) / 24;
 }
 
 
