@@ -401,21 +401,25 @@ bool Asema::getOnkoMustaKTliikkunut()
 
 double Asema::evaluoi()
 {
-	int arvo = laskeNappuloidenArvo(0);
-	return arvo;
+	NappulaArvot arvot = laskeNappuloidenArvo();
+
+	int mgPhase = arvot.gamePhase;
+	/* Tarkistaa käytännössä jos pelissä ei ole tullut lyöntejä ja sotilas korottautuu..
+	jos gamePhase menee yli 24. ja interpolointi hajoaa
+	Interpolointi = Arvo joka pitää huolen että nappulat ovat oikean arvoisia
+	pestotaulukon mukaan pelin eri tilanteissa (12 = Keskipeli, 0 = Loppupeli...) */
+	if (mgPhase > 24) mgPhase = 24;
+	int egPhase = 24 - mgPhase;
+	double mgScore = arvot.mg[_siirtovuoro] - arvot.mg[OTHER(_siirtovuoro)];
+	double egScore = arvot.eg[_siirtovuoro] - arvot.eg[OTHER(_siirtovuoro)];
+
+	return (mgScore * mgPhase + egScore * egPhase) / 24;
 }
 
-double Asema::laskeNappuloidenArvo(int vari) 
+NappulaArvot Asema::laskeNappuloidenArvo() 
 {
-	int mg[2];
-	int eg[2];
+	NappulaArvot arvot;
 
-	mg[WHITE] = 0;
-	mg[BLACK] = 0;
-	eg[WHITE] = 0;
-	eg[BLACK] = 0;
-
-	int gamePhase { 0 };
 	int sq { 0 };
 	for (int rivi{ 0 }; rivi <= 7; rivi++) {
 		for (int sarake = { 0 }; sarake <= 7; sarake++) {
@@ -437,24 +441,14 @@ double Asema::laskeNappuloidenArvo(int vari)
 				else if (pc == vk) nappula = WHITE_KING;
 				else if (pc == mk) nappula = BLACK_KING;
 
-				mg[PCOLOR(nappula)] += mg_table[nappula][sq];
-				eg[PCOLOR(nappula)] += eg_table[nappula][sq];
-				gamePhase += gamephaseInc[nappula];
+				arvot.mg[PCOLOR(nappula)] += mg_table[nappula][sq];
+				arvot.eg[PCOLOR(nappula)] += eg_table[nappula][sq];
+				arvot.gamePhase += gamephaseInc[nappula];
 			}
 		}
 	}
 
-	int mgScore = mg[_siirtovuoro] - mg[OTHER(_siirtovuoro)];
-	int egScore = eg[_siirtovuoro] - eg[OTHER(_siirtovuoro)];
-	int mgPhase = gamePhase;
-
-	if (mgPhase > 24) mgPhase = 24; 
-	/* Tarkistaa käytännössä jos pelissä ei ole tullut lyöntejä ja sotilas korottautuu.. 
-	jos gamePhase menee yli 24. ja interpolointi hajoaa
-	Interpolointi = Arvo joka pitää huolen että nappulat ovat oikean arvoisia
-	pestotaulukon mukaan pelin eri tilanteissa (12 = Keskipeli, 0 = Loppupeli...) */
-	int egPhase = 24 - mgPhase;
-	return (mgScore * mgPhase + egScore * egPhase) / 24;
+	return arvot;
 }
 
 MinMaxPaluu Asema::minimax_multithread(int alpha, int beta, int syvyys) {
