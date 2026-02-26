@@ -181,6 +181,7 @@ int eg_value[6] = { 94, 281, 297, 512,  936,  0 };
 int mg_table[12][64];
 int eg_table[12][64];
 
+/* Nappuloiden arvot */
 #define PAWN   0
 #define KNIGHT 1
 #define BISHOP 2
@@ -188,7 +189,6 @@ int eg_table[12][64];
 #define QUEEN  4
 #define KING   5
 
-/* board representation */
 #define WHITE  0
 #define BLACK  1
 
@@ -207,8 +207,6 @@ int eg_table[12][64];
 #define EMPTY           (BLACK_KING  +  1)
 
 #define PCOLOR(p) ((p)&1)
-
-int side2move;
 int board[64];
 
 #define FLIP(sq) ((sq)^56)
@@ -401,59 +399,32 @@ bool Asema::getOnkoMustaKTliikkunut()
 	return _onkoMustaKTliikkunut;
 }
 
-
-/* 1. Laske nappuloiden arvo
-Daami = 9
-Torni = 5
-L�hetti = 3,25
-Ratsu = 3
-Sotilas = 1
-
-2. Kuninkaan hyvyys
-Jos avaus tai keskipeli, niin hyv� ett� kunigas g1 tai b1/c1
-Loppupeliss� vaikea sanoa halutaanko olla auttamassa omaa sotilasta korottumaan
-vai olla est�m�ss� vastustajan korotusta siksi ei oteta kantaa
-3. Arvosta keskustaa sotilailla ja ratsuilla
-4. Arvosta pitki� linjoja daami, torni ja l�hetti
-*/
 double Asema::evaluoi()
 {
-	//kertoimet asetettu sen takia ett� niiden avulla asioiden painoarvoa voidaan s��t�� helposti yhdest� paikasta
+	NappulaArvot arvot = laskeNappuloidenArvo();
 
-	//1. Nappuloiden arvo
-	int arvo = laskeNappuloidenArvo(0);
+	int mgPhase = arvot.gamePhase;
+	/* Tarkistaa käytännössä jos pelissä ei ole tullut lyöntejä ja sotilas korottautuu..
+	jos gamePhase menee yli 24. ja interpolointi hajoaa
+	Interpolointi = Arvo joka pitää huolen että nappulat ovat oikean arvoisia
+	pestotaulukon mukaan pelin eri tilanteissa (12 = Keskipeli, 0 = Loppupeli...) */
+	if (mgPhase > 24) mgPhase = 24;
+	int egPhase = 24 - mgPhase;
+	double mgScore = arvot.mg[_siirtovuoro] - arvot.mg[OTHER(_siirtovuoro)];
+	double egScore = arvot.eg[_siirtovuoro] - arvot.eg[OTHER(_siirtovuoro)];
 
-
-	//double nappula_arvo = laskeNappuloidenArvo(_siirtovuoro);
-	//2. Kuningas turvassa
-	for (int sq = 0; sq < 64; ++sq) {
-		int pc = board[sq];
-		if (pc != EMPTY) {
-			
-		}
-	}
-
-	//3. Arvosta keskustaa
-
-	// 4. Arvosta linjoja
-	return arvo;
+	return (mgScore * mgPhase + egScore * egPhase) / 24;
 }
 
-double Asema::laskeNappuloidenArvo(int vari) 
+NappulaArvot Asema::laskeNappuloidenArvo() 
 {
-	double valkea_arvo = 0;
-	double musta_arvo = 0;
-	int mg[2];
-	int eg[2];
-	mg[WHITE] = 0;
-	mg[BLACK] = 0;
-	eg[WHITE] = 0;
-	eg[BLACK] = 0;
-	int gamePhase = 0;
-	int sq = 0;
-	for (int rivi = 0; rivi <= 7; rivi++, sq++) {
-		for (int sarake = 0; sarake <= 7; sarake++, sq++) {
+	NappulaArvot arvot;
+
+	int sq { 0 };
+	for (int rivi{ 0 }; rivi <= 7; rivi++) {
+		for (int sarake = { 0 }; sarake <= 7; sarake++) {
 			Nappula* pc = _lauta[rivi][sarake];
+			sq = rivi * 8 + sarake;
 
 			if (pc != nullptr) {
 				int nappula{ 0 };
@@ -469,95 +440,16 @@ double Asema::laskeNappuloidenArvo(int vari)
 				else if (pc == md) nappula = BLACK_QUEEN;
 				else if (pc == vk) nappula = WHITE_KING;
 				else if (pc == mk) nappula = BLACK_KING;
-				if (pc->getVari() == 0 )	musta_arvo += mg_table[nappula][sq];
-				else						valkea_arvo += eg_table[nappula][sq];
 
-				mg[PCOLOR(nappula)] += mg_table[nappula][sq];
-				eg[PCOLOR(nappula)] += eg_table[nappula][sq];
-				gamePhase += gamephaseInc[nappula];
+				arvot.mg[PCOLOR(nappula)] += mg_table[nappula][sq];
+				arvot.eg[PCOLOR(nappula)] += eg_table[nappula][sq];
+				arvot.gamePhase += gamephaseInc[nappula];
 			}
 		}
 	}
 
-	int mgScore = mg[side2move] - mg[OTHER(side2move)];
-	int egScore = eg[side2move] - eg[OTHER(side2move)];
-	int mgPhase = gamePhase;
-	if (mgPhase > 24) mgPhase = 24; /* in case of early promotion */
-	int egPhase = 24 - mgPhase;
-	return (mgScore * mgPhase + egScore * egPhase) / 24;
+	return arvot;
 }
-
-
-bool Asema::onkoAvausTaiKeskipeli(int vari) 
-{
-	return 0;
-	// Jos upseereita 3 tai v�hemm�n on loppupeli
-	// mutta jos daami laudalla on loppueli vasta kun kuin vain daami j�ljell�
-	
-	//Jos vari on 0 eli valkoiset
-	//niin on keskipeli jos mustalla upseereita yli 2 tai jos daami+1
-	
-
-}
-
-
-double Asema::nappuloitaKeskella(int vari) 
-{
-	return 0;
-
-	//sotilaat ydinkeskustassa + 0.25/napa
-	//ratsut ydinkeskustassa + 0.25/napa
-	//sotilaat laitakeskustassa + 0.11/napa
-	//ratsut laitakeskustassa + 0.11/napa
-	
-	//valkeille ydinkeskusta
-
-	
-	
-	//valkeille laitakeskusta
-	
-
-
-	//mustille ydinkeskusta
-	
-	//mustille laitakeskusta
-	
-}
-
-
-double Asema::linjat(int vari) 
-{
-	return 0;
-	
-	//valkoiset
-	
-	//mustat
-	
-}
-
-
-// https://chessprogramming.wikispaces.com/Minimax MinMax-algoritmin pseudokoodi (lis�sin parametrina aseman)
-//int maxi(int depth, asema a) 
-//	if (depth == 0) return evaluate();
-//	int max = -oo;
-//	for (all moves ) {
-//		score = mini(depth - 1, seuraaja);
-//		if (score > max)
-//			max = score;
-//	}
-//	return max;
-//}
-
-//int mini(int depth, asema a) {
-//	if (depth == 0) return -evaluate();
-//	int min = +oo;
-//	for (all moves) {
-//		score = maxi(depth - 1);
-//		if (score < min)
-//			min = score;
-//	}
-//	return min;
-//}
 
 MinMaxPaluu Asema::minimax_multithread(int alpha, int beta, int syvyys) {
     vector<future<MinMaxPaluu>> futures;
@@ -750,17 +642,6 @@ void Asema::huolehdiKuninkaanShakeista(vector<Siirto>& lista, int vari)
 		if (testi_asema.onkoRuutuUhattu(&kuningasruutu, vastustaja)) {
 			lista.erase(lista.begin() + i);
 		}
-		
-
-		//Ruutu alkuruutu = siirto.getAlkuruutu();
-		//Ruutu kohde = siirto.getLoppuruutu();
-		//if (!_lauta[alkuruutu.getRivi()][alkuruutu.getSarake()]) continue;
-		//if (_lauta[alkuruutu.getRivi()][alkuruutu.getSarake()]->getKoodi() != MK 
-		//	&& _lauta[alkuruutu.getRivi()][alkuruutu.getSarake()]->getKoodi() != VK) continue;
-		//if (onkoRuutuUhattu(&kohde, vastustaja)) {
-		//	lista.erase(lista.begin() + i);
-		//	wcout << "Kuninkaalta poistettiin laiton siirto!" << endl;
-		//}
 	}
 }
 

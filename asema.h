@@ -11,6 +11,12 @@ class Nappula;
 
 // Asema sis�lt�� kaiken tarvittavan informaation pelitilanteen kuvaamiseksi
 // (nappuloiden sijainti, siirtovuoro, linnoitusoikeudet.).
+struct NappulaArvot {
+	int mg[2] = { 0,0 };
+	int eg[2] = { 0,0 };
+	int gamePhase = 0;
+};
+
 class Asema
 {
 
@@ -57,7 +63,7 @@ private:
 	bool _onkoMustaDTliikkunut;			// Linnoitus ei ole sallittu, jos daamisuvustan torni on liikkunut.	
 	bool _onkoMustaKTliikkunut;			// Linnoitus ei ole sallittu, jos kuningassivustan torni on liikkunut.
 
-	double laskeNappuloidenArvo(int);
+	NappulaArvot laskeNappuloidenArvo();
 	bool onkoAvausTaiKeskipeli(int);
 	double nappuloitaKeskella(int);
 	double linjat(int);
