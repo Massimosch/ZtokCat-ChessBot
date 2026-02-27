@@ -279,10 +279,10 @@ void Asema::paivitaAsema(Siirto *siirto)
 		else {
 			//MTorni
 			_lauta[0][5] = mt;
-			_lauta[0][4] = NULL;
+			_lauta[0][7] = NULL;
 			//MKunnkku
 			_lauta[0][6] = mk;
-			_lauta[0][7] = NULL;
+			_lauta[0][4] = NULL;
 		}
 	}
 	else if (siirto->onkoPitkalinna()) { 	// onko pitk� linna
@@ -410,8 +410,8 @@ double Asema::evaluoi()
 	pestotaulukon mukaan pelin eri tilanteissa (12 = Keskipeli, 0 = Loppupeli...) */
 	if (mgPhase > 24) mgPhase = 24;
 	int egPhase = 24 - mgPhase;
-	double mgScore = arvot.mg[_siirtovuoro] - arvot.mg[OTHER(_siirtovuoro)];
-	double egScore = arvot.eg[_siirtovuoro] - arvot.eg[OTHER(_siirtovuoro)];
+	double mgScore = arvot.mg[0] - arvot.mg[1];
+	double egScore = arvot.eg[0] - arvot.eg[1];
 
 	return (mgScore * mgPhase + egScore * egPhase) / 24;
 }
@@ -541,6 +541,7 @@ MinMaxPaluu Asema::minimax(int alpha, int beta, int syvyys)
 			paluuarvo._parasSiirto = s;
 			paluuarvo._evaluointiArvo = arvo;
 			mini = arvo;
+			if (arvo < beta) beta = arvo;
 		}
 
 		if (_siirtovuoro == 0 && arvo >= beta) return paluuarvo;
