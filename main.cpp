@@ -42,21 +42,9 @@ int main()
 		Siirto siirto;
 		if (asema.getSiirtovuoro() == koneenVari) {
 			MinMaxPaluu paluu;
-			asema.minimax(3);
+			paluu = asema.minimax_multithread(-100000, 100000, 4);
 			siirto = paluu._parasSiirto;
 		}
-		/*else {
-			siirto = Kayttoliittyma::getInstance()->
-				annaVastustajanSiirto();
-			
-		}*/
-
-		/*if (asema.getSiirtovuoro() == koneenVari) {
-			// Koneen siirto
-			wcout << "Siirtovuoro on botilla" << endl;
-			if (!lista.empty()) siirto = lista[rand() % lista.size()];
-			siirto = lista.back();
-		}*/
 		else {
 			// Pelaajan siirto
 			wcout << "Siirtovuoro on pelaajalla" << endl;

@@ -11,6 +11,12 @@ class Nappula;
 
 // Asema sis�lt�� kaiken tarvittavan informaation pelitilanteen kuvaamiseksi
 // (nappuloiden sijainti, siirtovuoro, linnoitusoikeudet.).
+struct NappulaArvot {
+	int mg[2] = { 0,0 };
+	int eg[2] = { 0,0 };
+	int gamePhase = 0;
+};
+
 class Asema
 {
 
@@ -32,10 +38,11 @@ public:
 	Asema();												// Asettaa alkuaseman.
 	void paivitaAsema(Siirto*);								// P�ivitt�� aseman annetulla siirrolla.
 	double evaluoi();										// Aseman numeerinen arviointi.
-	MinMaxPaluu maxi(int syvyys, Asema a);							// Minimax (max:n siirtovuoro).
-	MinMaxPaluu mini(int syvyys, Asema a);							// Minimax (min:n siirtovuoro).
-	MinMaxPaluu minimax(int syvyys);						// Minimax-algoritmi.
-	void annaLaillisetSiirrot(vector<Siirto>& lista);	// Siirtogeneraattori.
+	MinMaxPaluu maxi(int syvyys);							// Minimax (max:n siirtovuoro).
+	MinMaxPaluu mini(int syvyys);							// Minimax (min:n siirtovuoro).
+	MinMaxPaluu minimax(int alpha, int beta, int syvyys);	// Minimax-algoritmi.
+	MinMaxPaluu minimax_multithread(int alpha, int beta, int syvyys);
+	void annaLaillisetSiirrot(vector<Siirto>& lista);		// Siirtogeneraattori.
 	int getSiirtovuoro();									// Palauttaa siirtovuoron.
 	void setSiirtovuoro(int);								// Asettaa siirtovuoron.
 	bool getOnkoValkeaKuningasLiikkunut();					// Linnoittuminen mahdollista?
@@ -56,7 +63,7 @@ private:
 	bool _onkoMustaDTliikkunut;			// Linnoitus ei ole sallittu, jos daamisuvustan torni on liikkunut.	
 	bool _onkoMustaKTliikkunut;			// Linnoitus ei ole sallittu, jos kuningassivustan torni on liikkunut.
 
-	double laskeNappuloidenArvo(int);
+	NappulaArvot laskeNappuloidenArvo();
 	bool onkoAvausTaiKeskipeli(int);
 	double nappuloitaKeskella(int);
 	double linjat(int);
