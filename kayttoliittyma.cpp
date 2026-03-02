@@ -73,6 +73,40 @@ void Kayttoliittyma::piirraLauta(Asema* _asema) {
 	wcout << " A  B  C  D  E  F  G  H  " << endl;
 }
 
+void Kayttoliittyma::piirraSiirrot(Asema* _asema) {
+	CONSOLE_SCREEN_BUFFER_INFO csbi;
+	GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &csbi);
+	vector<Siirto> siirrot;
+	_asema->annaLaillisetSiirrot(siirrot);
+	for (Siirto s : siirrot) {
+		Asema testiasema = *_asema;
+		testiasema.paivitaAsema(&s);
+		
+		for (int y = 0; y <= 7; y++) {
+			for (int x = 0; x <= 7; x++) {
+
+				SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), drawDark ? DARKTILE_COLOR : LIGHTTILE_COLOR);
+
+				if (testiasema._lauta[y][x] == NULL)
+					wcout << "   ";
+				else {
+					wcout << " ";
+					wcout << testiasema._lauta[y][x]->getUnicode();
+					wcout << " ";
+				}
+
+				drawDark = !drawDark;
+			}
+
+			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), csbi.wAttributes);
+			wcout << " " << 8 - y << endl;
+			drawDark = !drawDark;
+		}
+
+		wcout << " A  B  C  D  E  F  G  H  " << endl;
+	}
+}
+
 /*
 	Aliohjelma tarkistaa ett� k�ytt�j�n antama sy�te siirroksi on 
 	muodollisesti korrekti (ei tarkista aseman laillisuutta)
@@ -84,6 +118,7 @@ Siirto Kayttoliittyma::annaVastustajanSiirto(Asema* asema)
 	while (komento.size() < 5 || komento.size() > 6) {
 		wcout << "Anna Siirto : ";
 		wcin >> komento;
+		if (komento == L"ps") piirraSiirrot(asema);
 		if (komento == L"0-0" || komento == L"0-0-0") break;
 	}
 	if (komento.size() == 6) komento.erase(0, 1);
@@ -92,7 +127,7 @@ Siirto Kayttoliittyma::annaVastustajanSiirto(Asema* asema)
 		return siirto;
 	}
 	if (komento == L"0-0-0") {
-		Siirto siirto(true, false);
+		Siirto siirto(false, true);
 		return siirto;
 	}
 

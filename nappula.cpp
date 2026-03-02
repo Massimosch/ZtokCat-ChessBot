@@ -1,11 +1,12 @@
 #include <vector>
 #include "nappula.h"
 
-Nappula::Nappula(wstring unicode, int vari, int koodi)
+Nappula::Nappula(wstring unicode, int vari, int koodi, int arvo)
 {
 	_unicode = unicode;
 	_vari = vari;
 	_koodi = koodi;
+	_arvo = arvo;
 }
 
 void Torni::annaSiirrot(vector<Siirto>& lista, Ruutu* ruutu, Asema* asema, int vari)
@@ -404,12 +405,12 @@ void Sotilas::annaSiirrot(vector<Siirto>& lista, Ruutu* ruutu, Asema* asema, int
 		}
 
 		// en passant vasemmalle
-		if (asema->kaksoisaskelSarakkeella == sarake - 1 && rivi == 3 && asema->_lauta[rivi - 1][sarake-1] == nullptr) {
+		if (asema->kaksoisaskelSarakkeella == sarake - 1 && rivi == 3 && asema->_lauta[rivi - 1][sarake-1] == nullptr && sarake - 1 >= 0) {
 			Siirto newSiirto = Siirto(*ruutu, Ruutu(sarake - 1, rivi - 1));
 			lista.push_back(newSiirto);
 		}
 		// en passant oikealle
-		if (asema->kaksoisaskelSarakkeella == sarake + 1 && rivi == 3 && asema->_lauta[rivi - 1][sarake + 1] == nullptr) {
+		if (asema->kaksoisaskelSarakkeella == sarake + 1 && rivi == 3 && asema->_lauta[rivi - 1][sarake + 1] == nullptr && sarake + 1 <= 7) {
 			Siirto newSiirto = Siirto(*ruutu, Ruutu(sarake + 1, rivi - 1));
 			lista.push_back(newSiirto);
 		}
@@ -450,12 +451,12 @@ void Sotilas::annaSiirrot(vector<Siirto>& lista, Ruutu* ruutu, Asema* asema, int
 		}
 
 		// en passant vasemmalle
-		if (asema->kaksoisaskelSarakkeella == sarake - 1 && rivi == 4 && asema->_lauta[rivi + 1][sarake - 1] == nullptr) {
+		if (asema->kaksoisaskelSarakkeella == sarake - 1 && rivi == 4 && asema->_lauta[rivi + 1][sarake - 1] == nullptr && sarake - 1 >= 0) {
 			Siirto newSiirto = Siirto(*ruutu, Ruutu(sarake - 1, rivi + 1));
 			lista.push_back(newSiirto);
 		}
 		// en passant oikealle
-		if (asema->kaksoisaskelSarakkeella == sarake + 1 && rivi == 4 && asema->_lauta[rivi + 1][sarake + 1] == nullptr) {
+		if (asema->kaksoisaskelSarakkeella == sarake + 1 && rivi == 4 && asema->_lauta[rivi + 1][sarake + 1] == nullptr && sarake + 1 <= 7) {
 			Siirto newSiirto = Siirto(*ruutu, Ruutu(sarake + 1, rivi + 1));
 			lista.push_back(newSiirto);
 		}

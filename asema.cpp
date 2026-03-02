@@ -7,20 +7,21 @@
 #include <thread>
 #include <future>
 
-Nappula* Asema::vk = new Kuningas(L"\u2654", 0, VK);
-Nappula* Asema::vd = new Daami(L"\u2655", 0, VD);
-Nappula* Asema::vt = new Torni(L"\u2656", 0, VT);
-Nappula* Asema::vl = new Lahetti(L"\u2657", 0, VL);
-Nappula* Asema::vr = new Ratsu(L"\u2658", 0, VR);
-Nappula* Asema::vs = new Sotilas(L"\u2659", 0, VS);
+Nappula* Asema::vk = new Kuningas(L"\u2654", 0, VK, 10000);
+Nappula* Asema::vd = new Daami(L"\u2655", 0, VD, 10);
+Nappula* Asema::vt = new Torni(L"\u2656", 0, VT, 5);
+Nappula* Asema::vl = new Lahetti(L"\u2657", 0, VL, 3.25);
+Nappula* Asema::vr = new Ratsu(L"\u2658", 0, VR, 3);
+Nappula* Asema::vs = new Sotilas(L"\u2659", 0, VS, 1);
 
-Nappula* Asema::mk = new Kuningas(L"\u265A", 1, MK);
-Nappula* Asema::md = new Daami(L"\u265B", 1, MD);
-Nappula* Asema::mt = new Torni(L"\u265C", 1, MT);
-Nappula* Asema::ml = new Lahetti(L"\u265D", 1, ML);
-Nappula* Asema::mr = new Ratsu(L"\u265E", 1, MR);
-Nappula* Asema::ms = new Sotilas(L"\u265F", 1, MS);
+Nappula* Asema::mk = new Kuningas(L"\u265A", 1, MK, 10000);
+Nappula* Asema::md = new Daami(L"\u265B", 1, MD, 10);
+Nappula* Asema::mt = new Torni(L"\u265C", 1, MT, 5);
+Nappula* Asema::ml = new Lahetti(L"\u265D", 1, ML, 3.25);
+Nappula* Asema::mr = new Ratsu(L"\u265E", 1, MR, 3);
+Nappula* Asema::ms = new Sotilas(L"\u265F", 1, MS, 1);
 
+int searched_trees = 0;
 
 int mg_pawn_table[64] = {
 	  0,   0,   0,   0,   0,   0,  0,   0,
@@ -451,14 +452,49 @@ NappulaArvot Asema::laskeNappuloidenArvo()
 	return arvot;
 }
 
-MinMaxPaluu Asema::minimax_multithread(int alpha, int beta, int syvyys) {
+void Asema::jarjestaSiirrot(vector<Siirto>& lista) {
+	for (Siirto& s : lista) {
+		int siirtoPisteArvio = 0;
+		if (s.onkoLyhytLinna() || s.onkoPitkalinna()) {
+			siirtoPisteArvio += 30;
+			s.setJarjestysArvo(siirtoPisteArvio);
+			continue;
+		}
+		else {
+			Nappula* siirtoNappula = _lauta[s.getAlkuruutu().getRivi()][s.getAlkuruutu().getSarake()];
+			Nappula* siirtoSieppausNappula = _lauta[s.getLoppuruutu().getRivi()][s.getLoppuruutu().getSarake()];
+			int vastustajan_vari = (_siirtovuoro == 0) ? 1 : 0;
+
+			// Priorisoi vastustajan nappulan korkeimman arvon nappulan syominen meidan pienimman arvon nappulalla
+			if (siirtoSieppausNappula != nullptr && siirtoSieppausNappula->getVari() == vastustajan_vari)
+				siirtoPisteArvio = 10 * siirtoSieppausNappula->getArvo() - siirtoNappula->getArvo();
+
+			if (siirtoNappula == vs && s.getLoppuruutu().getRivi() == 0 || siirtoNappula == ms && s.getLoppuruutu().getRivi() == 7) {
+				siirtoPisteArvio += s.getMiksikorotetaan()->getArvo();
+			}
+
+			
+			if (onkoRuutuUhattu(&Ruutu(s.getLoppuruutu().getSarake(), s.getLoppuruutu().getRivi()), vastustajan_vari)) {
+				siirtoPisteArvio -= siirtoNappula->getArvo();
+			}
+
+			s.setJarjestysArvo(siirtoPisteArvio);
+		}
+	}
+
+	sort(lista.begin(), lista.end(), [](Siirto a, Siirto b) {
+		return a.getJarjestysArvo() > b.getJarjestysArvo();
+	});
+}
+
+MinMaxPaluu Asema::minimax_multithread(double alpha, double beta, int syvyys) {
     vector<future<MinMaxPaluu>> futures;
     vector<Siirto> siirrot;
     MinMaxPaluu paluuarvo;
     double min = -1000000;
 	double max = 1000000;
     annaLaillisetSiirrot(siirrot);
-
+	jarjestaSiirrot(siirrot);
     for (const Siirto& s : siirrot) {
 		// pyöritä minmaxia jokaiselle siirrolle omassa säikeessään
         futures.push_back(std::async(std::launch::async, [this, s, alpha, beta, syvyys]() {
@@ -482,15 +518,18 @@ MinMaxPaluu Asema::minimax_multithread(int alpha, int beta, int syvyys) {
 			paluuarvo._evaluointiArvo = paluu._evaluointiArvo;
 		}
     }
+	wcout << L"Etsityt nodet: " << searched_trees << endl;
+	searched_trees = 0;
     return paluuarvo;
 }
 
-MinMaxPaluu Asema::minimax(int alpha, int beta, int syvyys)
+MinMaxPaluu Asema::minimax(double alpha, double beta, int syvyys)
 {
 	MinMaxPaluu paluuarvo;
 	// Generoidaan aseman lailliset siirrot.
 	vector<Siirto> siirrot;
 	annaLaillisetSiirrot(siirrot);
+	jarjestaSiirrot(siirrot);
 	// Rekursion kantatapaus 1: peli on loppu
 	if (siirrot.size() == 0) {
 		// katso onko kuningas uhattu jos joo niin peli palauttaa äärettömän suuren arvon
@@ -500,13 +539,13 @@ MinMaxPaluu Asema::minimax(int alpha, int beta, int syvyys)
 				if (_lauta[rivi][sarake] == nullptr) continue;
 				if ((_lauta[rivi][sarake] == vk && _siirtovuoro == 0) || (_lauta[rivi][sarake] == mk && _siirtovuoro == 1)) {
 					kuningasruutu = Ruutu(sarake, rivi);
-					break;
+					break; 
 				}
 			}
 		}
 		int vastustajan_vari = (_siirtovuoro == 0) ? 1 : 0;
 		if (onkoRuutuUhattu(&kuningasruutu, vastustajan_vari)) {
-			paluuarvo._evaluointiArvo = 1000000;
+			paluuarvo._evaluointiArvo = (_siirtovuoro == 0) ? -1000000 : 1000000;
 			return paluuarvo;
 		}
 		paluuarvo._evaluointiArvo = 0;
@@ -519,34 +558,40 @@ MinMaxPaluu Asema::minimax(int alpha, int beta, int syvyys)
 	}
 	// Rekursioaskel: kokeillaan jokaista laillista siirtoa s
 	// (alustetaan paluuarvo huonoimmaksi mahdolliseksi).
-	double mini = 100000000;
-	double maxi = -100000000;
-	for (Siirto s : siirrot) {
-		
-		Asema testi_asema = *this;
-		testi_asema.paivitaAsema(&s);
 
-		double arvo = testi_asema.minimax(alpha, beta, syvyys - 1)._evaluointiArvo;
-
-		//wcout << " Arvo: " << arvo << endl;
-		//Kayttoliittyma::getInstance()->piirraLauta(&testi_asema);
-
-		if (_siirtovuoro == 0 && arvo > maxi) {
-			paluuarvo._parasSiirto = s;
-			paluuarvo._evaluointiArvo = arvo;
-			maxi = arvo;
-			if (arvo > alpha) alpha = arvo;
+	if (_siirtovuoro == 0) {
+		double maxi = -100000000;
+		for (Siirto s : siirrot) {
+			Asema testi_asema = *this;
+			testi_asema.paivitaAsema(&s);
+			searched_trees++;
+			double arvo = testi_asema.minimax(alpha, beta, syvyys - 1)._evaluointiArvo;
+			if (arvo > maxi) {
+				paluuarvo._parasSiirto = s;
+				paluuarvo._evaluointiArvo = arvo;
+			}
+			maxi = max(maxi, arvo);
+			alpha = max(alpha, arvo);
+			if (beta <= alpha) break;
 		}
-		else if (_siirtovuoro == 1 && arvo < mini) {
-			paluuarvo._parasSiirto = s;
-			paluuarvo._evaluointiArvo = arvo;
-			mini = arvo;
-			if (arvo < beta) beta = arvo;
+		paluuarvo._evaluointiArvo = maxi;
+	}
+	else {
+		double mini = 100000000;
+		for (Siirto s : siirrot) {
+			Asema testi_asema = *this;
+			testi_asema.paivitaAsema(&s);
+			searched_trees++;
+			double arvo = testi_asema.minimax(alpha, beta, syvyys - 1)._evaluointiArvo;
+			if (arvo < mini) {
+				paluuarvo._parasSiirto = s;
+				paluuarvo._evaluointiArvo = arvo;
+			}
+			mini = min(mini, arvo);
+			beta = min(beta, arvo);
+			if (beta <= alpha) break;
 		}
-
-		if (_siirtovuoro == 0 && arvo >= beta) return paluuarvo;
-		if (_siirtovuoro == 1 && arvo <= alpha) return paluuarvo;
-
+		paluuarvo._evaluointiArvo = mini;
 	}
 	return paluuarvo;
 }
@@ -572,7 +617,7 @@ bool Asema::onkoRuutuUhattu(Ruutu* ruutu, int vastustajanVari)
 
 	for (int y = 0; y <= 7; y++) {
 		for (int x = 0; x <= 7; x++) {
-			if (_lauta[y][x] == NULL) continue;
+			if (_lauta[y][x] == nullptr) continue;
 			if (_lauta[y][x]->getVari() == vastustajanVari) _lauta[y][x]->annaSiirrot(vastustajanSiirrot, &Ruutu(x, y), this, vastustajanVari);
 		}
 	}
@@ -593,24 +638,24 @@ void Asema::annaLinnoitusSiirrot(vector<Siirto>& lista, int vari)
 		// Lyhyt linnoitus
 		if (!onkoRuutuUhattu(&Ruutu(4, 7), 1) && !onkoRuutuUhattu(&Ruutu(5, 7), 1) 
 			&& !onkoRuutuUhattu(&Ruutu(6, 7), 1) && !getOnkoValkeaKTliikkunut() && !getOnkoValkeaKuningasLiikkunut()) {
-			if (_lauta[7][5] == nullptr && _lauta[7][6] == nullptr) lista.push_back(Siirto(true, false));
+			if (_lauta[7][5] == nullptr && _lauta[7][6] == nullptr && _lauta[7][7] == vt && _lauta[7][4] == vk) lista.push_back(Siirto(true, false));
 		}
 		// Pitkä linnoitus
 		if (!onkoRuutuUhattu(&Ruutu(4, 7), 1) && !onkoRuutuUhattu(&Ruutu(3, 7), 1)
 			&& !onkoRuutuUhattu(&Ruutu(2, 7), 1) && !getOnkoValkeaDTliikkunut() && !getOnkoValkeaKuningasLiikkunut()) {
-			if (_lauta[7][3] == nullptr && _lauta[7][2] == nullptr && _lauta[7][1] == nullptr) lista.push_back(Siirto(false, true));
+			if (_lauta[7][3] == nullptr && _lauta[7][2] == nullptr && _lauta[7][1] == nullptr && _lauta[7][0] == vt && _lauta[7][4] == vk) lista.push_back(Siirto(false, true));
 		}
 	}
 	else if (vari == 1) { // Mustan linnoitukset
 		// Lyhyt linnoitus
 		if (!onkoRuutuUhattu(&Ruutu(4, 0), 0) && !onkoRuutuUhattu(&Ruutu(5, 0), 0)
 			&& !onkoRuutuUhattu(&Ruutu(6, 0), 0) && !getOnkoMustaKTliikkunut() && !getOnkoMustaKuningasLiikkunut()) {
-			if (_lauta[0][5] == nullptr && _lauta[0][6] == nullptr) lista.push_back(Siirto(true, false));
+			if (_lauta[0][5] == nullptr && _lauta[0][6] == nullptr && _lauta[0][7] == mt && _lauta[0][4] == mk) lista.push_back(Siirto(true, false));
 		}
 		// Pitkä linnoitus
 		if (!onkoRuutuUhattu(&Ruutu(4, 0), 0) && !onkoRuutuUhattu(&Ruutu(3, 0), 0)
-			&& !onkoRuutuUhattu(&Ruutu(2, 0), 1) && !getOnkoMustaDTliikkunut() && !getOnkoMustaKuningasLiikkunut()) {
-			if (_lauta[0][3] == nullptr && _lauta[0][2] == nullptr && _lauta[0][1] == nullptr) lista.push_back(Siirto(false, true));
+			&& !onkoRuutuUhattu(&Ruutu(2, 0), 0) && !getOnkoMustaDTliikkunut() && !getOnkoMustaKuningasLiikkunut()) {
+			if (_lauta[0][3] == nullptr && _lauta[0][2] == nullptr && _lauta[0][1] == nullptr && _lauta[0][0] == mt && _lauta[0][4] == mk) lista.push_back(Siirto(false, true));
 		}
 	}
 }
@@ -632,7 +677,7 @@ void Asema::huolehdiKuninkaanShakeista(vector<Siirto>& lista, int vari)
 		for (int rivi = 0; rivi <= 7; rivi++) {
 			for (int sarake = 0; sarake <= 7; sarake++) {
 				if (testi_asema._lauta[rivi][sarake] == nullptr) continue;
-				if ((testi_asema._lauta[rivi][sarake]->getKoodi() == VK && vari == 0) || (testi_asema._lauta[rivi][sarake]->getKoodi() == MK && vari == 1)) {
+				if ((testi_asema._lauta[rivi][sarake] == vk && vari == 0) || testi_asema._lauta[rivi][sarake] == mk && vari == 1) {
 					kuningasruutu = Ruutu(sarake, rivi);
 					break;
 				}
@@ -656,6 +701,6 @@ void Asema::annaLaillisetSiirrot(vector<Siirto>& lista) {
 			_lauta[rivi][sarake]->annaSiirrot(lista, ruutu, this, _siirtovuoro);
 		}
 	}
-	annaLinnoitusSiirrot(lista, _siirtovuoro);
 	huolehdiKuninkaanShakeista(lista, _siirtovuoro);
+	annaLinnoitusSiirrot(lista, _siirtovuoro);
 }

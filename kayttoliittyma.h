@@ -15,6 +15,7 @@ public:
 	void aseta_asema(Asema* asema) { this->_asema = asema;  }
 	void piirraLauta();
 	void piirraLauta(Asema* _asema);
+	void piirraSiirrot(Asema* _asema);
 	Siirto annaVastustajanSiirto(Asema* asema);
 	int kysyVastustajanVari();
 

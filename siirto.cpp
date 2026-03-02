@@ -59,3 +59,7 @@ bool Siirto::operator== (const Siirto& rhs)
 {
 	return (this->_alkuRuutu == rhs._alkuRuutu) && (this->_loppuRuutu == rhs._loppuRuutu);
 }
+
+bool Siirto::operator< (const Siirto& rhs) {
+	return (this->jarjestys_arvo < rhs.jarjestys_arvo);
+}
