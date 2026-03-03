@@ -10,6 +10,9 @@
 #include <chrono>
 using namespace std; 
 
+#define PLAY_AGAINSTS_SELF
+#define DEPTH 4
+
 int main()
 {
     _setmode(_fileno(stdout), _O_U16TEXT);
@@ -17,6 +20,7 @@ int main()
 	wcout << "Ultimate ZtokCät ChessBot! \nTervetuloa kokeilemaan onneanne...\n" << endl;
 	int lopetus = 100;
 	vector<Siirto> lista;
+	lista.reserve(218);
 	Asema asema; 
 	Kayttoliittyma::getInstance()->aseta_asema(&asema);
 	
@@ -43,9 +47,8 @@ int main()
 		if (asema.getSiirtovuoro() == koneenVari) {
 			auto move_start = chrono::steady_clock::now();
 			MinMaxPaluu paluu;
-			paluu = asema.minimax_multithread(-100000, 100000, 4);
+			paluu = asema.minimax_multithread(-100000, 100000, DEPTH);
 			wcout << L"Evaluaatio Arvo: " << paluu._evaluointiArvo << endl;
-			if (paluu._evaluointiArvo <= -100000 || paluu._evaluointiArvo >= 100000) lopetus = 0;
 			siirto = paluu._parasSiirto;
 			auto move_end = chrono::steady_clock::now();
 			auto move_duration = chrono::duration_cast<chrono::milliseconds>(move_end - move_start);
@@ -53,30 +56,29 @@ int main()
 			wcout << L"Time: " << move_duration.count() << L" ms" << endl;
 		}
 		else {
+
 			auto move_start = chrono::steady_clock::now();
-			MinMaxPaluu paluu;
-			paluu = asema.minimax_multithread(-100000, 100000, 4);
-			wcout << L"Evaluaatio Arvo: " << paluu._evaluointiArvo << endl;
-			if (paluu._evaluointiArvo <= -100000 || paluu._evaluointiArvo >= 100000) lopetus = 0;
-			siirto = paluu._parasSiirto;
+			#ifdef PLAY_AGAINSTS_SELF
+				MinMaxPaluu paluu;
+				paluu = asema.minimax_multithread(-100000, 100000, DEPTH);
+				wcout << L"Evaluaatio Arvo: " << paluu._evaluointiArvo << endl;
+				siirto = paluu._parasSiirto;
+			#else
+				wcout << "Siirtovuoro on pelaajalla" << endl;
+				bool validInput = false;
+				while (!validInput) {
+					siirto = Kayttoliittyma::getInstance()->annaVastustajanSiirto(&asema);
+					if (find(lista.begin(), lista.end(), siirto) != lista.end()) { // etsii onko siirto laillinen.
+						validInput = true;
+					}
+					else {
+						wcout << "Laita laillinen siirto!" << endl;
+					}
+				}
+			#endif 
 			auto move_end = chrono::steady_clock::now();
 			auto move_duration = chrono::duration_cast<chrono::milliseconds>(move_end - move_start);
-
 			wcout << L"Time: " << move_duration.count() << L" ms" << endl;
-			// Pelaajan siirto
-			//wcout << "Siirtovuoro on pelaajalla" << endl;
-			//
-			//bool validInput = false;
-			//while (!validInput) {
-			//	siirto = Kayttoliittyma::getInstance()->annaVastustajanSiirto(&asema);
-			//	if (find(lista.begin(), lista.end(), siirto) != lista.end()+1) { // etsii onko siirto laillinen.
-			//		validInput = true;
-			//	}
-			//	else {
-			//		wcout << "Laita laillinen siirto!" << endl;
-			//	}
-			//}
-			
 		}
 		asema.paivitaAsema(&siirto);
 	}

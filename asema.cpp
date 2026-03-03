@@ -6,15 +6,16 @@
 #include "kayttoliittyma.h"
 #include <thread>
 #include <future>
+#include <mutex>
 
-Nappula* Asema::vk = new Kuningas(L"\u2654", 0, VK, 10000);
+Nappula* Asema::vk = new Kuningas(L"\u2654", 0, VK, 100);
 Nappula* Asema::vd = new Daami(L"\u2655", 0, VD, 10);
 Nappula* Asema::vt = new Torni(L"\u2656", 0, VT, 5);
 Nappula* Asema::vl = new Lahetti(L"\u2657", 0, VL, 3.25);
 Nappula* Asema::vr = new Ratsu(L"\u2658", 0, VR, 3);
 Nappula* Asema::vs = new Sotilas(L"\u2659", 0, VS, 1);
 
-Nappula* Asema::mk = new Kuningas(L"\u265A", 1, MK, 10000);
+Nappula* Asema::mk = new Kuningas(L"\u265A", 1, MK, 100);
 Nappula* Asema::md = new Daami(L"\u265B", 1, MD, 10);
 Nappula* Asema::mt = new Torni(L"\u265C", 1, MT, 5);
 Nappula* Asema::ml = new Lahetti(L"\u265D", 1, ML, 3.25);
@@ -456,7 +457,7 @@ void Asema::jarjestaSiirrot(vector<Siirto>& lista) {
 	for (Siirto& s : lista) {
 		int siirtoPisteArvio = 0;
 		if (s.onkoLyhytLinna() || s.onkoPitkalinna()) {
-			siirtoPisteArvio += 30;
+			siirtoPisteArvio += 10;
 			s.setJarjestysArvo(siirtoPisteArvio);
 			continue;
 		}
@@ -469,7 +470,7 @@ void Asema::jarjestaSiirrot(vector<Siirto>& lista) {
 			if (siirtoSieppausNappula != nullptr && siirtoSieppausNappula->getVari() == vastustajan_vari)
 				siirtoPisteArvio = 10 * siirtoSieppausNappula->getArvo() - siirtoNappula->getArvo();
 
-			if (siirtoNappula == vs && s.getLoppuruutu().getRivi() == 0 || siirtoNappula == ms && s.getLoppuruutu().getRivi() == 7) {
+			if ((siirtoNappula == vs && s.getLoppuruutu().getRivi() == 0 || siirtoNappula == ms && s.getLoppuruutu().getRivi() == 7) && s.getMiksikorotetaan() != nullptr) {
 				siirtoPisteArvio += s.getMiksikorotetaan()->getArvo();
 			}
 
@@ -500,7 +501,8 @@ MinMaxPaluu Asema::minimax_multithread(double alpha, double beta, int syvyys) {
         futures.push_back(std::async(std::launch::async, [this, s, alpha, beta, syvyys]() {
             Asema testi_asema = *this;
             testi_asema.paivitaAsema(const_cast<Siirto*>(&s));
-            return testi_asema.minimax(alpha, beta, syvyys - 1);
+            auto x = testi_asema.minimax(alpha, beta, syvyys - 1);
+			return x;
         }));
     }
 
@@ -508,14 +510,18 @@ MinMaxPaluu Asema::minimax_multithread(double alpha, double beta, int syvyys) {
 		futures[i].wait(); // odotetaan että säie on valmis
         MinMaxPaluu paluu = futures[i].get();
         if (paluu._evaluointiArvo > min && _siirtovuoro == 0) {
-            min = paluu._evaluointiArvo;
+			min = paluu._evaluointiArvo;
             paluuarvo._parasSiirto = siirrot[i];
             paluuarvo._evaluointiArvo = paluu._evaluointiArvo;
+			alpha = min;
+			if (beta >= alpha) continue;
         }
 		else if (paluu._evaluointiArvo < max && _siirtovuoro == 1) {
 			max = paluu._evaluointiArvo;
 			paluuarvo._parasSiirto = siirrot[i];
 			paluuarvo._evaluointiArvo = paluu._evaluointiArvo;
+			beta = max;
+			if (beta >= alpha) continue;
 		}
     }
 	wcout << L"Etsityt nodet: " << searched_trees << endl;
@@ -525,6 +531,7 @@ MinMaxPaluu Asema::minimax_multithread(double alpha, double beta, int syvyys) {
 
 MinMaxPaluu Asema::minimax(double alpha, double beta, int syvyys)
 {
+	
 	MinMaxPaluu paluuarvo;
 	// Generoidaan aseman lailliset siirrot.
 	vector<Siirto> siirrot;
@@ -563,7 +570,7 @@ MinMaxPaluu Asema::minimax(double alpha, double beta, int syvyys)
 		double maxi = -100000000;
 		for (Siirto s : siirrot) {
 			Asema testi_asema = *this;
-			testi_asema.paivitaAsema(&s);
+			testi_asema.paivitaAsema(&s);			
 			searched_trees++;
 			double arvo = testi_asema.minimax(alpha, beta, syvyys - 1)._evaluointiArvo;
 			if (arvo > maxi) {
@@ -593,6 +600,7 @@ MinMaxPaluu Asema::minimax(double alpha, double beta, int syvyys)
 		}
 		paluuarvo._evaluointiArvo = mini;
 	}
+
 	return paluuarvo;
 }
 

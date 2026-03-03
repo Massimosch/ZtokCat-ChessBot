@@ -57,7 +57,7 @@ Nappula* Siirto::getMiksikorotetaan() {
 
 bool Siirto::operator== (const Siirto& rhs)
 {
-	return (this->_alkuRuutu == rhs._alkuRuutu) && (this->_loppuRuutu == rhs._loppuRuutu);
+	return ((this->_alkuRuutu == rhs._alkuRuutu) && (this->_loppuRuutu == rhs._loppuRuutu)) || (this->_lyhytLinna == rhs._lyhytLinna) || (this->_pitkaLinna == rhs._pitkaLinna);
 }
 
 bool Siirto::operator< (const Siirto& rhs) {
