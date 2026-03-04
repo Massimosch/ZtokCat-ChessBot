@@ -23,7 +23,6 @@ Nappula* Asema::mr = new Ratsu(L"\u265E", 1, MR, 3);
 Nappula* Asema::ms = new Sotilas(L"\u265F", 1, MS, 1);
 
 int searched_trees = 0;
-mutex mtx;
 
 int mg_pawn_table[64] = {
 	  0,   0,   0,   0,   0,   0,  0,   0,
@@ -561,7 +560,7 @@ MinMaxPaluu Asema::minimax(double alpha, double beta, int syvyys)
 	}
 	// Rekursion kantatapaus 2: katkaisusyvyydess�
 	if (syvyys == 0) {
-		paluuarvo._evaluointiArvo = evaluoi();
+		paluuarvo._evaluointiArvo = this->evaluoi();
 		return paluuarvo;
 	}
 	// Rekursioaskel: kokeillaan jokaista laillista siirtoa s
