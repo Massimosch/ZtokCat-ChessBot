@@ -23,6 +23,7 @@ Nappula* Asema::mr = new Ratsu(L"\u265E", 1, MR, 3);
 Nappula* Asema::ms = new Sotilas(L"\u265F", 1, MS, 1);
 
 int searched_trees = 0;
+mutex mtx;
 
 int mg_pawn_table[64] = {
 	  0,   0,   0,   0,   0,   0,  0,   0,
@@ -560,7 +561,7 @@ MinMaxPaluu Asema::minimax(double alpha, double beta, int syvyys)
 	}
 	// Rekursion kantatapaus 2: katkaisusyvyydess�
 	if (syvyys == 0) {
-		paluuarvo._evaluointiArvo = this->evaluoi();
+		paluuarvo._evaluointiArvo = evaluoi();
 		return paluuarvo;
 	}
 	// Rekursioaskel: kokeillaan jokaista laillista siirtoa s
@@ -604,6 +605,38 @@ MinMaxPaluu Asema::minimax(double alpha, double beta, int syvyys)
 	return paluuarvo;
 }
 
+double Asema::quisence(double alpha, double beta, int syvyys) {
+	double static_eval = this->evaluoi();
+
+	if (syvyys == 0) return static_eval;
+
+	double parasArvo = static_eval;
+	if (parasArvo >= beta)
+		return parasArvo;
+	if (parasArvo > alpha)
+		alpha = parasArvo;
+
+	vector<Siirto> siirrot;
+	annaLaillisetSiirrot(siirrot);
+	vector<Siirto>& sieppausSiirrot = annaSieppausSiirrot(siirrot);
+	jarjestaSiirrot(sieppausSiirrot);
+
+	for (Siirto s : sieppausSiirrot) {
+		Asema testi_asema = *this;
+		testi_asema.paivitaAsema(&s);
+
+		double arvo = -testi_asema.quisence(-beta, -alpha, syvyys - 1);
+
+		if (arvo >= beta)
+			return arvo;
+		if (arvo > parasArvo)
+			parasArvo = arvo;
+		if (arvo > alpha)
+			alpha = arvo;
+	}
+
+	return parasArvo;
+}
 
 MinMaxPaluu Asema::maxi(int syvyys) 
 {
