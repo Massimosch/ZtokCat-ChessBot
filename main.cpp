@@ -60,7 +60,7 @@ int main()
 			auto move_start = chrono::steady_clock::now();
 			#ifdef PLAY_AGAINSTS_SELF
 				MinMaxPaluu paluu;
-				paluu = asema.minimax_multithread(-100000, 100000, 2);
+				paluu = asema.minimax_multithread(-100000, 100000, DEPTH);
 				wcout << L"Evaluaatio Arvo: " << paluu._evaluointiArvo << endl;
 				siirto = paluu._parasSiirto;
 			#else

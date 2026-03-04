@@ -630,7 +630,7 @@ bool Asema::onkoRuutuUhattu(Ruutu* ruutu, int vastustajanVari)
 		}
 	}
 
-	for (auto siirto : vastustajanSiirrot) {
+	for (Siirto& siirto : vastustajanSiirrot) {
 		if (ruutu->getSarake() == siirto.getLoppuruutu().getSarake() &&
 			ruutu->getRivi() == siirto.getLoppuruutu().getRivi()) {
 			return true;
