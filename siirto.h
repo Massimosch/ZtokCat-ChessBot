@@ -10,15 +10,14 @@ class Nappula;
 // (linnoitus ja ohestaly�nti).
 class Siirto {
 public:
-	Siirto(Ruutu, Ruutu, bool);
-	Siirto(Ruutu, Ruutu, Nappula* miksikorotetaan, bool);
+	Siirto(Ruutu, Ruutu);
+	Siirto(Ruutu, Ruutu, Nappula* miksikorotetaan);
 	Siirto();
 	Siirto(bool lyhytLinna, bool pitkaLinna); // Linnoitus lyhesti (K-siipi) tai pitk�sti (D-siipi?
 	Ruutu getAlkuruutu();
 	Ruutu getLoppuruutu();
 	int getJarjestysArvo() { return jarjestys_arvo; }
 	void setJarjestysArvo(int arvo) { jarjestys_arvo = arvo; }
-	bool onkoSieppausSiirto() { return _sieppausSiirto; }
 	bool onkoLyhytLinna();
 	bool onkoPitkalinna();
 	Nappula* getMiksikorotetaan();
@@ -32,5 +31,4 @@ private:
 	int jarjestys_arvo = 0;
 	bool _lyhytLinna;
 	bool _pitkaLinna;
-	bool _sieppausSiirto = false;
 };
