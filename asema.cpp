@@ -509,19 +509,19 @@ MinMaxPaluu Asema::minimax_multithread(double alpha, double beta, int syvyys) {
     for (int i = 0; i < futures.size(); i++) {
 		futures[i].wait(); // odotetaan että säie on valmis
         MinMaxPaluu paluu = futures[i].get();
-        if (paluu._evaluointiArvo > min && _siirtovuoro == 0) {
+        if (paluu._evaluointiArvo >= min && _siirtovuoro == 0) {
 			min = paluu._evaluointiArvo;
             paluuarvo._parasSiirto = siirrot[i];
             paluuarvo._evaluointiArvo = paluu._evaluointiArvo;
 			alpha = min;
-			if (beta >= alpha) continue;
+			if (beta <= alpha) continue;
         }
-		else if (paluu._evaluointiArvo < max && _siirtovuoro == 1) {
+		else if (paluu._evaluointiArvo <= max && _siirtovuoro == 1) {
 			max = paluu._evaluointiArvo;
 			paluuarvo._parasSiirto = siirrot[i];
 			paluuarvo._evaluointiArvo = paluu._evaluointiArvo;
 			beta = max;
-			if (beta >= alpha) continue;
+			if (beta <= alpha) continue;
 		}
     }
 	wcout << L"Etsityt nodet: " << searched_trees << endl;
@@ -573,7 +573,7 @@ MinMaxPaluu Asema::minimax(double alpha, double beta, int syvyys)
 			testi_asema.paivitaAsema(&s);			
 			searched_trees++;
 			double arvo = testi_asema.minimax(alpha, beta, syvyys - 1)._evaluointiArvo;
-			if (arvo > maxi) {
+			if (arvo >= maxi) {
 				paluuarvo._parasSiirto = s;
 				paluuarvo._evaluointiArvo = arvo;
 			}
@@ -590,7 +590,7 @@ MinMaxPaluu Asema::minimax(double alpha, double beta, int syvyys)
 			testi_asema.paivitaAsema(&s);
 			searched_trees++;
 			double arvo = testi_asema.minimax(alpha, beta, syvyys - 1)._evaluointiArvo;
-			if (arvo < mini) {
+			if (arvo <= mini) {
 				paluuarvo._parasSiirto = s;
 				paluuarvo._evaluointiArvo = arvo;
 			}
