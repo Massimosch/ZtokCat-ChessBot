@@ -1,12 +1,13 @@
 #include "siirto.h"
 
-Siirto::Siirto(Ruutu alkuRuutu, Ruutu loppuRuutu)
+Siirto::Siirto(Ruutu alkuRuutu, Ruutu loppuRuutu, bool sieppausSiirto)
 {
 	_alkuRuutu = alkuRuutu;
 	_loppuRuutu = loppuRuutu;
 	_miksikorotetaan = nullptr;
 	_lyhytLinna = false;
 	_pitkaLinna = false;
+	_sieppausSiirto = sieppausSiirto;
 }
 
 Siirto::Siirto() {
@@ -14,6 +15,7 @@ Siirto::Siirto() {
 	_alkuRuutu = Ruutu(-1, -1); 
 	_lyhytLinna = false;
 	_pitkaLinna = false;
+	_sieppausSiirto = false;
 }
 
 Siirto::Siirto(bool lyhytLinna, bool pitkaLinna) 
@@ -22,12 +24,13 @@ Siirto::Siirto(bool lyhytLinna, bool pitkaLinna)
 	_pitkaLinna = pitkaLinna;
 }
 
-Siirto::Siirto(Ruutu alkuRuutu, Ruutu loppuRuutu, Nappula* miksikorotetaan) {
+Siirto::Siirto(Ruutu alkuRuutu, Ruutu loppuRuutu, Nappula* miksikorotetaan, bool sieppausSiirto) {
 	_alkuRuutu = alkuRuutu;
 	_loppuRuutu = loppuRuutu;
 	_lyhytLinna = false;
 	_pitkaLinna = false;
 	_miksikorotetaan = miksikorotetaan;
+	_sieppausSiirto = sieppausSiirto;
 }
 
 Ruutu Siirto::getAlkuruutu()
