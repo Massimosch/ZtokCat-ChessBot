@@ -605,38 +605,6 @@ MinMaxPaluu Asema::minimax(double alpha, double beta, int syvyys)
 	return paluuarvo;
 }
 
-double Asema::quisence(double alpha, double beta, int syvyys) {
-	double static_eval = this->evaluoi();
-
-	if (syvyys == 0) return static_eval;
-
-	double parasArvo = static_eval;
-	if (parasArvo >= beta)
-		return parasArvo;
-	if (parasArvo > alpha)
-		alpha = parasArvo;
-
-	vector<Siirto> siirrot;
-	annaLaillisetSiirrot(siirrot);
-	vector<Siirto>& sieppausSiirrot = annaSieppausSiirrot(siirrot);
-	jarjestaSiirrot(sieppausSiirrot);
-
-	for (Siirto s : sieppausSiirrot) {
-		Asema testi_asema = *this;
-		testi_asema.paivitaAsema(&s);
-
-		double arvo = -testi_asema.quisence(-beta, -alpha, syvyys - 1);
-
-		if (arvo >= beta)
-			return arvo;
-		if (arvo > parasArvo)
-			parasArvo = arvo;
-		if (arvo > alpha)
-			alpha = arvo;
-	}
-
-	return parasArvo;
-}
 
 MinMaxPaluu Asema::maxi(int syvyys) 
 {
@@ -663,7 +631,7 @@ bool Asema::onkoRuutuUhattu(Ruutu* ruutu, int vastustajanVari)
 		}
 	}
 
-	for (auto siirto : vastustajanSiirrot) {
+	for (Siirto& siirto : vastustajanSiirrot) {
 		if (ruutu->getSarake() == siirto.getLoppuruutu().getSarake() &&
 			ruutu->getRivi() == siirto.getLoppuruutu().getRivi()) {
 			return true;
@@ -744,4 +712,14 @@ void Asema::annaLaillisetSiirrot(vector<Siirto>& lista) {
 	}
 	huolehdiKuninkaanShakeista(lista, _siirtovuoro);
 	annaLinnoitusSiirrot(lista, _siirtovuoro);
+}
+
+vector<Siirto>& Asema::annaSieppausSiirrot(vector<Siirto>& lista) {
+	vector<Siirto>& palautus = lista;
+	for (int i = 0; i < lista.size() - 1; ++i) {
+		if (!palautus[i].onkoSieppausSiirto()) {
+			palautus.erase(palautus.begin() + i);
+		}
+	}
+	return palautus;
 }

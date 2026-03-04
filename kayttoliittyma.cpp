@@ -139,7 +139,7 @@ Siirto Kayttoliittyma::annaVastustajanSiirto(Asema* asema)
 	
 	Ruutu alkuruutu = Ruutu(alkuRuutuSarake + 1, 7 - (komento[1] - '0' - 1));
 	Ruutu loppuruutu = Ruutu(loppuRuutuSarake + 1, 7 - (komento[4] - '0' - 1));
-	Siirto siirto(alkuruutu, loppuruutu, false);
+	Siirto siirto(alkuruutu, loppuruutu);
 	siirto.getLoppuruutu().getRivi();
 	siirto.getLoppuruutu().getRivi();
 	if ((siirto.getLoppuruutu().getRivi() == 7 || siirto.getLoppuruutu().getRivi() == 0) 
