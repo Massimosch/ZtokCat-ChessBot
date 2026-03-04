@@ -663,7 +663,7 @@ bool Asema::onkoRuutuUhattu(Ruutu* ruutu, int vastustajanVari)
 		}
 	}
 
-	for (Siirto& siirto : vastustajanSiirrot) {
+	for (auto siirto : vastustajanSiirrot) {
 		if (ruutu->getSarake() == siirto.getLoppuruutu().getSarake() &&
 			ruutu->getRivi() == siirto.getLoppuruutu().getRivi()) {
 			return true;
@@ -744,14 +744,4 @@ void Asema::annaLaillisetSiirrot(vector<Siirto>& lista) {
 	}
 	huolehdiKuninkaanShakeista(lista, _siirtovuoro);
 	annaLinnoitusSiirrot(lista, _siirtovuoro);
-}
-
-vector<Siirto>& Asema::annaSieppausSiirrot(vector<Siirto>& lista) {
-	vector<Siirto>& palautus = lista;
-	for (int i = 0; i < lista.size() - 1; ++i) {
-		if (!palautus[i].onkoSieppausSiirto()) {
-			palautus.erase(palautus.begin() + i);
-		}
-	}
-	return palautus;
 }
