@@ -24,7 +24,7 @@ private:
 	wstring _nimi;
 
 public:
-	Nappula(wstring unicode, int vari, int koodi, int arvo);
+	Nappula(wstring unicode, int vari, int koodi, double arvo);
 	Nappula() {}
 
 	// Siirtojen generointi. Puhdas virtuaalifunktio, eli aliluokat toteuttavat t�m�n

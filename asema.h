@@ -44,7 +44,6 @@ public:
 	MinMaxPaluu minimax(double alpha, double beta, int syvyys);	// Minimax-algoritmi.
 	MinMaxPaluu minimax_multithread(double alpha, double beta, int syvyys);
 	void annaLaillisetSiirrot(vector<Siirto>& lista);		// Siirtogeneraattori.
-	vector<Siirto>& annaSieppausSiirrot(vector<Siirto>& lista);
 	int getSiirtovuoro();									// Palauttaa siirtovuoron.
 	void setSiirtovuoro(int);								// Asettaa siirtovuoron.
 	bool getOnkoValkeaKuningasLiikkunut();					// Linnoittuminen mahdollista?
@@ -66,9 +65,6 @@ private:
 	bool _onkoMustaKTliikkunut;			// Linnoitus ei ole sallittu, jos kuningassivustan torni on liikkunut.
 
 	NappulaArvot laskeNappuloidenArvo();
-	bool onkoAvausTaiKeskipeli(int);
-	double nappuloitaKeskella(int);
-	double linjat(int);
 	bool onkoRuutuUhattu(Ruutu*, int vastustajanVari);
 	void annaLinnoitusSiirrot(vector<Siirto>& lista, int vari);
 

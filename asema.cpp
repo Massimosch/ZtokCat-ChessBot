@@ -506,7 +506,7 @@ MinMaxPaluu Asema::minimax_multithread(double alpha, double beta, int syvyys) {
         }));
     }
 
-    for (int i = 0; i < futures.size(); i++) {
+    for (size_t i = 0; i < futures.size(); i++) {
 		futures[i].wait(); // odotetaan että säie on valmis
         MinMaxPaluu paluu = futures[i].get();
         if (paluu._evaluointiArvo >= min && _siirtovuoro == 0) {
@@ -537,6 +537,9 @@ MinMaxPaluu Asema::minimax(double alpha, double beta, int syvyys)
 	vector<Siirto> siirrot;
 	annaLaillisetSiirrot(siirrot);
 	jarjestaSiirrot(siirrot);
+
+	//if (syvyys >= 3) jarjestaSiirrot(siirrot);
+
 	// Rekursion kantatapaus 1: peli on loppu
 	if (siirrot.size() == 0) {
 		// katso onko kuningas uhattu jos joo niin peli palauttaa äärettömän suuren arvon
@@ -621,19 +624,79 @@ MinMaxPaluu Asema::mini(int syvyys)
 
 bool Asema::onkoRuutuUhattu(Ruutu* ruutu, int vastustajanVari)
 {
-	std::vector<Siirto> vastustajanSiirrot;
+	int rivi = ruutu->getRivi();
+	int sarake = ruutu->getSarake();
 
-	for (int y = 0; y <= 7; y++) {
-		for (int x = 0; x <= 7; x++) {
-			if (_lauta[y][x] == nullptr) continue;
-			if (_lauta[y][x]->getVari() == vastustajanVari) _lauta[y][x]->annaSiirrot(vastustajanSiirrot, &Ruutu(x, y), this, vastustajanVari);
+	// Check for enemy pawns
+	if (vastustajanVari == 0) { // White pawns attack
+		if (rivi + 1 <= 7) {
+			if (sarake - 1 >= 0 && _lauta[rivi + 1][sarake - 1] == vs) return true;
+			if (sarake + 1 <= 7 && _lauta[rivi + 1][sarake + 1] == vs) return true;
+		}
+	}
+	else { // Black pawns attack
+		if (rivi - 1 >= 0) {
+			if (sarake - 1 >= 0 && _lauta[rivi - 1][sarake - 1] == ms) return true;
+			if (sarake + 1 <= 7 && _lauta[rivi - 1][sarake + 1] == ms) return true;
 		}
 	}
 
-	for (Siirto& siirto : vastustajanSiirrot) {
-		if (ruutu->getSarake() == siirto.getLoppuruutu().getSarake() &&
-			ruutu->getRivi() == siirto.getLoppuruutu().getRivi()) {
-			return true;
+	// Check for enemy knights
+	int knightMoves[8][2] = { {-2,-1}, {-2,1}, {-1,-2}, {-1,2}, {1,-2}, {1,2}, {2,-1}, {2,1} };
+	Nappula* enemyKnight = (vastustajanVari == 0) ? vr : mr;
+	for (int i = 0; i < 8; i++) {
+		int newRivi = rivi + knightMoves[i][0];
+		int newSarake = sarake + knightMoves[i][1];
+		if (newRivi >= 0 && newRivi <= 7 && newSarake >= 0 && newSarake <= 7) {
+			if (_lauta[newRivi][newSarake] == enemyKnight) return true;
+		}
+	}
+
+	// Check for enemy king
+	Nappula* enemyKing = (vastustajanVari == 0) ? vk : mk;
+	for (int dr = -1; dr <= 1; dr++) {
+		for (int dc = -1; dc <= 1; dc++) {
+			if (dr == 0 && dc == 0) continue;
+			int newRivi = rivi + dr;
+			int newSarake = sarake + dc;
+			if (newRivi >= 0 && newRivi <= 7 && newSarake >= 0 && newSarake <= 7) {
+				if (_lauta[newRivi][newSarake] == enemyKing) return true;
+			}
+		}
+	}
+
+	// Check for sliding pieces (rooks, bishops, queens)
+	Nappula* enemyRook = (vastustajanVari == 0) ? vt : mt;
+	Nappula* enemyBishop = (vastustajanVari == 0) ? vl : ml;
+	Nappula* enemyQueen = (vastustajanVari == 0) ? vd : md;
+
+	// Rook/Queen directions (horizontal/vertical)
+	int rookDirs[4][2] = { {0,1}, {0,-1}, {1,0}, {-1,0} };
+	for (int i = 0; i < 4; i++) {
+		int r = rivi + rookDirs[i][0];
+		int c = sarake + rookDirs[i][1];
+		while (r >= 0 && r <= 7 && c >= 0 && c <= 7) {
+			if (_lauta[r][c] != nullptr) {
+				if (_lauta[r][c] == enemyRook || _lauta[r][c] == enemyQueen) return true;
+				break; // Blocked
+			}
+			r += rookDirs[i][0];
+			c += rookDirs[i][1];
+		}
+	}
+
+	// Bishop/Queen directions (diagonals)
+	int bishopDirs[4][2] = { {1,1}, {1,-1}, {-1,1}, {-1,-1} };
+	for (int i = 0; i < 4; i++) {
+		int r = rivi + bishopDirs[i][0];
+		int c = sarake + bishopDirs[i][1];
+		while (r >= 0 && r <= 7 && c >= 0 && c <= 7) {
+			if (_lauta[r][c] != nullptr) {
+				if (_lauta[r][c] == enemyBishop || _lauta[r][c] == enemyQueen) return true;
+				break; // Blocked
+			}
+			r += bishopDirs[i][0];
+			c += bishopDirs[i][1];
 		}
 	}
 
@@ -711,14 +774,4 @@ void Asema::annaLaillisetSiirrot(vector<Siirto>& lista) {
 	}
 	huolehdiKuninkaanShakeista(lista, _siirtovuoro);
 	annaLinnoitusSiirrot(lista, _siirtovuoro);
-}
-
-vector<Siirto>& Asema::annaSieppausSiirrot(vector<Siirto>& lista) {
-	vector<Siirto>& palautus = lista;
-	for (int i = 0; i < lista.size() - 1; ++i) {
-		if (!palautus[i].onkoSieppausSiirto()) {
-			palautus.erase(palautus.begin() + i);
-		}
-	}
-	return palautus;
 }
