@@ -46,6 +46,7 @@ public:
 	void annaLaillisetSiirrot(vector<Siirto>& lista);		// Siirtogeneraattori.
 	int getSiirtovuoro();									// Palauttaa siirtovuoron.
 	double quiescence(double alpha, double beta, int syvyys);
+	double evaluoi();
 	void annaLyontiSiirrot(vector<Siirto>& lista);
 	void setSiirtovuoro(int);								// Asettaa siirtovuoron.
 	bool getOnkoValkeaKuningasLiikkunut();					// Linnoittuminen mahdollista?

@@ -401,19 +401,21 @@ bool Asema::getOnkoMustaKTliikkunut()
 	return _onkoMustaKTliikkunut;
 }
 
-double Asema::evaluoi(Asema& asema)
-{
+double Asema::evaluoi() {
 	NappulaArvot arvot = laskeNappuloidenArvo();
 
 	int mgPhase = arvot.gamePhase;
-	/* Tarkistaa käytännössä jos pelissä ei ole tullut lyöntejä ja sotilas korottautuu..
-	jos gamePhase menee yli 24. ja interpolointi hajoaa
-	Interpolointi = Arvo joka pitää huolen että nappulat ovat oikean arvoisia
-	pestotaulukon mukaan pelin eri tilanteissa (12 = Keskipeli, 0 = Loppupeli...) */
 	if (mgPhase > 24) mgPhase = 24;
 	int egPhase = 24 - mgPhase;
 	double mgScore = arvot.mg[0] - arvot.mg[1];
 	double egScore = arvot.eg[0] - arvot.eg[1];
+
+	return (mgScore * mgPhase + egScore * egPhase) / 24;
+}
+
+
+double Asema::evaluoi(Asema& asema) {
+	double base = evaluoi(); // Käytä nopeaa evaluointia pohjana
 
 	double mobility = 0;
 	vector<Siirto> siirrot;
@@ -425,7 +427,7 @@ double Asema::evaluoi(Asema& asema)
 			mobility -= 2;
 	}
 
-	return ((mgScore * mgPhase + egScore * egPhase) / 24) + mobility;
+	return base + mobility;
 }
 
 NappulaArvot Asema::laskeNappuloidenArvo() 
@@ -573,7 +575,7 @@ MinMaxPaluu Asema::minimax(double alpha, double beta, int syvyys)
 	}
 	// Rekursion kantatapaus 2: katkaisusyvyydess�
 	if (syvyys == 0) {
-		paluuarvo._evaluointiArvo = this->evaluoi(*this);
+		paluuarvo._evaluointiArvo = this->quiescence(alpha, beta, 6);
 		return paluuarvo;
 	}
 	// Rekursioaskel: kokeillaan jokaista laillista siirtoa s
