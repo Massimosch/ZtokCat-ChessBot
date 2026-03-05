@@ -263,7 +263,7 @@ Asema::Asema()
 void Asema::paivitaAsema(Siirto *siirto)
 {
 	/*		{vs, vs, vs, vs, vs, vs, vs, vs},
-		{vt, vr, vl, vd, vk, vl, vr, vt},*/
+			{vt, vr, vl, vd, vk, vl, vr, vt},*/
 	// Kaksoisaskel-lippu on oletusarvoisesti pois p��lt�.
 	// Asetetaan my�hemmin, jos tarvii.
 
@@ -643,11 +643,21 @@ bool Asema::onkoRuutuUhattu(Ruutu* ruutu, int vastustajanVari)
 			if (sarake - 1 >= 0 && _lauta[rivi + 1][sarake - 1] == vs) return true;
 			if (sarake + 1 <= 7 && _lauta[rivi + 1][sarake + 1] == vs) return true;
 		}
+		// En passant: white pawn on row 3 can capture to row 2
+		if (rivi == 2 && kaksoisaskelSarakkeella == sarake) {
+			if (sarake - 1 >= 0 && _lauta[3][sarake - 1] == vs) return true;
+			if (sarake + 1 <= 7 && _lauta[3][sarake + 1] == vs) return true;
+		}
 	}
 	else { // Black pawns attack
 		if (rivi - 1 >= 0) {
 			if (sarake - 1 >= 0 && _lauta[rivi - 1][sarake - 1] == ms) return true;
 			if (sarake + 1 <= 7 && _lauta[rivi - 1][sarake + 1] == ms) return true;
+		}
+		// En passant: black pawn on row 4 can capture to row 5
+		if (rivi == 5 && kaksoisaskelSarakkeella == sarake) {
+			if (sarake - 1 >= 0 && _lauta[4][sarake - 1] == ms) return true;
+			if (sarake + 1 <= 7 && _lauta[4][sarake + 1] == ms) return true;
 		}
 	}
 
@@ -741,6 +751,75 @@ void Asema::annaLinnoitusSiirrot(vector<Siirto>& lista, int vari)
 	}
 }
 
+double Asema::quiescence(double alpha, double beta, int syvyys) {
+	double static_eval = this->evaluoi();
+
+	if (syvyys == 0) return static_eval;
+
+	Ruutu kuningasRuutu;
+
+	for (int rivi = 0; rivi <= 7; rivi++) {
+		for (int sarake = 0; sarake <= 7; sarake++) {
+			if (_lauta[rivi][sarake] == nullptr) continue;
+			if ((_lauta[rivi][sarake] == vk && _siirtovuoro == 0) || (_lauta[rivi][sarake] == mk && _siirtovuoro == 1)) {
+				kuningasRuutu = Ruutu(sarake, rivi);
+				break;
+			}
+		}
+	}
+
+	int vastustajanVari = (_siirtovuoro == 0) ? 1 : 0;
+	bool onkoShakissa = onkoRuutuUhattu(&kuningasRuutu, vastustajanVari);
+
+	vector<Siirto> siirrot;
+
+	if (onkoShakissa) {
+		annaLaillisetSiirrot(siirrot);
+		if (siirrot.size() == 0) {
+			return (_siirtovuoro == 0) ? -1000000 : 1000000;
+		}
+	}
+	else {
+		if (_siirtovuoro == 0) {
+			if (static_eval >= beta) return beta;
+			if (static_eval > alpha) alpha = static_eval;
+		}
+		else {
+			if (static_eval <= alpha) return alpha;
+			if (static_eval < beta) beta = static_eval;
+		}
+		
+		annaLyontiSiirrot(siirrot);
+	}
+
+	jarjestaSiirrot(siirrot);
+
+	if (_siirtovuoro == 0) {
+		for (Siirto s : siirrot) {
+			Asema testi_asema = *this;
+			testi_asema.paivitaAsema(&s);
+			searched_trees++;
+			double arvo = testi_asema.quiescence(alpha, beta, syvyys - 1);
+			if (arvo >= beta) return beta;
+			if (arvo > alpha) alpha = arvo;
+		}
+
+		return alpha;
+	}
+	else {
+		for (Siirto s : siirrot) {
+			Asema testi_asema = *this;
+			testi_asema.paivitaAsema(&s);
+			searched_trees++;
+			double arvo = testi_asema.quiescence(alpha, beta, syvyys - 1);
+			if (arvo <= alpha) return alpha;
+			if (arvo < beta) beta = arvo;
+		}
+
+		return beta;
+	}
+}
+
 
 void Asema::huolehdiKuninkaanShakeista(vector<Siirto>& lista, int vari) 
 { 
@@ -765,13 +844,11 @@ void Asema::huolehdiKuninkaanShakeista(vector<Siirto>& lista, int vari)
 			}
 		}
 
-
 		if (testi_asema.onkoRuutuUhattu(&kuningasruutu, vastustaja)) {
 			lista.erase(lista.begin() + i);
 		}
 	}
 }
-
 
 void Asema::annaLaillisetSiirrot(vector<Siirto>& lista) {
 	for (int rivi = 0; rivi <= 7; rivi++) {
@@ -784,4 +861,30 @@ void Asema::annaLaillisetSiirrot(vector<Siirto>& lista) {
 	}
 	huolehdiKuninkaanShakeista(lista, _siirtovuoro);
 	annaLinnoitusSiirrot(lista, _siirtovuoro);
+}
+
+void Asema::annaLyontiSiirrot(vector<Siirto>& lista) {
+	vector<Siirto> kaikkiSiirrot;
+	annaLaillisetSiirrot(kaikkiSiirrot);
+
+	for (Siirto& s : kaikkiSiirrot) {
+		if (s.onkoLyhytLinna() || s.onkoPitkalinna()) continue;
+
+		Nappula* kohde = _lauta[s.getLoppuruutu().getRivi()][s.getLoppuruutu().getSarake()];
+		Nappula* lahto = _lauta[s.getAlkuruutu().getRivi()][s.getAlkuruutu().getSarake()];
+
+		bool onLyonti = (kohde != nullptr && kohde->getVari() != _siirtovuoro);
+
+		bool onEnPassant = false;
+
+		if (lahto == vs && kohde == nullptr && s.getAlkuruutu().getSarake() != s.getLoppuruutu().getSarake())
+			onEnPassant = true;
+		if (lahto == ms && kohde == nullptr && s.getAlkuruutu().getSarake() != s.getLoppuruutu().getSarake())
+			onEnPassant = true;
+
+		bool onKorotus = (s.getMiksikorotetaan() != nullptr);
+
+		if (onLyonti || onEnPassant || onKorotus)
+			lista.push_back(s);
+	}
 }
