@@ -37,7 +37,7 @@ public:
 
 	Asema();												// Asettaa alkuaseman.
 	void paivitaAsema(Siirto*);								// P�ivitt�� aseman annetulla siirrolla.
-	double evaluoi();										// Aseman numeerinen arviointi.
+	double evaluoi(Asema& asema);							// Aseman numeerinen arviointi.
 	MinMaxPaluu maxi(int syvyys);							// Minimax (max:n siirtovuoro).
 	MinMaxPaluu mini(int syvyys);							// Minimax (min:n siirtovuoro).
 	void jarjestaSiirrot(vector<Siirto>& lista);
