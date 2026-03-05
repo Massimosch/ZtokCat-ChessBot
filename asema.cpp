@@ -545,12 +545,17 @@ MinMaxPaluu Asema::minimax(double alpha, double beta, int syvyys)
 {
 	
 	MinMaxPaluu paluuarvo;
+
+	// Rekursion kantatapaus 2: katkaisusyvyydess�
+	if (syvyys == 0) {
+		paluuarvo._evaluointiArvo = this->quiescence(alpha, beta, 4);
+		return paluuarvo;
+	}
+
 	// Generoidaan aseman lailliset siirrot.
 	vector<Siirto> siirrot;
 	annaLaillisetSiirrot(siirrot);
 	jarjestaSiirrot(siirrot);
-
-	//if (syvyys >= 3) jarjestaSiirrot(siirrot);
 
 	// Rekursion kantatapaus 1: peli on loppu
 	if (siirrot.size() == 0) {
@@ -573,19 +578,14 @@ MinMaxPaluu Asema::minimax(double alpha, double beta, int syvyys)
 		paluuarvo._evaluointiArvo = 0;
 		return paluuarvo;
 	}
-	// Rekursion kantatapaus 2: katkaisusyvyydess�
-	if (syvyys == 0) {
-		paluuarvo._evaluointiArvo = this->quiescence(alpha, beta, 6);
-		return paluuarvo;
-	}
 	// Rekursioaskel: kokeillaan jokaista laillista siirtoa s
 	// (alustetaan paluuarvo huonoimmaksi mahdolliseksi).
 
 	if (_siirtovuoro == 0) {
 		double maxi = -100000000;
-		for (Siirto s : siirrot) {
+		for (const Siirto& s : siirrot) {
 			Asema testi_asema = *this;
-			testi_asema.paivitaAsema(&s);			
+			testi_asema.paivitaAsema(const_cast<Siirto*>(&s));			
 			searched_trees++;
 			double arvo = testi_asema.minimax(alpha, beta, syvyys - 1)._evaluointiArvo;
 			if (arvo >= maxi) {
@@ -600,9 +600,9 @@ MinMaxPaluu Asema::minimax(double alpha, double beta, int syvyys)
 	}
 	else {
 		double mini = 100000000;
-		for (Siirto s : siirrot) {
+		for (const Siirto& s : siirrot) {
 			Asema testi_asema = *this;
-			testi_asema.paivitaAsema(&s);
+			testi_asema.paivitaAsema(const_cast<Siirto*>(&s));
 			searched_trees++;
 			double arvo = testi_asema.minimax(alpha, beta, syvyys - 1)._evaluointiArvo;
 			if (arvo <= mini) {
@@ -796,30 +796,23 @@ double Asema::quiescence(double alpha, double beta, int syvyys) {
 
 	jarjestaSiirrot(siirrot);
 
-	if (_siirtovuoro == 0) {
-		for (Siirto s : siirrot) {
-			Asema testi_asema = *this;
-			testi_asema.paivitaAsema(&s);
-			searched_trees++;
-			double arvo = testi_asema.quiescence(alpha, beta, syvyys - 1);
+	for (const Siirto& s : siirrot) {
+		Asema testi_asema = *this;
+		testi_asema.paivitaAsema(const_cast<Siirto*>(&s));
+		searched_trees++;
+		double arvo = testi_asema.quiescence(alpha, beta, syvyys - 1);
+
+		if (_siirtovuoro == 0) {
 			if (arvo >= beta) return beta;
 			if (arvo > alpha) alpha = arvo;
 		}
-
-		return alpha;
-	}
-	else {
-		for (Siirto s : siirrot) {
-			Asema testi_asema = *this;
-			testi_asema.paivitaAsema(&s);
-			searched_trees++;
-			double arvo = testi_asema.quiescence(alpha, beta, syvyys - 1);
+		else {
 			if (arvo <= alpha) return alpha;
 			if (arvo < beta) beta = arvo;
 		}
-
-		return beta;
 	}
+
+	return (_siirtovuoro == 0) ? alpha : beta;
 }
 
 
