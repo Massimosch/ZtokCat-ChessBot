@@ -401,7 +401,7 @@ bool Asema::getOnkoMustaKTliikkunut()
 	return _onkoMustaKTliikkunut;
 }
 
-double Asema::evaluoi()
+double Asema::evaluoi(Asema& asema)
 {
 	NappulaArvot arvot = laskeNappuloidenArvo();
 
@@ -415,7 +415,17 @@ double Asema::evaluoi()
 	double mgScore = arvot.mg[0] - arvot.mg[1];
 	double egScore = arvot.eg[0] - arvot.eg[1];
 
-	return (mgScore * mgPhase + egScore * egPhase) / 24;
+	double mobility = 0;
+	vector<Siirto> siirrot;
+	asema.annaLaillisetSiirrot(siirrot);
+	for (Siirto s : siirrot) {
+		if (asema._siirtovuoro == 0)
+			mobility += 2;
+		else
+			mobility -= 2;
+	}
+
+	return ((mgScore * mgPhase + egScore * egPhase) / 24) + mobility;
 }
 
 NappulaArvot Asema::laskeNappuloidenArvo() 
@@ -475,9 +485,9 @@ void Asema::jarjestaSiirrot(vector<Siirto>& lista) {
 			}
 
 			
-			if (onkoRuutuUhattu(&Ruutu(s.getLoppuruutu().getSarake(), s.getLoppuruutu().getRivi()), vastustajan_vari)) {
+			/*if (onkoRuutuUhattu(&Ruutu(s.getLoppuruutu().getSarake(), s.getLoppuruutu().getRivi()), vastustajan_vari)) {
 				siirtoPisteArvio -= siirtoNappula->getArvo();
-			}
+			}*/
 
 			s.setJarjestysArvo(siirtoPisteArvio);
 		}
@@ -563,7 +573,7 @@ MinMaxPaluu Asema::minimax(double alpha, double beta, int syvyys)
 	}
 	// Rekursion kantatapaus 2: katkaisusyvyydess�
 	if (syvyys == 0) {
-		paluuarvo._evaluointiArvo = this->evaluoi();
+		paluuarvo._evaluointiArvo = this->evaluoi(*this);
 		return paluuarvo;
 	}
 	// Rekursioaskel: kokeillaan jokaista laillista siirtoa s
