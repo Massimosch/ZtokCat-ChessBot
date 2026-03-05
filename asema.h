@@ -45,6 +45,8 @@ public:
 	MinMaxPaluu minimax_multithread(double alpha, double beta, int syvyys);
 	void annaLaillisetSiirrot(vector<Siirto>& lista);		// Siirtogeneraattori.
 	int getSiirtovuoro();									// Palauttaa siirtovuoron.
+	double quiescence(double alpha, double beta, int syvyys);
+	void annaLyontiSiirrot(vector<Siirto>& lista);
 	void setSiirtovuoro(int);								// Asettaa siirtovuoron.
 	bool getOnkoValkeaKuningasLiikkunut();					// Linnoittuminen mahdollista?
 	bool getOnkoMustaKuningasLiikkunut();					// Linnoittuminen mahdollista?
