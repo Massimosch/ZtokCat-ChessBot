@@ -10,7 +10,7 @@
 #include <chrono>
 using namespace std; 
 
-#define PLAY_AGAINSTS_SELF
+//#define PLAY_AGAINSTS_SELF
 #define DEPTH 6
 
 int main()
