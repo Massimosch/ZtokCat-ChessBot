@@ -542,7 +542,7 @@ MinMaxPaluu Asema::minimax_multithread(double alpha, double beta, int syvyys) {
 }
 
 double Asema::pisteytaLoppuasema(int syvyys) {
-	return (_siirtovuoro == 0) ? syvyys : -syvyys;
+	return (_siirtovuoro == 1) ? 100000+syvyys : 100000-syvyys;
 }
 
 MinMaxPaluu Asema::minimax(double alpha, double beta, int syvyys)
