@@ -43,6 +43,7 @@ public:
 	void jarjestaSiirrot(vector<Siirto>& lista);
 	MinMaxPaluu minimax(double alpha, double beta, int syvyys);	// Minimax-algoritmi.
 	MinMaxPaluu minimax_multithread(double alpha, double beta, int syvyys);
+	double pisteytaLoppuasema(int syvyys);
 	void annaLaillisetSiirrot(vector<Siirto>& lista);		// Siirtogeneraattori.
 	int getSiirtovuoro();									// Palauttaa siirtovuoron.
 	double quiescence(double alpha, double beta, int syvyys);

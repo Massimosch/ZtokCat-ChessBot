@@ -541,6 +541,10 @@ MinMaxPaluu Asema::minimax_multithread(double alpha, double beta, int syvyys) {
     return paluuarvo;
 }
 
+double Asema::pisteytaLoppuasema(int syvyys) {
+	return (_siirtovuoro == 0) ? syvyys : -syvyys;
+}
+
 MinMaxPaluu Asema::minimax(double alpha, double beta, int syvyys)
 {
 	
@@ -572,7 +576,7 @@ MinMaxPaluu Asema::minimax(double alpha, double beta, int syvyys)
 		}
 		int vastustajan_vari = (_siirtovuoro == 0) ? 1 : 0;
 		if (onkoRuutuUhattu(&kuningasruutu, vastustajan_vari)) {
-			paluuarvo._evaluointiArvo = (_siirtovuoro == 0) ? -1000000 : 1000000;
+			paluuarvo._evaluointiArvo = pisteytaLoppuasema(syvyys);
 			return paluuarvo;
 		}
 		paluuarvo._evaluointiArvo = 0;
