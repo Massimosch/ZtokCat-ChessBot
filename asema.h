@@ -49,6 +49,7 @@ public:
 	double evaluoi();
 	void annaLyontiSiirrot(vector<Siirto>& lista);
 	void setSiirtovuoro(int);								// Asettaa siirtovuoron.
+	bool ovatkoKuninkaatOlemassa();
 	bool getOnkoValkeaKuningasLiikkunut();					// Linnoittuminen mahdollista?
 	bool getOnkoMustaKuningasLiikkunut();					// Linnoittuminen mahdollista?
 	bool getOnkoValkeaDTliikkunut();						// Linnoittuminen mahdollista?

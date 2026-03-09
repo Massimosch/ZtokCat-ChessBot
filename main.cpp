@@ -20,6 +20,7 @@ int main()
 	wcout << "Ultimate ZtokCät ChessBot! \nTervetuloa kokeilemaan onneanne...\n" << endl;
 	int lopetus = 100;
 	vector<Siirto> lista;
+	vector<Asema> asematLista;
 	lista.reserve(218);
 	Asema asema; 
 	Kayttoliittyma::getInstance()->aseta_asema(&asema);
@@ -65,22 +66,32 @@ int main()
 				siirto = paluu._parasSiirto;
 			#else
 				wcout << "Siirtovuoro on pelaajalla" << endl;
-				bool validInput = false;
-				while (!validInput) {
+				siirto = Kayttoliittyma::getInstance()->annaVastustajanSiirto(&asema);
+				while (siirto.getUndoValue() > 0) {
+					if (asematLista.size() >= 2) {
+						asema = asematLista[asematLista.size() - 2];
+						asematLista.pop_back();
+						asematLista.pop_back();
+					}
+					
+					Kayttoliittyma::getInstance()->piirraLauta();
 					siirto = Kayttoliittyma::getInstance()->annaVastustajanSiirto(&asema);
-					if (find(lista.begin(), lista.end(), siirto) != lista.end()) { // etsii onko siirto laillinen.
-						validInput = true;
-					}
-					else {
-						wcout << "Laita laillinen siirto!" << endl;
-					}
+					
 				}
 			#endif 
 			auto move_end = chrono::steady_clock::now();
 			auto move_duration = chrono::duration_cast<chrono::milliseconds>(move_end - move_start);
 			wcout << L"Time: " << move_duration.count() << L" ms" << endl;
 		}
+		asematLista.push_back(asema);
 		asema.paivitaAsema(&siirto);
+		if (asema.ovatkoKuninkaatOlemassa() == false) {
+			asema = asematLista[asematLista.size() - 2];
+			asematLista.pop_back();
+			asematLista.pop_back();
+			Kayttoliittyma::getInstance()->piirraLauta();
+			wcout << "Hyvin laiton siirto" << endl;
+		}
 	}
 
 	auto end = chrono::steady_clock::now();

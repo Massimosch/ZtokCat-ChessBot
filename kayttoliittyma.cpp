@@ -115,11 +115,12 @@ void Kayttoliittyma::piirraSiirrot(Asema* _asema) {
 Siirto Kayttoliittyma::annaVastustajanSiirto(Asema* asema)
 {
 	wstring komento{};
+	int undoVal;
 	while (komento.size() < 5 || komento.size() > 6) {
 		wcout << "Anna Siirto : ";
 		wcin >> komento;
 		if (komento == L"ps") piirraSiirrot(asema);
-		if (komento == L"0-0" || komento == L"0-0-0") break;
+		if (komento == L"0-0" || komento == L"0-0-0" || komento == L"undo") break;
 	}
 	if (komento.size() == 6) komento.erase(0, 1);
 	if (komento == L"0-0") {
@@ -128,6 +129,10 @@ Siirto Kayttoliittyma::annaVastustajanSiirto(Asema* asema)
 	}
 	if (komento == L"0-0-0") {
 		Siirto siirto(false, true);
+		return siirto;
+	}
+	if (komento == L"undo") {
+		Siirto siirto(2);
 		return siirto;
 	}
 

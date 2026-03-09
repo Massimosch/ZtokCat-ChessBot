@@ -16,6 +16,10 @@ Siirto::Siirto() {
 	_pitkaLinna = false;
 }
 
+Siirto::Siirto(int undoValue) {
+	_undoValue = undoValue;
+}
+
 Siirto::Siirto(bool lyhytLinna, bool pitkaLinna) 
 {
 	_lyhytLinna = lyhytLinna;

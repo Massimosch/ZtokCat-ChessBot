@@ -487,9 +487,9 @@ void Asema::jarjestaSiirrot(vector<Siirto>& lista) {
 			}
 
 			
-			/*if (onkoRuutuUhattu(&Ruutu(s.getLoppuruutu().getSarake(), s.getLoppuruutu().getRivi()), vastustajan_vari)) {
+			if (onkoRuutuUhattu(&Ruutu(s.getLoppuruutu().getSarake(), s.getLoppuruutu().getRivi()), vastustajan_vari)) {
 				siirtoPisteArvio -= siirtoNappula->getArvo();
-			}*/
+			}
 
 			s.setJarjestysArvo(siirtoPisteArvio);
 		}
@@ -815,6 +815,29 @@ double Asema::quiescence(double alpha, double beta, int syvyys) {
 	return (_siirtovuoro == 0) ? alpha : beta;
 }
 
+bool Asema::ovatkoKuninkaatOlemassa() {
+
+	bool vkLoytyi = false;
+	bool mkLoytyi = false;
+
+	for (int rivi = 0; rivi <= 7; rivi++) {
+		for (int sarake = 0; sarake <= 7; sarake++) {
+			if (_lauta[rivi][sarake] == nullptr) continue;
+			if ((_lauta[rivi][sarake] == vk)) {
+				vkLoytyi = true;
+				if (onkoRuutuUhattu(&Ruutu(sarake, rivi), 1) && _siirtovuoro == 1) return false;
+			}
+			else if (_lauta[rivi][sarake] == mk) {
+				mkLoytyi = true;
+				if (onkoRuutuUhattu(&Ruutu(sarake, rivi), 0) && _siirtovuoro == 0) return false;
+			}
+		}
+	}
+
+	if (vkLoytyi && mkLoytyi) return true;
+
+	return false;
+}
 
 void Asema::huolehdiKuninkaanShakeista(vector<Siirto>& lista, int vari) 
 { 

@@ -13,10 +13,12 @@ public:
 	Siirto(Ruutu, Ruutu);
 	Siirto(Ruutu, Ruutu, Nappula* miksikorotetaan);
 	Siirto();
+	Siirto(int undoValue);
 	Siirto(bool lyhytLinna, bool pitkaLinna); // Linnoitus lyhesti (K-siipi) tai pitk�sti (D-siipi?
 	Ruutu getAlkuruutu();
 	Ruutu getLoppuruutu();
 	int getJarjestysArvo() { return jarjestys_arvo; }
+	bool getUndoValue() { return _undoValue; }
 	void setJarjestysArvo(int arvo) { jarjestys_arvo = arvo; }
 	bool onkoLyhytLinna();
 	bool onkoPitkalinna();
@@ -31,4 +33,5 @@ private:
 	int jarjestys_arvo = 0;
 	bool _lyhytLinna;
 	bool _pitkaLinna;
+	int _undoValue = 0;
 };
