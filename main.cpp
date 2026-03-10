@@ -10,7 +10,7 @@
 #include <chrono>
 using namespace std; 
 
-//#define PLAY_AGAINSTS_SELF
+#define PLAY_AGAINSTS_SELF
 #define DEPTH 6
 
 int main()
@@ -22,6 +22,7 @@ int main()
 	vector<Siirto> lista;
 	vector<Asema> asematLista;
 	lista.reserve(218);
+	asematLista.reserve(50);
 	Asema asema; 
 	Kayttoliittyma::getInstance()->aseta_asema(&asema);
 	
@@ -41,7 +42,7 @@ int main()
 		asema.annaLaillisetSiirrot(lista);
 		if (lista.size() == 0) {
 			lopetus = 0;
-			wcout << "Peli loppui";
+			wcout << "Peli loppui" << endl;
 			continue;
 		}
 		Siirto siirto;

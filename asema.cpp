@@ -267,7 +267,7 @@ void Asema::paivitaAsema(Siirto *siirto)
 	// Kaksoisaskel-lippu on oletusarvoisesti pois p��lt�.
 	// Asetetaan my�hemmin, jos tarvii.
 
-	kaksoisaskelSarakkeella = -1;
+	
 		
 	if (siirto->onkoLyhytLinna()) { //Tarkastetaan on siirto lyhyt linna
 		if (_siirtovuoro == 0) {
@@ -317,11 +317,12 @@ void Asema::paivitaAsema(Siirto *siirto)
 		}
 
 		// En passant
-		if (aloitusruudussanappula == ms && _lauta[siirto->getLoppuruutu().getRivi() - 1][siirto->getLoppuruutu().getSarake()] == vs 
-			&& _lauta[siirto->getLoppuruutu().getRivi()][siirto->getLoppuruutu().getSarake()] == NULL) _lauta[siirto->getLoppuruutu().getRivi() - 1][siirto->getLoppuruutu().getSarake()] = NULL;
-		if (aloitusruudussanappula == vs && _lauta[siirto->getLoppuruutu().getRivi() + 1][siirto->getLoppuruutu().getSarake()] == ms
-			&& _lauta[siirto->getLoppuruutu().getRivi()][siirto->getLoppuruutu().getSarake()] == NULL) _lauta[siirto->getLoppuruutu().getRivi() + 1][siirto->getLoppuruutu().getSarake()] = NULL;
+		int rivi_minus_one = siirto->getLoppuruutu().getRivi() - 1;
+		int rivi_plus_one = siirto->getLoppuruutu().getRivi() + 1;
+		if (aloitusruudussanappula == ms && _lauta[rivi_minus_one][kaksoisaskelSarakkeella] == vs) _lauta[rivi_minus_one][kaksoisaskelSarakkeella] = NULL;
+		else if (aloitusruudussanappula == vs && _lauta[rivi_plus_one][kaksoisaskelSarakkeella] == ms) _lauta[rivi_plus_one][kaksoisaskelSarakkeella] = NULL;
 
+		// Tornitus checkejja
 		if (aloitusruudussanappula == mk) _onkoMustaKuningasLiikkunut = true;
 		if (aloitusruudussanappula == mt && siirto->getAlkuruutu().getRivi() == 0
 			&& siirto->getAlkuruutu().getSarake() == 0) _onkoMustaKTliikkunut = true;
@@ -335,21 +336,10 @@ void Asema::paivitaAsema(Siirto *siirto)
 			&& siirto->getAlkuruutu().getSarake() == 7) _onkoValkeaDTliikkunut = true;
 	}
 
-		// Tarkistetaan oliko sotilaan kaksoisaskel
-		// (asetetaan kaksoisaskel-lippu)
-
-		// Ohestaly�nti on tyhj��n ruutuun. Vieress� oleva (sotilas) poistetaan.
-	
-		//// Katsotaan jos nappula on sotilas ja rivi on p��tyrivi niin ei vaihdeta nappulaa 
-		////eli alkuruutuun laitetaan null ja loppuruudussa on jo kliittym�n laittama nappula MIIKKA, ei taida minmaxin kanssa hehkua?
-		////muissa tapauksissa alkuruutuun null ja loppuruutuun sama alkuruudusta l�htenyt nappula
-		// katsotaan jos liikkunut nappula on kuningas niin muutetaan onkoKuningasLiikkunut arvo (molemmille v�reille)
-	
-		// katsotaan jos liikkunut nappula on torni niin muutetaan onkoTorniLiikkunut arvo (molemmille v�reille ja molemmille torneille)
-
-	//p�ivitet��n _siirtovuoro
 	int vuoro = (_siirtovuoro) ? 0 : 1;
 	_siirtovuoro = vuoro;
+
+	if (kaksoisaskelSarakkeella != -1) kaksoisaskelSarakkeella = -1;
 }
 
 
