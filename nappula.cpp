@@ -405,12 +405,20 @@ void Sotilas::annaSiirrot(vector<Siirto>& lista, Ruutu* ruutu, Asema* asema, int
 		}
 
 		// en passant vasemmalle
-		if (asema->kaksoisaskelSarakkeella == sarake - 1 && rivi == 3 && asema->_lauta[rivi - 1][sarake-1] == nullptr && sarake - 1 >= 0) {
+		if (asema->kaksoisaskelSarakkeella == sarake - 1
+			&& rivi == 3 &&
+			asema->_lauta[rivi][sarake - 1] == Asema::ms &&
+			asema->_lauta[rivi - 1][sarake-1] == nullptr &&
+			sarake - 1 >= 0) {
 			Siirto newSiirto = Siirto(*ruutu, Ruutu(sarake - 1, rivi - 1));
 			lista.push_back(newSiirto);
 		}
 		// en passant oikealle
-		if (asema->kaksoisaskelSarakkeella == sarake + 1 && rivi == 3 && asema->_lauta[rivi - 1][sarake + 1] == nullptr && sarake + 1 <= 7) {
+		if (asema->kaksoisaskelSarakkeella == sarake + 1 &&
+			rivi == 3 &&
+			asema->_lauta[rivi][sarake + 1] == Asema::ms &&
+			asema->_lauta[rivi - 1][sarake + 1] == nullptr &&
+			sarake + 1 <= 7) {
 			Siirto newSiirto = Siirto(*ruutu, Ruutu(sarake + 1, rivi - 1));
 			lista.push_back(newSiirto);
 		}
@@ -451,12 +459,20 @@ void Sotilas::annaSiirrot(vector<Siirto>& lista, Ruutu* ruutu, Asema* asema, int
 		}
 
 		// en passant vasemmalle
-		if (asema->kaksoisaskelSarakkeella == sarake - 1 && rivi == 4 && asema->_lauta[rivi + 1][sarake - 1] == nullptr && sarake - 1 >= 0) {
+		if (asema->kaksoisaskelSarakkeella == sarake - 1 &&
+			rivi == 4 &&
+			asema->_lauta[rivi][sarake - 1] == Asema::vs &&
+			asema->_lauta[rivi + 1][sarake - 1] == nullptr &&
+			sarake - 1 >= 0) {
 			Siirto newSiirto = Siirto(*ruutu, Ruutu(sarake - 1, rivi + 1));
 			lista.push_back(newSiirto);
 		}
 		// en passant oikealle
-		if (asema->kaksoisaskelSarakkeella == sarake + 1 && rivi == 4 && asema->_lauta[rivi + 1][sarake + 1] == nullptr && sarake + 1 <= 7) {
+		if (asema->kaksoisaskelSarakkeella == sarake + 1 &&
+			rivi == 4 &&
+			asema->_lauta[rivi][sarake + 1] == Asema::vs &&
+			asema->_lauta[rivi + 1][sarake + 1] == nullptr &&
+			sarake + 1 <= 7) {
 			Siirto newSiirto = Siirto(*ruutu, Ruutu(sarake + 1, rivi + 1));
 			lista.push_back(newSiirto);
 		}
